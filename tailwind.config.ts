@@ -74,11 +74,14 @@ export default {
         "gradient-glow": "var(--gradient-glow)",
         "gradient-card": "var(--gradient-card)",
         "gradient-hero": "var(--gradient-hero)",
+        "gradient-ember": "var(--gradient-ember)",
+        "gradient-mesh": "var(--gradient-mesh)",
       },
       boxShadow: {
         glow: "var(--shadow-glow)",
         card: "var(--shadow-card)",
         elevated: "var(--shadow-elevated)",
+        ember: "var(--shadow-ember)",
       },
       borderRadius: {
         lg: "var(--radius)",
