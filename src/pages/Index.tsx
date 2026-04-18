@@ -23,20 +23,24 @@ const Index = () => {
       <div className="relative">
         {/* Hero */}
         <section className="relative overflow-hidden border-b border-border">
-          <div className="absolute inset-0 bg-grid opacity-30" />
+          <div className="absolute inset-0 bg-grid opacity-25" />
+          <div className="absolute inset-0 bg-gradient-mesh" />
           <div className="absolute inset-0 bg-gradient-glow" />
-          <div className="relative grid lg:grid-cols-[1fr_auto] gap-8 items-end p-6 md:p-10 lg:p-12">
+          <div className="absolute -top-40 -left-20 h-[420px] w-[420px] rounded-full bg-primary/20 blur-[120px]" />
+          <div className="absolute top-20 right-0 h-[320px] w-[320px] rounded-full bg-domain-physical/15 blur-[100px]" />
+
+          <div className="relative grid lg:grid-cols-[1fr_auto] gap-10 items-end p-6 md:p-10 lg:p-14">
             <div className="max-w-2xl animate-fade-up">
-              <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.22em] text-primary mb-3">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-primary mb-5">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-glow" />
                 Tuesday • Match-day −2
               </div>
-              <h1 className="font-display text-4xl md:text-6xl font-bold leading-[1.05] tracking-tight">
+              <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.02] tracking-tight">
                 Welcome back, <span className="text-gradient">Marco</span>.
                 <br />
-                Today we sharpen <span className="text-primary">first touch</span> & <span className="text-primary">confidence</span>.
+                Today we sharpen <span className="text-gradient">first touch</span> & <span className="text-gradient">confidence</span>.
               </h1>
-              <p className="mt-4 text-muted-foreground text-base md:text-lg max-w-xl">
+              <p className="mt-5 text-muted-foreground text-base md:text-lg max-w-xl leading-relaxed">
                 Your AI coach detected slower reactions in your last session and lighter
                 fatigue today. The plan is dialed in.
               </p>
@@ -47,19 +51,35 @@ const Index = () => {
                 <DomainBadge domain="mental" icon={Activity} label="Confidence" />
               </div>
 
-              <div className="mt-7 flex flex-wrap items-center gap-3">
-                <Button size="lg" className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-glow font-medium">
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Button size="lg" className="bg-gradient-ember text-primary-foreground hover:opacity-90 shadow-ember font-semibold h-12 px-6">
                   <Play className="h-4 w-4 mr-2 fill-current" />
                   Start today's session • 42 min
                 </Button>
-                <Button size="lg" variant="outline" className="border-border/80">
+                <Button size="lg" variant="outline" className="border-border/80 h-12 px-5">
                   <Clock className="h-4 w-4 mr-2" />
                   Quick 15 min
                 </Button>
               </div>
+
+              {/* Stat strip */}
+              <div className="mt-10 grid grid-cols-3 gap-6 max-w-lg border-t border-border/60 pt-6">
+                <div>
+                  <div className="font-display text-2xl font-bold text-gradient">74</div>
+                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">SPL Index</div>
+                </div>
+                <div>
+                  <div className="font-display text-2xl font-bold flex items-center gap-1.5"><Flame className="h-5 w-5 text-primary" />12</div>
+                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">Day streak</div>
+                </div>
+                <div>
+                  <div className="font-display text-2xl font-bold">4<span className="text-base text-muted-foreground">/5</span></div>
+                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground mt-1">This week</div>
+                </div>
+              </div>
             </div>
 
-            <div className="hidden lg:block relative w-[420px] aspect-[4/5] rounded-2xl overflow-hidden border border-border shadow-elevated">
+            <div className="hidden lg:block relative w-[440px] aspect-[4/5] rounded-3xl overflow-hidden border border-border shadow-elevated animate-fade-up">
               <img
                 src={heroPlayer}
                 alt="Player training under floodlights"
@@ -67,15 +87,19 @@ const Index = () => {
                 height={1024}
                 className="absolute inset-0 h-full w-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 space-y-2">
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
+              <div className="absolute inset-0 ring-1 ring-inset ring-primary/10" />
+              <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-background/80 backdrop-blur border border-border px-2.5 py-1 text-[10px] uppercase tracking-widest">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" /> Live profile
+              </div>
+              <div className="absolute bottom-5 left-5 right-5 space-y-2">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-3.5 w-3.5 text-primary" />
                   <span className="text-xs uppercase tracking-widest text-muted-foreground">SPL Index</span>
                 </div>
                 <div className="flex items-end gap-3">
-                  <div className="font-display text-5xl font-bold text-gradient leading-none">74</div>
-                  <div className="text-xs text-muted-foreground pb-1">+3 this week</div>
+                  <div className="font-display text-6xl font-bold text-gradient leading-none">74</div>
+                  <div className="text-xs text-muted-foreground pb-2">+3 this week</div>
                 </div>
                 <Progress value={74} className="h-1 bg-muted" />
               </div>

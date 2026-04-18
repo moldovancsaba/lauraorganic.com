@@ -71,17 +71,17 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon" className="border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex items-center gap-2 px-2 py-2">
+        <div className="flex items-center gap-2.5 px-2 py-2">
           <div className="relative">
-            <div className="h-8 w-8 rounded-md bg-gradient-primary flex items-center justify-center font-display font-bold text-primary-foreground">
+            <div className="h-9 w-9 rounded-lg bg-gradient-ember flex items-center justify-center font-display font-bold text-primary-foreground shadow-ember">
               S
             </div>
-            <div className="absolute inset-0 rounded-md bg-primary/40 blur-md -z-10" />
+            <div className="absolute inset-0 rounded-lg bg-primary/50 blur-lg -z-10" />
           </div>
           {!collapsed && (
             <div className="leading-tight">
-              <div className="font-display font-bold tracking-tight">SPL</div>
-              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">AI Platform</div>
+              <div className="font-display font-bold tracking-tight text-base">SPL</div>
+              <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">AI Platform</div>
             </div>
           )}
         </div>
