@@ -9,69 +9,74 @@
 
 @layer base {
   :root {
-    /* Dark by default — this is a performance product */
-    --background: 150 14% 6%;
-    --foreground: 80 10% 96%;
+    /* Dark by default — warm carbon base for a bold orange identity */
+    --background: 20 14% 5%;
+    --foreground: 30 20% 97%;
 
-    --card: 150 12% 9%;
-    --card-foreground: 80 10% 96%;
+    --card: 20 12% 8%;
+    --card-foreground: 30 20% 97%;
 
-    --popover: 150 14% 8%;
-    --popover-foreground: 80 10% 96%;
+    --popover: 20 14% 7%;
+    --popover-foreground: 30 20% 97%;
 
-    /* Signature SPL neon green */
-    --primary: 88 95% 58%;
-    --primary-foreground: 150 30% 6%;
-    --primary-glow: 88 100% 70%;
+    /* Signature SPL flame orange */
+    --primary: 20 100% 58%;
+    --primary-foreground: 20 40% 6%;
+    --primary-glow: 32 100% 65%;
 
-    --secondary: 150 10% 14%;
-    --secondary-foreground: 80 10% 96%;
+    --secondary: 20 10% 13%;
+    --secondary-foreground: 30 20% 97%;
 
-    --muted: 150 8% 13%;
-    --muted-foreground: 150 6% 60%;
+    --muted: 20 8% 12%;
+    --muted-foreground: 25 8% 62%;
 
-    --accent: 88 95% 58%;
-    --accent-foreground: 150 30% 6%;
+    --accent: 32 100% 60%;
+    --accent-foreground: 20 40% 6%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 150 8% 16%;
-    --input: 150 8% 14%;
-    --ring: 88 95% 58%;
+    --border: 20 10% 15%;
+    --input: 20 10% 13%;
+    --ring: 20 100% 58%;
 
-    --radius: 0.875rem;
+    --radius: 1rem;
 
-    /* Domain accent palette — used across cards */
-    --domain-technical: 88 95% 58%;   /* green */
-    --domain-physical: 18 95% 60%;    /* orange */
-    --domain-cognitive: 200 95% 60%;  /* cyan */
-    --domain-mental: 280 80% 65%;     /* violet */
-    --domain-recovery: 160 70% 55%;   /* teal */
+    /* Domain accent palette — orange leads, others tuned to harmonize */
+    --domain-technical: 20 100% 58%;   /* signature orange */
+    --domain-physical: 0 90% 62%;      /* deep red */
+    --domain-cognitive: 195 95% 58%;   /* electric cyan */
+    --domain-mental: 280 85% 68%;      /* violet */
+    --domain-recovery: 160 75% 50%;    /* mint teal */
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(88 95% 58%), hsl(140 90% 50%));
-    --gradient-glow: radial-gradient(ellipse at top, hsl(88 95% 58% / 0.18), transparent 60%);
-    --gradient-card: linear-gradient(160deg, hsl(150 12% 11%), hsl(150 14% 7%));
-    --gradient-hero: linear-gradient(180deg, hsl(150 14% 6% / 0.2) 0%, hsl(150 14% 6%) 90%);
+    /* Gradients — molten, cinematic */
+    --gradient-primary: linear-gradient(135deg, hsl(14 100% 55%), hsl(36 100% 60%));
+    --gradient-glow: radial-gradient(ellipse at top, hsl(20 100% 58% / 0.22), transparent 60%);
+    --gradient-card: linear-gradient(160deg, hsl(20 12% 11%), hsl(20 14% 6%));
+    --gradient-hero: linear-gradient(180deg, hsl(20 14% 5% / 0.2) 0%, hsl(20 14% 5%) 90%);
+    --gradient-ember: linear-gradient(135deg, hsl(8 95% 50%) 0%, hsl(20 100% 58%) 50%, hsl(40 100% 62%) 100%);
+    --gradient-mesh: radial-gradient(at 20% 20%, hsl(20 100% 58% / 0.18) 0px, transparent 50%),
+                     radial-gradient(at 80% 0%, hsl(0 90% 62% / 0.12) 0px, transparent 50%),
+                     radial-gradient(at 0% 100%, hsl(36 100% 60% / 0.10) 0px, transparent 50%);
 
     /* Shadows */
-    --shadow-glow: 0 0 60px hsl(88 95% 58% / 0.25);
-    --shadow-card: 0 8px 32px -12px hsl(150 30% 2% / 0.6);
-    --shadow-elevated: 0 20px 60px -20px hsl(150 30% 2% / 0.8);
+    --shadow-glow: 0 0 80px hsl(20 100% 58% / 0.35);
+    --shadow-card: 0 10px 40px -12px hsl(20 40% 2% / 0.7);
+    --shadow-elevated: 0 24px 70px -20px hsl(20 40% 2% / 0.85);
+    --shadow-ember: 0 8px 32px -8px hsl(20 100% 50% / 0.45);
 
     /* Motion */
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Sidebar */
-    --sidebar-background: 150 16% 5%;
-    --sidebar-foreground: 80 8% 80%;
-    --sidebar-primary: 88 95% 58%;
-    --sidebar-primary-foreground: 150 30% 6%;
-    --sidebar-accent: 150 10% 11%;
-    --sidebar-accent-foreground: 80 10% 96%;
-    --sidebar-border: 150 10% 12%;
-    --sidebar-ring: 88 95% 58%;
+    --sidebar-background: 20 18% 4%;
+    --sidebar-foreground: 30 12% 82%;
+    --sidebar-primary: 20 100% 58%;
+    --sidebar-primary-foreground: 20 40% 6%;
+    --sidebar-accent: 20 12% 10%;
+    --sidebar-accent-foreground: 30 20% 97%;
+    --sidebar-border: 20 12% 11%;
+    --sidebar-ring: 20 100% 58%;
   }
 
   /* Light theme kept compatible with shadcn but app defaults to dark */
@@ -107,8 +112,9 @@
     @apply bg-background text-foreground font-sans antialiased;
     font-feature-settings: "ss01", "cv11";
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(88 95% 58% / 0.08), transparent),
-      radial-gradient(ellipse 60% 40% at 100% 100%, hsl(200 95% 60% / 0.05), transparent);
+      radial-gradient(ellipse 90% 55% at 50% -10%, hsl(20 100% 58% / 0.12), transparent),
+      radial-gradient(ellipse 70% 45% at 100% 100%, hsl(0 90% 62% / 0.07), transparent),
+      radial-gradient(ellipse 50% 40% at 0% 60%, hsl(36 100% 60% / 0.05), transparent);
   }
   h1, h2, h3, h4, h5 {
     @apply font-display tracking-tight;
