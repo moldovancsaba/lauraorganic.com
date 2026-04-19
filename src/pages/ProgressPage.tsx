@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { SkillRadar } from "@/components/SkillRadar";
 import {
-  microSkills, splIndex, domainScore, priorityDevelopmentAreas, domainMeta,
+  microSkills, splIndex, domainScore, priorityDevelopmentAreas, domainMeta, cohort,
 } from "@/lib/spl-index";
 import {
   TrendingUp, Flame, Calendar, Award, AlertCircle, Download, FileText,
-  Footprints, Brain, Zap, Target,
+  Footprints, Brain, Zap, Target, Mail, Users,
 } from "lucide-react";
 
 const ProgressPage = () => {
@@ -177,6 +177,74 @@ const ProgressPage = () => {
             })}
           </div>
         </Card>
+
+        {/* Cohort + Parent report */}
+        <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr] mb-8">
+          <Card className="card-elevated border-border/60 p-6 relative overflow-hidden">
+            <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/10 blur-3xl" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-4">
+                <Users className="h-4 w-4 text-primary" />
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.22em] text-primary">Cohort comparison</div>
+                  <div className="text-xs text-muted-foreground">Anonymous {cohort.ageBand} {cohort.position}s globally</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div>
+                  <div className="font-display text-3xl font-bold text-gradient">#{cohort.rank}</div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">of {cohort.cohortSize.toLocaleString()}</div>
+                </div>
+                <div>
+                  <div className="font-display text-3xl font-bold">{cohort.percentile}<span className="text-base text-muted-foreground">th</span></div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">Percentile</div>
+                </div>
+                <div>
+                  <div className="font-display text-3xl font-bold">{cohort.cohortAverage}</div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">Cohort avg</div>
+                </div>
+                <div>
+                  <div className="font-display text-3xl font-bold text-primary">+12</div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground mt-1">Growth · 12 wks</div>
+                </div>
+              </div>
+              <div className="mt-5 pt-5 border-t border-border/60">
+                <div className="text-xs text-muted-foreground mb-2">Where you sit vs cohort</div>
+                <div className="relative h-2 rounded-full bg-muted overflow-hidden">
+                  <div className="absolute inset-y-0 left-0 bg-gradient-ember" style={{ width: `${cohort.percentile}%` }} />
+                  <div className="absolute top-0 bottom-0 w-px bg-foreground/60" style={{ left: "50%" }} title="Median" />
+                </div>
+                <div className="mt-2 flex justify-between text-[10px] text-muted-foreground">
+                  <span>Bottom 10%</span><span>Median</span><span>Top 10%</span>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="card-elevated border-border/60 p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <Mail className="h-4 w-4 text-primary" />
+              <h3 className="font-display font-semibold">Parent report</h3>
+            </div>
+            <p className="text-xs text-muted-foreground mb-4">
+              Simplified monthly snapshot for parents — milestones, focus areas, and Coach Alex's note.
+            </p>
+            <div className="space-y-2 mb-5">
+              <div className="flex items-center justify-between text-sm py-1.5 border-b border-border/40">
+                <span>Last sent</span><span className="text-muted-foreground">Mar 31</span>
+              </div>
+              <div className="flex items-center justify-between text-sm py-1.5 border-b border-border/40">
+                <span>Recipient</span><span className="text-muted-foreground truncate">parent@…</span>
+              </div>
+              <div className="flex items-center justify-between text-sm py-1.5">
+                <span>Next auto-send</span><span className="text-primary">Apr 30</span>
+              </div>
+            </div>
+            <Button variant="outline" size="sm" className="w-full border-primary/30 text-primary hover:bg-primary/10">
+              <Mail className="h-3.5 w-3.5 mr-2" />Preview & send now
+            </Button>
+          </Card>
+        </div>
 
         {/* Records */}
         <div className="grid gap-4 md:grid-cols-4">

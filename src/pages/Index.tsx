@@ -6,12 +6,12 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "react-router-dom";
 import heroPlayer from "@/assets/hero-player.jpg";
-import { priorityDevelopmentAreas } from "@/lib/spl-index";
+import { priorityDevelopmentAreas, weeklyPlan, recentActivity, crossDomainInsight, cohort } from "@/lib/spl-index";
 import {
   Play, Zap, Brain, HeartPulse, Footprints, Activity,
   Flame, Trophy, MessageSquare, ArrowUpRight, Sparkles, Target, Clock,
   Smile, Moon, Heart, Apple, Calendar, Compass, BookOpen, Video,
-  Award, AlertCircle, CheckCircle2, GraduationCap,
+  Award, AlertCircle, CheckCircle2, GraduationCap, TrendingUp,
 } from "lucide-react";
 
 const domains = [
@@ -338,32 +338,35 @@ const Index = () => {
               <Calendar className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="grid grid-cols-7 gap-2">
-              {[
-                { d: "Mon", t: "Technical", color: "domain-technical", done: true },
-                { d: "Tue", t: "Today · Adaptive", color: "primary", current: true },
-                { d: "Wed", t: "Cognitive", color: "domain-cognitive" },
-                { d: "Thu", t: "Match prep", color: "domain-mental" },
-                { d: "Fri", t: "Light + tactic", color: "domain-cognitive" },
-                { d: "Sat", t: "Match", color: "domain-physical" },
-                { d: "Sun", t: "Recovery", color: "domain-recovery" },
-              ].map((d: any) => (
-                <div
-                  key={d.d}
-                  className={`rounded-lg border p-3 text-center transition-colors ${
-                    d.current ? "border-primary bg-primary/10" :
-                    d.done ? "border-border/60 opacity-60" :
-                    "border-border/60 hover:border-primary/40"
-                  }`}
-                >
-                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{d.d}</div>
-                  <div className="my-2 flex justify-center">
-                    {d.done ? <CheckCircle2 className="h-4 w-4 text-primary" /> :
-                     d.current ? <span className="h-2 w-2 rounded-full bg-primary animate-pulse-glow" /> :
-                     <span className="h-2 w-2 rounded-full bg-muted-foreground/40" />}
+              {weeklyPlan.map((d) => {
+                const isToday = d.status === "today";
+                const isDone = d.status === "done";
+                return (
+                  <div
+                    key={d.day}
+                    className={`rounded-lg border p-3 text-center transition-colors ${
+                      isToday ? "border-primary bg-primary/10 ring-ember" :
+                      isDone ? "border-border/60 opacity-60" :
+                      "border-border/60 hover:border-primary/40"
+                    }`}
+                    title={`${d.focus} · ${d.duration} min`}
+                  >
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{d.day}</div>
+                    <div className="my-2 flex justify-center">
+                      {isDone ? <CheckCircle2 className="h-4 w-4 text-primary" /> :
+                       isToday ? <span className="h-2 w-2 rounded-full bg-primary animate-pulse-glow" /> :
+                       <span className="h-2 w-2 rounded-full bg-muted-foreground/40" />}
+                    </div>
+                    <div className="text-[10px] font-medium leading-tight">{d.type}</div>
+                    <div className="text-[9px] text-muted-foreground mt-0.5">{d.duration}m</div>
                   </div>
-                  <div className="text-[10px] font-medium leading-tight" style={d.color !== "primary" ? { color: `hsl(var(--${d.color}))` } : {}}>{d.t}</div>
-                </div>
-              ))}
+                );
+              })}
+            </div>
+            <div className="mt-4 pt-4 border-t border-border/60 grid grid-cols-3 gap-3 text-center">
+              <div><div className="font-display text-lg font-bold text-primary">1/7</div><div className="text-[10px] uppercase tracking-wider text-muted-foreground">Done</div></div>
+              <div><div className="font-display text-lg font-bold">5h 12m</div><div className="text-[10px] uppercase tracking-wider text-muted-foreground">Planned load</div></div>
+              <div><div className="font-display text-lg font-bold">Sun 22:00</div><div className="text-[10px] uppercase tracking-wider text-muted-foreground">Auto-regen</div></div>
             </div>
           </Card>
 
@@ -475,6 +478,67 @@ const Index = () => {
               ))}
             </div>
             <Link to="/mind"><Button variant="outline" size="sm" className="w-full border-primary/30 text-primary hover:bg-primary/10">Open Mind</Button></Link>
+          </Card>
+        </section>
+
+        {/* Cross-domain insight + Activity feed */}
+        <section className="px-6 md:px-10 lg:px-12 pb-12 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+          <Card className="card-elevated border-border/60 p-6 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-px shimmer" />
+            <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-primary/10 blur-3xl" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="h-7 w-7 rounded-full bg-gradient-ember flex items-center justify-center shadow-ember">
+                  <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.22em] text-primary">Cross-domain insight</div>
+                  <div className="text-xs text-muted-foreground">Coach Alex · platform intelligence</div>
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-4 mt-4">
+                <div className="rounded-lg border border-border/60 bg-background/40 p-3">
+                  <div className="text-[10px] uppercase tracking-widest text-domain-physical mb-1">Trigger</div>
+                  <p className="text-sm">{crossDomainInsight.trigger}</p>
+                </div>
+                <div className="rounded-lg border border-border/60 bg-background/40 p-3">
+                  <div className="text-[10px] uppercase tracking-widest text-domain-mental mb-1">Diagnosis</div>
+                  <p className="text-sm">{crossDomainInsight.diagnosis}</p>
+                </div>
+                <div className="rounded-lg border border-primary/40 bg-primary/5 p-3">
+                  <div className="text-[10px] uppercase tracking-widest text-primary mb-1">Prescription</div>
+                  <p className="text-sm">{crossDomainInsight.prescription}</p>
+                </div>
+              </div>
+              <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-primary" /> Cohort #{cohort.rank}/{cohort.cohortSize.toLocaleString()}</span>
+                <span>·</span>
+                <span>{cohort.percentile}th percentile · {cohort.growthRate}</span>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="card-elevated border-border/60 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2"><Activity className="h-4 w-4 text-primary" /><span className="text-sm font-medium">Recent activity</span></div>
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Last 24h</span>
+            </div>
+            <div className="space-y-3">
+              {recentActivity.map((a) => (
+                <div key={a.id} className="flex items-start gap-3 pb-3 border-b border-border/40 last:border-0 last:pb-0">
+                  <div className="h-7 w-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    {a.kind === "drill" ? <Footprints className="h-3.5 w-3.5" /> :
+                     a.kind === "index" ? <TrendingUp className="h-3.5 w-3.5" /> :
+                     a.kind === "ai" ? <Sparkles className="h-3.5 w-3.5" /> :
+                     <Award className="h-3.5 w-3.5" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium truncate">{a.text}</div>
+                    <div className="text-[11px] text-muted-foreground">{a.meta}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </Card>
         </section>
 
