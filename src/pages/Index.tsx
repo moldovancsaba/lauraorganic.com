@@ -299,6 +299,115 @@ const Index = () => {
             </div>
           </Card>
         </section>
+
+        {/* Quick actions */}
+        <section className="px-6 md:px-10 lg:px-12 pb-8">
+          <div className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground mb-3">Jump to</div>
+          <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+            {[
+              { l: "Live Session", to: "/session", icon: Play },
+              { l: "Drills", to: "/drills", icon: Target },
+              { l: "Match Center", to: "/match", icon: Trophy },
+              { l: "Analyze video", to: "/analyze", icon: Video },
+              { l: "Learn", to: "/learn", icon: BookOpen },
+              { l: "Coach Chat", to: "/chat", icon: MessageSquare },
+            ].map((a) => (
+              <Link key={a.l} to={a.to}>
+                <Card className="card-elevated border-border/60 p-4 flex items-center gap-3 hover:border-primary/40 transition-all group cursor-pointer">
+                  <div className="h-9 w-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <a.icon className="h-4 w-4" />
+                  </div>
+                  <span className="text-sm font-medium">{a.l}</span>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* Match countdown + Mood */}
+        <section className="px-6 md:px-10 lg:px-12 pb-12 grid gap-6 lg:grid-cols-3">
+          <Card className="card-elevated border-border/60 p-6 relative overflow-hidden lg:col-span-2">
+            <div className="absolute inset-0 bg-gradient-mesh opacity-40" />
+            <div className="relative">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.22em] text-primary mb-1">Next match · in 2 days</div>
+                  <h3 className="font-display text-2xl font-bold">vs FC Eagles · Sat 15:00</h3>
+                </div>
+                <Link to="/match"><Button variant="ghost" size="sm" className="text-primary">Match Center <ArrowUpRight className="h-3.5 w-3.5 ml-1" /></Button></Link>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { l: "Readiness", v: 78 },
+                  { l: "Sleep", v: 87 },
+                  { l: "Mood", v: 82 },
+                  { l: "Load", v: 64 },
+                ].map((s) => (
+                  <div key={s.l} className="rounded-lg border border-border/60 bg-background/40 p-4">
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{s.l}</div>
+                    <div className="font-display text-2xl font-bold">{s.v}</div>
+                    <Progress value={s.v} className="h-1 mt-2 bg-muted" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          <Card className="card-elevated border-border/60 p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Heart className="h-4 w-4 text-primary" />
+              <span className="font-medium text-sm">Daily check-in</span>
+            </div>
+            <div className="flex justify-between gap-2 mb-4">
+              {[
+                { i: Smile, l: "Great" },
+                { i: Smile, l: "Good" },
+                { i: Activity, l: "Okay" },
+                { i: Moon, l: "Tired" },
+              ].map((m, i) => (
+                <button key={i} className={`flex-1 rounded-lg border py-3 transition-colors ${i === 1 ? "border-primary bg-primary/10 text-primary" : "border-border/60 hover:border-primary/40"}`}>
+                  <m.i className="h-5 w-5 mx-auto mb-1" />
+                  <div className="text-[10px] uppercase tracking-wider">{m.l}</div>
+                </button>
+              ))}
+            </div>
+            <Link to="/mind"><Button variant="outline" size="sm" className="w-full border-primary/30 text-primary hover:bg-primary/10">Open Mind</Button></Link>
+          </Card>
+        </section>
+
+        {/* Drill of day · Fuel · Learn */}
+        <section className="px-6 md:px-10 lg:px-12 pb-20 grid gap-6 lg:grid-cols-3">
+          <Card className="card-elevated border-border/60 p-6 group hover:border-primary/40 transition-all">
+            <div className="text-[11px] uppercase tracking-[0.22em] text-primary mb-2">Drill of the day</div>
+            <h4 className="font-display text-xl font-bold mb-2">Triangle rondo 4v2</h4>
+            <p className="text-sm text-muted-foreground mb-4">12 min · cognitive · raises your scan rate ~9% per session.</p>
+            <div className="flex items-center justify-between">
+              <DomainBadge domain="cognitive" icon={Brain} label="Scanning" />
+              <Link to="/drills"><Button size="sm" variant="ghost" className="group-hover:text-primary">Run drill <ArrowUpRight className="h-3.5 w-3.5 ml-1" /></Button></Link>
+            </div>
+          </Card>
+
+          <Card className="card-elevated border-border/60 p-6 group hover:border-primary/40 transition-all">
+            <div className="flex items-center gap-2 mb-2">
+              <Apple className="h-4 w-4 text-domain-recovery" />
+              <span className="text-[11px] uppercase tracking-[0.22em] text-domain-recovery">Fuel</span>
+            </div>
+            <h4 className="font-display text-xl font-bold mb-2">Pre-session: 35g protein</h4>
+            <p className="text-sm text-muted-foreground mb-4">Greek yogurt + banana + oats. You're at 92/140g today.</p>
+            <Progress value={66} className="h-1 mb-4" />
+            <Link to="/nutrition"><Button size="sm" variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground">Open Fuel <ArrowUpRight className="h-3.5 w-3.5 ml-1" /></Button></Link>
+          </Card>
+
+          <Card className="card-elevated border-border/60 p-6 group hover:border-primary/40 transition-all">
+            <div className="flex items-center gap-2 mb-2">
+              <BookOpen className="h-4 w-4 text-domain-cognitive" />
+              <span className="text-[11px] uppercase tracking-[0.22em] text-domain-cognitive">Learn · 4 min</span>
+            </div>
+            <h4 className="font-display text-xl font-bold mb-2">How wingers create 1v1 isolations</h4>
+            <p className="text-sm text-muted-foreground mb-4">Why the half-space pin matters and how to time the dart inside.</p>
+            <Link to="/learn"><Button size="sm" variant="ghost" className="w-full group-hover:bg-primary group-hover:text-primary-foreground">Read lesson <ArrowUpRight className="h-3.5 w-3.5 ml-1" /></Button></Link>
+          </Card>
+        </section>
       </div>
     </AppLayout>
   );
