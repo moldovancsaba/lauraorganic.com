@@ -22,6 +22,9 @@ import Squad from "./pages/Squad.tsx";
 import Drills from "./pages/Drills.tsx";
 import AIChat from "./pages/AIChat.tsx";
 import Academy from "./pages/Academy.tsx";
+import Onboarding from "./pages/Onboarding.tsx";
+import CalendarPage from "./pages/Calendar.tsx";
+import Network from "./pages/Network.tsx";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +53,9 @@ const App = () => (
           <Route path="/coach-ai" element={<CoachAI />} />
           <Route path="/intel" element={<Intel />} />
           <Route path="/squad" element={<Squad />} />
+          <Route path="/onboarding" element={<Onboarding />} />
+          <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/network" element={<Network />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

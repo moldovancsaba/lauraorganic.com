@@ -2,7 +2,7 @@ import { NavLink as RouterNavLink, useLocation } from "react-router-dom";
 import {
   Home, Dumbbell, Video, BookOpen, TrendingUp, Users, Brain, User2,
   Sparkles, Briefcase, Compass, PlayCircle, Trophy, Apple, MessageCircle,
-  Library, GraduationCap,
+  Library, GraduationCap, Calendar, UserPlus,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 const core = [
   { title: "Home", url: "/", icon: Home },
   { title: "Train", url: "/train", icon: Dumbbell },
+  { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Live Session", url: "/session", icon: PlayCircle },
   { title: "Analyze", url: "/analyze", icon: Video },
   { title: "Progress", url: "/progress", icon: TrendingUp },
@@ -39,6 +40,7 @@ const wellness = [
 
 // Tier 3 — Retention & expansion
 const community = [
+  { title: "Network", url: "/network", icon: UserPlus },
   { title: "Community", url: "/community", icon: Users },
 ];
 
@@ -49,6 +51,7 @@ const pro = [
 
 const account = [
   { title: "Profile", url: "/profile", icon: User2 },
+  { title: "Onboarding", url: "/onboarding", icon: Sparkles },
 ];
 
 export function AppSidebar() {
