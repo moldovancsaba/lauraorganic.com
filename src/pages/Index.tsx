@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "react-router-dom";
 import heroPlayer from "@/assets/hero-player.jpg";
-import { priorityDevelopmentAreas } from "@/lib/spl-index";
+import { priorityDevelopmentAreas, weeklyPlan, recentActivity, crossDomainInsight, cohort } from "@/lib/spl-index";
 import {
   Play, Zap, Brain, HeartPulse, Footprints, Activity,
   Flame, Trophy, MessageSquare, ArrowUpRight, Sparkles, Target, Clock,
@@ -338,32 +338,35 @@ const Index = () => {
               <Calendar className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="grid grid-cols-7 gap-2">
-              {[
-                { d: "Mon", t: "Technical", color: "domain-technical", done: true },
-                { d: "Tue", t: "Today · Adaptive", color: "primary", current: true },
-                { d: "Wed", t: "Cognitive", color: "domain-cognitive" },
-                { d: "Thu", t: "Match prep", color: "domain-mental" },
-                { d: "Fri", t: "Light + tactic", color: "domain-cognitive" },
-                { d: "Sat", t: "Match", color: "domain-physical" },
-                { d: "Sun", t: "Recovery", color: "domain-recovery" },
-              ].map((d: any) => (
-                <div
-                  key={d.d}
-                  className={`rounded-lg border p-3 text-center transition-colors ${
-                    d.current ? "border-primary bg-primary/10" :
-                    d.done ? "border-border/60 opacity-60" :
-                    "border-border/60 hover:border-primary/40"
-                  }`}
-                >
-                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{d.d}</div>
-                  <div className="my-2 flex justify-center">
-                    {d.done ? <CheckCircle2 className="h-4 w-4 text-primary" /> :
-                     d.current ? <span className="h-2 w-2 rounded-full bg-primary animate-pulse-glow" /> :
-                     <span className="h-2 w-2 rounded-full bg-muted-foreground/40" />}
+              {weeklyPlan.map((d) => {
+                const isToday = d.status === "today";
+                const isDone = d.status === "done";
+                return (
+                  <div
+                    key={d.day}
+                    className={`rounded-lg border p-3 text-center transition-colors ${
+                      isToday ? "border-primary bg-primary/10 ring-ember" :
+                      isDone ? "border-border/60 opacity-60" :
+                      "border-border/60 hover:border-primary/40"
+                    }`}
+                    title={`${d.focus} · ${d.duration} min`}
+                  >
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{d.day}</div>
+                    <div className="my-2 flex justify-center">
+                      {isDone ? <CheckCircle2 className="h-4 w-4 text-primary" /> :
+                       isToday ? <span className="h-2 w-2 rounded-full bg-primary animate-pulse-glow" /> :
+                       <span className="h-2 w-2 rounded-full bg-muted-foreground/40" />}
+                    </div>
+                    <div className="text-[10px] font-medium leading-tight">{d.type}</div>
+                    <div className="text-[9px] text-muted-foreground mt-0.5">{d.duration}m</div>
                   </div>
-                  <div className="text-[10px] font-medium leading-tight" style={d.color !== "primary" ? { color: `hsl(var(--${d.color}))` } : {}}>{d.t}</div>
-                </div>
-              ))}
+                );
+              })}
+            </div>
+            <div className="mt-4 pt-4 border-t border-border/60 grid grid-cols-3 gap-3 text-center">
+              <div><div className="font-display text-lg font-bold text-primary">1/7</div><div className="text-[10px] uppercase tracking-wider text-muted-foreground">Done</div></div>
+              <div><div className="font-display text-lg font-bold">5h 12m</div><div className="text-[10px] uppercase tracking-wider text-muted-foreground">Planned load</div></div>
+              <div><div className="font-display text-lg font-bold">Sun 22:00</div><div className="text-[10px] uppercase tracking-wider text-muted-foreground">Auto-regen</div></div>
             </div>
           </Card>
 
