@@ -15,7 +15,7 @@ export function AppLayout({ children }: AppLayoutProps) {
       <div className="min-h-screen flex w-full bg-background">
         <AppSidebar />
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="sticky top-0 z-30 h-14 flex items-center gap-3 border-b border-border bg-background/80 backdrop-blur-xl px-4">
+          <header className="sticky top-0 z-30 h-14 flex items-center gap-3 border-b border-border bg-background/70 backdrop-blur-xl px-4">
             <SidebarTrigger />
             <div className="hidden md:flex items-center gap-2 max-w-md flex-1">
               <div className="relative w-full">
@@ -27,11 +27,15 @@ export function AppLayout({ children }: AppLayoutProps) {
               </div>
             </div>
             <div className="ml-auto flex items-center gap-2">
+              <div className="hidden lg:flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-2.5 py-1 text-[10px] uppercase tracking-widest text-primary">
+                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-glow" />
+                SPL 74
+              </div>
               <Button variant="ghost" size="icon" className="relative">
                 <Bell className="h-4 w-4" />
                 <span className="absolute top-2 right-2 h-1.5 w-1.5 rounded-full bg-primary" />
               </Button>
-              <div className="h-8 w-8 rounded-full bg-gradient-primary flex items-center justify-center text-xs font-bold text-primary-foreground">
+              <div className="h-8 w-8 rounded-full bg-gradient-ember flex items-center justify-center text-xs font-bold text-primary-foreground shadow-ember">
                 MJ
               </div>
             </div>
