@@ -159,13 +159,10 @@ const DailyChecklist = () => {
         eyebrow="Daily OS"
         title="Player Checklist"
         description="Your 5-block daily operating system. Build habits, feed the SPL Index, and stay accountable."
-        actions={
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm"><CalendarIcon className="h-4 w-4" /> Week view</Button>
-            <Button size="sm" className="bg-gradient-ember text-primary-foreground"><Sparkles className="h-4 w-4" /> Save day</Button>
-          </div>
-        }
-      />
+      >
+        <Button variant="outline" size="sm"><CalendarIcon className="h-4 w-4" /> Week view</Button>
+        <Button size="sm" className="bg-gradient-ember text-primary-foreground"><Sparkles className="h-4 w-4" /> Save day</Button>
+      </PageHeader>
 
       <div className="px-6 pb-10 space-y-6">
         {/* Daily score header */}
