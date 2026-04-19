@@ -82,8 +82,8 @@ export default function Onboarding() {
   const totalSteps = 9;
   const progressPct = ((step + 1) / totalSteps) * 100;
 
-  const next = () => setStep((s) => Math.min(8, (s + 1) as Step));
-  const back = () => setStep((s) => Math.max(0, (s - 1) as Step));
+  const next = () => setStep((s) => (Math.min(8, s + 1) as Step));
+  const back = () => setStep((s) => (Math.max(0, s - 1) as Step));
 
   const finish = () => navigate("/session");
 
@@ -384,7 +384,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function Chips<T extends string | number>({
   options, value, onChange, labelMap,
-}: { options: readonly T[]; value: T; onChange: (v: T) => void; labelMap?: Record<string, string> }) {
+}: { options: readonly T[]; value: T; onChange: (v: any) => void; labelMap?: Record<string, string> }) {
   return (
     <div className="flex flex-wrap gap-2">
       {options.map((o) => {
