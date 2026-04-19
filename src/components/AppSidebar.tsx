@@ -1,7 +1,8 @@
 import { NavLink as RouterNavLink, useLocation } from "react-router-dom";
 import {
   Home, Dumbbell, Video, BookOpen, TrendingUp, Users, Brain, User2,
-  Sparkles, Briefcase,
+  Sparkles, Briefcase, Compass, PlayCircle, Trophy, Apple, MessageCircle,
+  Library,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -10,23 +11,39 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
-const main = [
+const train = [
   { title: "Home", url: "/", icon: Home },
   { title: "Train", url: "/train", icon: Dumbbell },
-  { title: "Analyze", url: "/analyze", icon: Video },
-  { title: "Learn", url: "/learn", icon: BookOpen },
-  { title: "Progress", url: "/progress", icon: TrendingUp },
+  { title: "Live Session", url: "/session", icon: PlayCircle },
+  { title: "Drills", url: "/drills", icon: Library },
+  { title: "Paths", url: "/paths", icon: Compass },
 ];
 
-const more = [
+const perform = [
+  { title: "Analyze", url: "/analyze", icon: Video },
+  { title: "Match Center", url: "/match", icon: Trophy },
+  { title: "Progress", url: "/progress", icon: TrendingUp },
+  { title: "Learn", url: "/learn", icon: BookOpen },
+];
+
+const wellness = [
   { title: "Mind", url: "/mind", icon: Brain },
+  { title: "Fuel", url: "/nutrition", icon: Apple },
   { title: "Community", url: "/community", icon: Users },
-  { title: "Profile", url: "/profile", icon: User2 },
+];
+
+const ai = [
+  { title: "Coach Chat", url: "/chat", icon: MessageCircle },
+  { title: "Player Intel", url: "/intel", icon: Sparkles },
 ];
 
 const pro = [
   { title: "Coach AI", url: "/coach-ai", icon: Briefcase },
-  { title: "Player Intel", url: "/intel", icon: Sparkles },
+  { title: "Squad", url: "/squad", icon: Users },
+];
+
+const account = [
+  { title: "Profile", url: "/profile", icon: User2 },
 ];
 
 export function AppSidebar() {
@@ -42,7 +59,7 @@ export function AppSidebar() {
         : "text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-foreground",
     );
 
-  const renderGroup = (label: string, items: typeof main) => (
+  const renderGroup = (label: string, items: typeof train) => (
     <SidebarGroup>
       {!collapsed && <SidebarGroupLabel className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">{label}</SidebarGroupLabel>}
       <SidebarGroupContent>
@@ -88,9 +105,12 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="px-2">
-        {renderGroup("Player", main)}
-        {renderGroup("More", more)}
+        {renderGroup("Train", train)}
+        {renderGroup("Perform", perform)}
+        {renderGroup("Wellness", wellness)}
+        {renderGroup("AI", ai)}
         {renderGroup("Pro", pro)}
+        {renderGroup("Account", account)}
       </SidebarContent>
 
       <SidebarFooter className="border-t border-sidebar-border p-3">
