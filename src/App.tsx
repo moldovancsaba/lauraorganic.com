@@ -21,6 +21,7 @@ import Nutrition from "./pages/Nutrition.tsx";
 import Squad from "./pages/Squad.tsx";
 import Drills from "./pages/Drills.tsx";
 import AIChat from "./pages/AIChat.tsx";
+import Academy from "./pages/Academy.tsx";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
           <Route path="/nutrition" element={<Nutrition />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/chat" element={<AIChat />} />
+          <Route path="/academy" element={<Academy />} />
           <Route path="/coach-ai" element={<CoachAI />} />
           <Route path="/intel" element={<Intel />} />
           <Route path="/squad" element={<Squad />} />
