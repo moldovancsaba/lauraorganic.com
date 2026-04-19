@@ -54,10 +54,12 @@ const Index = () => {
               </div>
 
               <div className="mt-8 flex flex-wrap items-center gap-3">
-                <Button size="lg" className="bg-gradient-ember text-primary-foreground hover:opacity-90 shadow-ember font-semibold h-12 px-6">
-                  <Play className="h-4 w-4 mr-2 fill-current" />
-                  Start today's session • 42 min
-                </Button>
+                <Link to="/session">
+                  <Button size="lg" className="bg-gradient-ember text-primary-foreground hover:opacity-90 shadow-ember font-semibold h-12 px-6">
+                    <Play className="h-4 w-4 mr-2 fill-current" />
+                    Start today's session • 42 min
+                  </Button>
+                </Link>
                 <Button size="lg" variant="outline" className="border-border/80 h-12 px-5">
                   <Clock className="h-4 w-4 mr-2" />
                   Quick 15 min
