@@ -25,6 +25,7 @@ import Academy from "./pages/Academy.tsx";
 import Onboarding from "./pages/Onboarding.tsx";
 import CalendarPage from "./pages/Calendar.tsx";
 import Network from "./pages/Network.tsx";
+import DailyChecklist from "./pages/DailyChecklist.tsx";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/network" element={<Network />} />
+          <Route path="/daily" element={<DailyChecklist />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

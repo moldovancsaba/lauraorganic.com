@@ -2,7 +2,7 @@ import { NavLink as RouterNavLink, useLocation } from "react-router-dom";
 import {
   Home, Dumbbell, Video, BookOpen, TrendingUp, Users, Brain, User2,
   Sparkles, Briefcase, Compass, PlayCircle, Trophy, Apple, MessageCircle,
-  Library, GraduationCap, Calendar, UserPlus,
+  Library, GraduationCap, Calendar, UserPlus, ListChecks,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 // Tier 1 — Core moat
 const core = [
   { title: "Home", url: "/", icon: Home },
+  { title: "Daily Checklist", url: "/daily", icon: ListChecks },
   { title: "Train", url: "/train", icon: Dumbbell },
   { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Live Session", url: "/session", icon: PlayCircle },
