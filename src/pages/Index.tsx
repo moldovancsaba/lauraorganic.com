@@ -1,14 +1,17 @@
 import { AppLayout } from "@/components/AppLayout";
 import { DomainBadge } from "@/components/DomainBadge";
+import { SkillRadar } from "@/components/SkillRadar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "react-router-dom";
 import heroPlayer from "@/assets/hero-player.jpg";
+import { priorityDevelopmentAreas } from "@/lib/spl-index";
 import {
   Play, Zap, Brain, HeartPulse, Footprints, Activity,
   Flame, Trophy, MessageSquare, ArrowUpRight, Sparkles, Target, Clock,
   Smile, Moon, Heart, Apple, Calendar, Compass, BookOpen, Video,
+  Award, AlertCircle, CheckCircle2, GraduationCap,
 } from "lucide-react";
 
 const domains = [
