@@ -481,6 +481,67 @@ const Index = () => {
           </Card>
         </section>
 
+        {/* Cross-domain insight + Activity feed */}
+        <section className="px-6 md:px-10 lg:px-12 pb-12 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+          <Card className="card-elevated border-border/60 p-6 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-px shimmer" />
+            <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-primary/10 blur-3xl" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="h-7 w-7 rounded-full bg-gradient-ember flex items-center justify-center shadow-ember">
+                  <Sparkles className="h-3.5 w-3.5 text-primary-foreground" />
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-[0.22em] text-primary">Cross-domain insight</div>
+                  <div className="text-xs text-muted-foreground">Coach Alex · platform intelligence</div>
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-4 mt-4">
+                <div className="rounded-lg border border-border/60 bg-background/40 p-3">
+                  <div className="text-[10px] uppercase tracking-widest text-domain-physical mb-1">Trigger</div>
+                  <p className="text-sm">{crossDomainInsight.trigger}</p>
+                </div>
+                <div className="rounded-lg border border-border/60 bg-background/40 p-3">
+                  <div className="text-[10px] uppercase tracking-widest text-domain-mental mb-1">Diagnosis</div>
+                  <p className="text-sm">{crossDomainInsight.diagnosis}</p>
+                </div>
+                <div className="rounded-lg border border-primary/40 bg-primary/5 p-3">
+                  <div className="text-[10px] uppercase tracking-widest text-primary mb-1">Prescription</div>
+                  <p className="text-sm">{crossDomainInsight.prescription}</p>
+                </div>
+              </div>
+              <div className="mt-4 flex items-center gap-2 text-xs text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5"><span className="h-1.5 w-1.5 rounded-full bg-primary" /> Cohort #{cohort.rank}/{cohort.cohortSize.toLocaleString()}</span>
+                <span>·</span>
+                <span>{cohort.percentile}th percentile · {cohort.growthRate}</span>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="card-elevated border-border/60 p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2"><Activity className="h-4 w-4 text-primary" /><span className="text-sm font-medium">Recent activity</span></div>
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Last 24h</span>
+            </div>
+            <div className="space-y-3">
+              {recentActivity.map((a) => (
+                <div key={a.id} className="flex items-start gap-3 pb-3 border-b border-border/40 last:border-0 last:pb-0">
+                  <div className="h-7 w-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    {a.kind === "drill" ? <Footprints className="h-3.5 w-3.5" /> :
+                     a.kind === "index" ? <TrendingUp className="h-3.5 w-3.5" /> :
+                     a.kind === "ai" ? <Sparkles className="h-3.5 w-3.5" /> :
+                     <Award className="h-3.5 w-3.5" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium truncate">{a.text}</div>
+                    <div className="text-[11px] text-muted-foreground">{a.meta}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </section>
+
         {/* Drill of day · Fuel · Learn */}
         <section className="px-6 md:px-10 lg:px-12 pb-20 grid gap-6 lg:grid-cols-3">
           <Card className="card-elevated border-border/60 p-6 group hover:border-primary/40 transition-all">
