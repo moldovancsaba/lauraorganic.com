@@ -77,3 +77,58 @@ export function priorityDevelopmentAreas(list = microSkills): MicroSkill[] {
     .sort((a, b) => a.score / a.benchmark - b.score / b.benchmark)
     .slice(0, 5);
 }
+
+// Weekly plan — Mon→Sun
+export type SessionType = "Technical" | "Cognitive" | "Physical" | "Recovery" | "Match" | "Mental" | "Rest";
+export interface PlannedDay {
+  day: string;
+  type: SessionType;
+  focus: string;
+  duration: number; // min
+  status: "done" | "today" | "upcoming" | "skipped";
+}
+export const weeklyPlan: PlannedDay[] = [
+  { day: "Mon", type: "Technical",  focus: "First touch + weak foot", duration: 45, status: "done" },
+  { day: "Tue", type: "Cognitive",  focus: "Scanning + decisions",    duration: 42, status: "today" },
+  { day: "Wed", type: "Physical",   focus: "Sprint + agility",        duration: 35, status: "upcoming" },
+  { day: "Thu", type: "Mental",     focus: "Confidence finishing",    duration: 30, status: "upcoming" },
+  { day: "Fri", type: "Technical",  focus: "1v1 + crossing",          duration: 50, status: "upcoming" },
+  { day: "Sat", type: "Match",      focus: "vs Eagles FC",            duration: 90, status: "upcoming" },
+  { day: "Sun", type: "Recovery",   focus: "Mobility + breathing",    duration: 20, status: "upcoming" },
+];
+
+// Recent activity feed
+export interface ActivityEvent {
+  id: string;
+  kind: "drill" | "index" | "ai" | "badge" | "clip";
+  text: string;
+  meta: string;
+}
+export const recentActivity: ActivityEvent[] = [
+  { id: "1", kind: "drill",  text: "Wall touch ladder · 4 sets", meta: "+2 first touch · 2h ago" },
+  { id: "2", kind: "index",  text: "SPL Index updated to 74",    meta: "+3 vs last week" },
+  { id: "3", kind: "ai",     text: "Coach Alex flagged scanning", meta: "PDA escalation · today" },
+];
+
+// Cross-domain insight (platform intelligence)
+export interface CrossDomainInsight {
+  trigger: string;
+  diagnosis: string;
+  prescription: string;
+}
+export const crossDomainInsight: CrossDomainInsight = {
+  trigger: "Passing accuracy drops 22% under pressure",
+  diagnosis: "This looks psychological, not technical — your scan rate also drops in the same moments.",
+  prescription: "Tonight: short confidence-passing block + box breathing reset between sets.",
+};
+
+// Cohort / percentile
+export const cohort = {
+  ageBand: "U14",
+  position: "Winger",
+  cohortSize: 1243,
+  rank: 47,
+  percentile: 71,
+  cohortAverage: 64,
+  growthRate: "+12 in 12 weeks",
+};

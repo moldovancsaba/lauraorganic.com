@@ -11,38 +11,39 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
-const train = [
+// Tier 1 — Core moat
+const core = [
   { title: "Home", url: "/", icon: Home },
   { title: "Train", url: "/train", icon: Dumbbell },
   { title: "Live Session", url: "/session", icon: PlayCircle },
-  { title: "Drills", url: "/drills", icon: Library },
-  { title: "Paths", url: "/paths", icon: Compass },
-];
-
-const perform = [
   { title: "Analyze", url: "/analyze", icon: Video },
-  { title: "Match Center", url: "/match", icon: Trophy },
   { title: "Progress", url: "/progress", icon: TrendingUp },
-];
-
-const academy = [
-  { title: "Academy", url: "/academy", icon: GraduationCap },
-  { title: "Learn", url: "/learn", icon: BookOpen },
-  { title: "Player Intel", url: "/intel", icon: Sparkles },
-];
-
-const wellness = [
-  { title: "Mind", url: "/mind", icon: Brain },
-  { title: "Fuel", url: "/nutrition", icon: Apple },
-  { title: "Community", url: "/community", icon: Users },
-];
-
-const ai = [
   { title: "Coach Alex", url: "/chat", icon: MessageCircle },
 ];
 
+// Tier 2 — Engagement & differentiation
+const develop = [
+  { title: "Academy", url: "/academy", icon: GraduationCap },
+  { title: "Drills", url: "/drills", icon: Library },
+  { title: "Paths", url: "/paths", icon: Compass },
+  { title: "Player Intel", url: "/intel", icon: Sparkles },
+  { title: "Learn", url: "/learn", icon: BookOpen },
+];
+
+// Wellness
+const wellness = [
+  { title: "Mind", url: "/mind", icon: Brain },
+  { title: "Fuel", url: "/nutrition", icon: Apple },
+  { title: "Match Center", url: "/match", icon: Trophy },
+];
+
+// Tier 3 — Retention & expansion
+const community = [
+  { title: "Community", url: "/community", icon: Users },
+];
+
 const pro = [
-  { title: "Coach AI", url: "/coach-ai", icon: Briefcase },
+  { title: "Coach AI (B2B)", url: "/coach-ai", icon: Briefcase },
   { title: "Squad", url: "/squad", icon: Users },
 ];
 
@@ -63,7 +64,7 @@ export function AppSidebar() {
         : "text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-foreground",
     );
 
-  const renderGroup = (label: string, items: typeof train) => (
+  const renderGroup = (label: string, items: typeof core) => (
     <SidebarGroup>
       {!collapsed && <SidebarGroupLabel className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">{label}</SidebarGroupLabel>}
       <SidebarGroupContent>
@@ -109,11 +110,10 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="px-2">
-        {renderGroup("Train", train)}
-        {renderGroup("Perform", perform)}
-        {renderGroup("Academy", academy)}
+        {renderGroup("Core · Tier 1", core)}
+        {renderGroup("Develop · Tier 2", develop)}
         {renderGroup("Wellness", wellness)}
-        {renderGroup("AI", ai)}
+        {renderGroup("Community · Tier 3", community)}
         {renderGroup("Pro", pro)}
         {renderGroup("Account", account)}
       </SidebarContent>
