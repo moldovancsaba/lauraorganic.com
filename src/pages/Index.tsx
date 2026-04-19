@@ -11,7 +11,7 @@ import {
   Play, Zap, Brain, HeartPulse, Footprints, Activity,
   Flame, Trophy, MessageSquare, ArrowUpRight, Sparkles, Target, Clock,
   Smile, Moon, Heart, Apple, Calendar, Compass, BookOpen, Video,
-  Award, AlertCircle, CheckCircle2, GraduationCap,
+  Award, AlertCircle, CheckCircle2, GraduationCap, TrendingUp,
 } from "lucide-react";
 
 const domains = [
