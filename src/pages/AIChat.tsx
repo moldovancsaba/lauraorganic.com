@@ -5,16 +5,16 @@ import { Input } from "@/components/ui/input";
 import { Sparkles, Send, Mic, Plus, MessageSquare, Footprints, Brain, Activity, Zap } from "lucide-react";
 
 const chips = [
-  { icon: Footprints, label: "Why am I losing my first touch under pressure?" },
-  { icon: Brain, label: "How do I scan more before receiving?" },
+  { icon: Brain, label: "Show me my weaknesses" },
+  { icon: Footprints, label: "What should I train today?" },
   { icon: Activity, label: "Build me a pre-match routine" },
-  { icon: Zap, label: "I'm tired today — what should I do?" },
+  { icon: Zap, label: "How does BVB press after losing the ball?" },
 ];
 
 const messages = [
-  { role: "ai" as const, text: "Hi Marco. I noticed your scan rate dropped 14% in the second half of your last match. Want me to add a 5-minute scanning drill before today's session?" },
-  { role: "you" as const, text: "Yes, but keep total time under 45 minutes." },
-  { role: "ai" as const, text: "Done. I trimmed your finishing block from 12 to 8 reps and added the scanning drill. Total: 42 minutes. Ready when you are." },
+  { role: "ai" as const, text: "Hey Marco — Coach Alex here. I just looked at your last 3 sessions: scanning is at 48 vs the U14 benchmark of 65. That's your top Priority Development Area. Want me to build today's session around it?" },
+  { role: "you" as const, text: "Yes, but keep it under 45 minutes." },
+  { role: "ai" as const, text: "Done. Trimmed finishing from 12 to 8 reps, added a scan-receive-pass rondo block (10 min). Total: 42 minutes. This same gap is why your decisions slow down in the second half — fix scanning, fix the half." },
 ];
 
 const AIChat = () => (
@@ -48,8 +48,8 @@ const AIChat = () => (
         <header className="border-b border-border p-4 flex items-center gap-3">
           <div className="h-8 w-8 rounded-full bg-gradient-ember flex items-center justify-center"><Sparkles className="h-4 w-4 text-primary-foreground" /></div>
           <div>
-            <div className="font-display font-bold">Coach AI</div>
-            <div className="text-[10px] uppercase tracking-widest text-primary">Live · trained on your data</div>
+            <div className="font-display font-bold">Coach Alex · SPL Academy</div>
+            <div className="text-[10px] uppercase tracking-widest text-primary">Live · knows your 27 micro-skills</div>
           </div>
         </header>
 

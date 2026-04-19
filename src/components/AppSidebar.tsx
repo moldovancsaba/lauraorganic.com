@@ -2,7 +2,7 @@ import { NavLink as RouterNavLink, useLocation } from "react-router-dom";
 import {
   Home, Dumbbell, Video, BookOpen, TrendingUp, Users, Brain, User2,
   Sparkles, Briefcase, Compass, PlayCircle, Trophy, Apple, MessageCircle,
-  Library,
+  Library, GraduationCap,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -23,7 +23,12 @@ const perform = [
   { title: "Analyze", url: "/analyze", icon: Video },
   { title: "Match Center", url: "/match", icon: Trophy },
   { title: "Progress", url: "/progress", icon: TrendingUp },
+];
+
+const academy = [
+  { title: "Academy", url: "/academy", icon: GraduationCap },
   { title: "Learn", url: "/learn", icon: BookOpen },
+  { title: "Player Intel", url: "/intel", icon: Sparkles },
 ];
 
 const wellness = [
@@ -33,8 +38,7 @@ const wellness = [
 ];
 
 const ai = [
-  { title: "Coach Chat", url: "/chat", icon: MessageCircle },
-  { title: "Player Intel", url: "/intel", icon: Sparkles },
+  { title: "Coach Alex", url: "/chat", icon: MessageCircle },
 ];
 
 const pro = [
@@ -98,7 +102,7 @@ export function AppSidebar() {
           {!collapsed && (
             <div className="leading-tight">
               <div className="font-display font-bold tracking-tight text-base">SPL</div>
-              <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">AI Platform</div>
+              <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">Academy</div>
             </div>
           )}
         </div>
@@ -107,6 +111,7 @@ export function AppSidebar() {
       <SidebarContent className="px-2">
         {renderGroup("Train", train)}
         {renderGroup("Perform", perform)}
+        {renderGroup("Academy", academy)}
         {renderGroup("Wellness", wellness)}
         {renderGroup("AI", ai)}
         {renderGroup("Pro", pro)}

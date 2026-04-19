@@ -1,14 +1,17 @@
 import { AppLayout } from "@/components/AppLayout";
 import { DomainBadge } from "@/components/DomainBadge";
+import { SkillRadar } from "@/components/SkillRadar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "react-router-dom";
 import heroPlayer from "@/assets/hero-player.jpg";
+import { priorityDevelopmentAreas } from "@/lib/spl-index";
 import {
   Play, Zap, Brain, HeartPulse, Footprints, Activity,
   Flame, Trophy, MessageSquare, ArrowUpRight, Sparkles, Target, Clock,
   Smile, Moon, Heart, Apple, Calendar, Compass, BookOpen, Video,
+  Award, AlertCircle, CheckCircle2, GraduationCap,
 } from "lucide-react";
 
 const domains = [
@@ -322,6 +325,106 @@ const Index = () => {
               </Link>
             ))}
           </div>
+        </section>
+
+        {/* Weekly plan + Global rank */}
+        <section className="px-6 md:px-10 lg:px-12 pb-12 grid gap-6 lg:grid-cols-[1.5fr_1fr]">
+          <Card className="card-elevated border-border/60 p-6">
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.22em] text-primary mb-1">Weekly plan</div>
+                <h3 className="font-display text-xl font-bold">Mon → Sun · auto-regenerated Sundays</h3>
+              </div>
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="grid grid-cols-7 gap-2">
+              {[
+                { d: "Mon", t: "Technical", color: "domain-technical", done: true },
+                { d: "Tue", t: "Today · Adaptive", color: "primary", current: true },
+                { d: "Wed", t: "Cognitive", color: "domain-cognitive" },
+                { d: "Thu", t: "Match prep", color: "domain-mental" },
+                { d: "Fri", t: "Light + tactic", color: "domain-cognitive" },
+                { d: "Sat", t: "Match", color: "domain-physical" },
+                { d: "Sun", t: "Recovery", color: "domain-recovery" },
+              ].map((d: any) => (
+                <div
+                  key={d.d}
+                  className={`rounded-lg border p-3 text-center transition-colors ${
+                    d.current ? "border-primary bg-primary/10" :
+                    d.done ? "border-border/60 opacity-60" :
+                    "border-border/60 hover:border-primary/40"
+                  }`}
+                >
+                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{d.d}</div>
+                  <div className="my-2 flex justify-center">
+                    {d.done ? <CheckCircle2 className="h-4 w-4 text-primary" /> :
+                     d.current ? <span className="h-2 w-2 rounded-full bg-primary animate-pulse-glow" /> :
+                     <span className="h-2 w-2 rounded-full bg-muted-foreground/40" />}
+                  </div>
+                  <div className="text-[10px] font-medium leading-tight" style={d.color !== "primary" ? { color: `hsl(var(--${d.color}))` } : {}}>{d.t}</div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <Card className="card-elevated border-border/60 p-6 relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-px shimmer" />
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <Award className="h-4 w-4 text-primary" />
+                <span className="text-sm font-medium">Global rank</span>
+              </div>
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground">U14 · WG</span>
+            </div>
+            <div className="font-display text-4xl font-bold text-gradient">#47<span className="text-base text-muted-foreground"> / 1,243</span></div>
+            <p className="text-xs text-muted-foreground mt-2">Top 4% in your age-position cohort. +12 ranks this month.</p>
+            <div className="mt-4 pt-4 border-t border-border/60 flex items-center gap-2">
+              <Trophy className="h-3.5 w-3.5 text-primary" />
+              <span className="text-xs">April Sprint Challenge · #12</span>
+            </div>
+          </Card>
+        </section>
+
+        {/* Spider snapshot + PDAs */}
+        <section className="px-6 md:px-10 lg:px-12 pb-12 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+          <Card className="card-elevated border-border/60 p-6">
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <div className="text-[11px] uppercase tracking-[0.22em] text-primary mb-1">Spider snapshot</div>
+                <h3 className="font-display text-xl font-bold">27 micro-skills · vs U14</h3>
+              </div>
+              <Link to="/progress"><Button variant="ghost" size="sm" className="text-muted-foreground">Full report <ArrowUpRight className="h-3.5 w-3.5 ml-1" /></Button></Link>
+            </div>
+            <SkillRadar height={320} />
+          </Card>
+
+          <Card className="card-elevated border-border/60 p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <AlertCircle className="h-4 w-4 text-domain-physical" />
+              <h3 className="font-display font-semibold">Priority Development Areas</h3>
+            </div>
+            <p className="text-xs text-muted-foreground mb-4">5 micro-skills below 85% of benchmark. Today's session targets the top 3.</p>
+            <div className="space-y-2.5">
+              {priorityDevelopmentAreas().map((m) => {
+                const ratio = Math.round((m.score / m.benchmark) * 100);
+                return (
+                  <div key={m.key} className="flex items-center gap-3">
+                    <span className="text-sm flex-1 truncate">{m.label}</span>
+                    <div className="w-24 h-1 rounded-full bg-muted relative overflow-hidden">
+                      <div className="absolute h-full bg-domain-physical/70" style={{ width: `${m.score}%` }} />
+                      <div className="absolute h-full w-px bg-foreground/60" style={{ left: `${m.benchmark}%` }} />
+                    </div>
+                    <span className="font-mono text-xs text-domain-physical w-10 text-right">{ratio}%</span>
+                  </div>
+                );
+              })}
+            </div>
+            <Link to="/progress">
+              <Button variant="outline" size="sm" className="w-full mt-5 border-primary/30 text-primary hover:bg-primary/10">
+                <Target className="h-3.5 w-3.5 mr-2" />Build PDA session
+              </Button>
+            </Link>
+          </Card>
         </section>
 
         {/* Match countdown + Mood */}
