@@ -253,9 +253,100 @@ const Index = () => {
               </Card>
             ))}
           </div>
+
+          {/* Quick tips per domain */}
+          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              { d: "technical" as const, icon: Footprints, tip: "10 min wall-touches primes first touch", cta: "Run drill", to: "/drills" },
+              { d: "physical" as const, icon: Zap, tip: "Pre-session: 35g protein + water", cta: "Log fuel", to: "/nutrition" },
+              { d: "cognitive" as const, icon: Brain, tip: "Scan 6–8× before receiving today", cta: "Practice", to: "/drills" },
+              { d: "mental" as const, icon: Activity, tip: "Box-breathing · 4 rounds before session", cta: "Start 2 min", to: "/mind" },
+              { d: "recovery" as const, icon: HeartPulse, tip: "Sleep target: 8h · phone off 30m prior", cta: "Tonight's flow", to: "/mind" },
+            ].map((t) => (
+              <Link key={t.d} to={t.to}>
+                <Card className="card-elevated border-border/60 p-4 h-full hover:border-primary/40 transition-colors cursor-pointer group">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div
+                      className="h-6 w-6 rounded-md flex items-center justify-center"
+                      style={{ backgroundColor: `hsl(var(--domain-${t.d}) / 0.15)`, color: `hsl(var(--domain-${t.d}))` }}
+                    >
+                      <t.icon className="h-3 w-3" />
+                    </div>
+                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground capitalize">{t.d} · tip</span>
+                  </div>
+                  <p className="text-xs leading-relaxed text-foreground/90 mb-3">{t.tip}</p>
+                  <div className="text-[11px] font-medium text-primary flex items-center gap-1 group-hover:gap-1.5 transition-all">
+                    {t.cta} <ArrowUpRight className="h-3 w-3" />
+                  </div>
+                </Card>
+              </Link>
+            ))}
+          </div>
         </section>
 
-        {/* Train Like + Paths */}
+        {/* Favorite quick drill + Pro lookalike */}
+        <section className="px-6 md:px-10 lg:px-12 pb-12 grid gap-6 lg:grid-cols-2">
+          <Card className="card-elevated border-border/60 p-6 relative overflow-hidden group">
+            <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-primary/15 blur-3xl" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-2">
+                <Flame className="h-4 w-4 text-primary" />
+                <span className="text-[11px] uppercase tracking-[0.22em] text-primary">Your favorite quick drill</span>
+              </div>
+              <h3 className="font-display text-2xl font-bold mb-1">Cone weave → strike · 8 min</h3>
+              <p className="text-sm text-muted-foreground mb-5">Run 76 times · your personal go-to. +4 first touch since March.</p>
+              <div className="flex items-center gap-3 mb-5">
+                <DomainBadge domain="technical" icon={Footprints} label="First touch" />
+                <DomainBadge domain="physical" icon={Zap} label="Agility" />
+              </div>
+              <div className="flex gap-2">
+                <Link to="/session" className="flex-1">
+                  <Button size="sm" className="w-full bg-gradient-ember text-primary-foreground hover:opacity-90 shadow-ember">
+                    <Play className="h-3.5 w-3.5 mr-1.5 fill-current" /> Run now
+                  </Button>
+                </Link>
+                <Link to="/drills">
+                  <Button size="sm" variant="outline">Browse favorites</Button>
+                </Link>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="card-elevated border-border/60 p-6 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-2">
+                <Sparkles className="h-4 w-4 text-primary" />
+                <span className="text-[11px] uppercase tracking-[0.22em] text-primary">Pro lookalike · this week</span>
+              </div>
+              <h3 className="font-display text-2xl font-bold mb-1">You train like <span className="text-gradient">Vinícius Jr.</span></h3>
+              <p className="text-sm text-muted-foreground mb-5">84% overlap on winger DNA — 1v1 explosion, weak-foot work, confidence on the line.</p>
+              <div className="grid grid-cols-3 gap-3 mb-5">
+                {[
+                  { l: "1v1", v: 81, m: "Vini 86" },
+                  { l: "Dribble", v: 75, m: "Vini 84" },
+                  { l: "Finishing", v: 66, m: "Vini 72" },
+                ].map((s) => (
+                  <div key={s.l} className="rounded-lg border border-border/60 bg-background/40 p-3">
+                    <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">{s.l}</div>
+                    <div className="font-display text-xl font-bold">{s.v}</div>
+                    <div className="text-[10px] text-primary mt-0.5">{s.m}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <Link to="/academy" className="flex-1">
+                  <Button size="sm" variant="outline" className="w-full border-primary/30 text-primary hover:bg-primary/10">
+                    Train like Vini · 4 weeks
+                  </Button>
+                </Link>
+                <Link to="/intel">
+                  <Button size="sm" variant="ghost">Change player</Button>
+                </Link>
+              </div>
+            </div>
+          </Card>
+        </section>
         <section className="px-6 md:px-10 lg:px-12 pb-16 grid gap-6 lg:grid-cols-2">
           <Card className="card-elevated border-border/60 p-6 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-glow opacity-50" />

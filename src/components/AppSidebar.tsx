@@ -11,40 +11,49 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
-// Tier 1 — Core moat
-const core = [
+// TODAY — daily loop (what a player opens the app for)
+const today = [
   { title: "Home", url: "/", icon: Home },
   { title: "Daily Checklist", url: "/daily", icon: ListChecks },
-  { title: "Train", url: "/train", icon: Dumbbell },
-  { title: "Calendar", url: "/calendar", icon: Calendar },
   { title: "Live Session", url: "/session", icon: PlayCircle },
-  { title: "Analyze", url: "/analyze", icon: Video },
-  { title: "Progress", url: "/progress", icon: TrendingUp },
   { title: "Coach Alex", url: "/chat", icon: MessageCircle },
 ];
 
-// Tier 2 — Engagement & differentiation
-const develop = [
-  { title: "Academy", url: "/academy", icon: GraduationCap },
+// TRAIN — the training engine
+const train = [
+  { title: "Train", url: "/train", icon: Dumbbell },
   { title: "Drills", url: "/drills", icon: Library },
   { title: "Paths", url: "/paths", icon: Compass },
+  { title: "Calendar", url: "/calendar", icon: Calendar },
+];
+
+// PERFORM — real-world performance + measurement
+const perform = [
+  { title: "Analyze", url: "/analyze", icon: Video },
+  { title: "Progress", url: "/progress", icon: TrendingUp },
+  { title: "Match Center", url: "/match", icon: Trophy },
+];
+
+// LEARN — intelligence layer
+const learn = [
+  { title: "Academy", url: "/academy", icon: GraduationCap },
   { title: "Player Intel", url: "/intel", icon: Sparkles },
   { title: "Learn", url: "/learn", icon: BookOpen },
 ];
 
-// Wellness
+// WELLNESS — performance lifestyle
 const wellness = [
   { title: "Mind", url: "/mind", icon: Brain },
   { title: "Fuel", url: "/nutrition", icon: Apple },
-  { title: "Match Center", url: "/match", icon: Trophy },
 ];
 
-// Tier 3 — Retention & expansion
+// COMMUNITY — social & competitive layer
 const community = [
   { title: "Network", url: "/network", icon: UserPlus },
   { title: "Community", url: "/community", icon: Users },
 ];
 
+// PRO — B2B / expansion
 const pro = [
   { title: "Coach AI (B2B)", url: "/coach-ai", icon: Briefcase },
   { title: "Squad", url: "/squad", icon: Users },
@@ -68,7 +77,7 @@ export function AppSidebar() {
         : "text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-foreground",
     );
 
-  const renderGroup = (label: string, items: typeof core) => (
+  const renderGroup = (label: string, items: typeof today) => (
     <SidebarGroup>
       {!collapsed && <SidebarGroupLabel className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">{label}</SidebarGroupLabel>}
       <SidebarGroupContent>
@@ -114,11 +123,13 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="px-2">
-        {renderGroup("Core · Tier 1", core)}
-        {renderGroup("Develop · Tier 2", develop)}
+        {renderGroup("Today", today)}
+        {renderGroup("Train", train)}
+        {renderGroup("Perform", perform)}
+        {renderGroup("Learn", learn)}
         {renderGroup("Wellness", wellness)}
-        {renderGroup("Community · Tier 3", community)}
-        {renderGroup("Pro", pro)}
+        {renderGroup("Community", community)}
+        {renderGroup("Pro · B2B", pro)}
         {renderGroup("Account", account)}
       </SidebarContent>
 
