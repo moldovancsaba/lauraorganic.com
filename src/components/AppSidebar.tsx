@@ -77,7 +77,7 @@ export function AppSidebar() {
         : "text-sidebar-foreground hover:bg-sidebar-accent/60 hover:text-foreground",
     );
 
-  const renderGroup = (label: string, items: typeof core) => (
+  const renderGroup = (label: string, items: typeof today) => (
     <SidebarGroup>
       {!collapsed && <SidebarGroupLabel className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground/70">{label}</SidebarGroupLabel>}
       <SidebarGroupContent>
@@ -123,11 +123,13 @@ export function AppSidebar() {
       </SidebarHeader>
 
       <SidebarContent className="px-2">
-        {renderGroup("Core · Tier 1", core)}
-        {renderGroup("Develop · Tier 2", develop)}
+        {renderGroup("Today", today)}
+        {renderGroup("Train", train)}
+        {renderGroup("Perform", perform)}
+        {renderGroup("Learn", learn)}
         {renderGroup("Wellness", wellness)}
-        {renderGroup("Community · Tier 3", community)}
-        {renderGroup("Pro", pro)}
+        {renderGroup("Community", community)}
+        {renderGroup("Pro · B2B", pro)}
         {renderGroup("Account", account)}
       </SidebarContent>
 
