@@ -111,14 +111,14 @@ export function AppSidebar() {
         <div className="flex items-center gap-2.5 px-2 py-2">
           <div className="relative">
             <div className="h-9 w-9 rounded-lg bg-gradient-ember flex items-center justify-center font-display font-bold text-primary-foreground shadow-ember">
-              S
+              A
             </div>
             <div className="absolute inset-0 rounded-lg bg-primary/50 blur-lg -z-10" />
           </div>
           {!collapsed && (
             <div className="leading-tight">
-              <div className="font-display font-bold tracking-tight text-base">SPL</div>
-              <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">Academy</div>
+              <div className="font-display font-bold tracking-tight text-lg">Athlete IQ</div>
+              <div className="text-[9px] uppercase tracking-[0.22em] text-muted-foreground">Performance OS</div>
             </div>
           )}
         </div>
@@ -140,7 +140,7 @@ export function AppSidebar() {
           <div className="rounded-lg bg-gradient-card border border-sidebar-border p-3">
             <div className="flex items-center gap-2 mb-1">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              <span className="text-xs font-medium">SPL Index</span>
+              <span className="text-xs font-medium">IQ Index</span>
             </div>
             <div className="font-display text-2xl font-bold text-gradient">74<span className="text-sm text-muted-foreground">/100</span></div>
             <div className="text-[10px] text-muted-foreground mt-1">+3 this week</div>
