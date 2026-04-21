@@ -27,6 +27,7 @@ import CalendarPage from "./pages/Calendar.tsx";
 import Network from "./pages/Network.tsx";
 import DailyChecklist from "./pages/DailyChecklist.tsx";
 import Overview from "./pages/Overview.tsx";
+import AthleteIQ from "./pages/AthleteIQ.tsx";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +61,7 @@ const App = () => (
           <Route path="/network" element={<Network />} />
           <Route path="/daily" element={<DailyChecklist />} />
           <Route path="/overview" element={<Overview />} />
+          <Route path="/athlete-iq" element={<AthleteIQ />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
