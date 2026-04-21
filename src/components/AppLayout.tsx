@@ -29,7 +29,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             <div className="ml-auto flex items-center gap-2">
               <div className="hidden lg:flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/5 px-2.5 py-1 text-[10px] uppercase tracking-widest text-primary">
                 <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-glow" />
-                SPL 74
+                IQ 74
               </div>
               <Button variant="ghost" size="icon" className="relative">
                 <Bell className="h-4 w-4" />
