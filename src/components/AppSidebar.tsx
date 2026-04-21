@@ -2,7 +2,7 @@ import { NavLink as RouterNavLink, useLocation } from "react-router-dom";
 import {
   Home, Dumbbell, Video, BookOpen, TrendingUp, Users, Brain, User2,
   Sparkles, Briefcase, Compass, PlayCircle, Trophy, Apple, MessageCircle,
-  Library, GraduationCap, Calendar, UserPlus, ListChecks, BookMarked,
+  Library, GraduationCap, Calendar, UserPlus, ListChecks, BookMarked, Crown,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -62,6 +62,7 @@ const pro = [
 const account = [
   { title: "Profile", url: "/profile", icon: User2 },
   { title: "Overview", url: "/overview", icon: BookMarked },
+  { title: "Athlete IQ", url: "/athlete-iq", icon: Crown },
   { title: "Onboarding", url: "/onboarding", icon: Sparkles },
 ];
 
