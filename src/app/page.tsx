@@ -161,7 +161,7 @@ export default function Home() {
               <div className="visual-canvas">
                 <div className="hero-photo-frame">
                   <Image
-                    src="/laura_organic_hero.png"
+                    src="/laura_organic_header_right.png"
                     alt="Laura Organic foodtruck a piacon"
                     fill
                     sizes="(min-width: 1200px) 60vw, 100vw"
@@ -263,7 +263,13 @@ export default function Home() {
       <footer id="kapcsolat" className="footer-section">
         <div className="page-shell footer-grid">
           <div className="footer-visual">
-            <div className="footer-bowl" />
+            <Image
+              src="/laura_organic_footer_left.png"
+              alt="Laura Organic heti fogások"
+              fill
+              sizes="(min-width: 1200px) 35vw, 100vw"
+              className="footer-photo"
+            />
           </div>
 
           <div id="rolunk" className="footer-copy">

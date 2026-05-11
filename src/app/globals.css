@@ -500,25 +500,11 @@ input {
   position: relative;
   min-height: 22rem;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 18% 10%, rgb(177 198 138 / 0.35), transparent 18%),
-    linear-gradient(135deg, #56684b 0%, #2d3827 100%);
+  background: #56684b;
 }
 
-.footer-bowl {
-  position: absolute;
-  left: 10%;
-  bottom: -8%;
-  width: 76%;
-  aspect-ratio: 1 / 0.82;
-  border-radius: 2.2rem;
-  background:
-    radial-gradient(circle at 30% 32%, #95b662 0%, transparent 26%),
-    radial-gradient(circle at 58% 42%, #e49d52 0%, transparent 18%),
-    radial-gradient(circle at 72% 55%, #f1de9d 0%, transparent 12%),
-    linear-gradient(180deg, #d8ceb7 0%, #7c715b 100%);
-  transform: rotate(-10deg);
-  box-shadow: 0 24px 55px -24px rgb(0 0 0 / 0.45);
+.footer-photo {
+  object-fit: cover;
 }
 
 .footer-copy {
