@@ -13,9 +13,9 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Laura Organic | Biotermék foglalás és piaci átvétel",
+  title: "Laura Organic | Szombati piac, organikus fogások",
   description:
-    "Foglalj előre friss biotermékeket a Laura Organic heti kínálatából, és vedd át őket személyesen a piacon.",
+    "Kis tételben készített organikus fogások előrendeléssel, szombati átvétellel a biopiacon vagy a foodtrucknál.",
 };
 
 export default function RootLayout({
