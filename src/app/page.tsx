@@ -3,55 +3,55 @@ import { ArrowRight, CalendarDays, Check, Leaf, MapPin, ShoppingBasket, Sparkles
 
 const featuredProducts = [
   {
-    name: "Tavaszi zoldsegkosar",
+    name: "Tavaszi zöldségkosár",
     description:
-      "Ropogos salatak, ujhagyma, retek es fuszernovenyek egy heti piacra hangolt csomagban.",
+      "Ropogós saláták, újhagyma, retek és friss fűszernövények egy szezonális válogatásban.",
     price: "4 900 Ft",
     badge: "Heti kedvenc",
   },
   {
-    name: "Farm tojas",
+    name: "Farmtojás",
     description:
-      "Szabad tartasbol, frissen szedve. Elore foglalva biztosan var rad a piacon.",
+      "Szabadtartásból származó friss tojás. Előre lefoglalva biztosan vár rád a piacon.",
     price: "1 450 Ft / 10 db",
-    badge: "Mindig keresett",
+    badge: "Mindig népszerű",
   },
   {
     name: "Friss kecskesajt",
     description:
-      "Lagyan sos, kremes texturaju sajt helyi termelotol, friss fuszerekkel.",
+      "Lágyan sós, krémes állagú kecskesajt helyi termelőtől, friss fűszerekkel.",
     price: "2 800 Ft / db",
-    badge: "Kistermeloi",
+    badge: "Kistermelői",
   },
   {
-    name: "Hidegen sajtolt almale",
+    name: "Hidegen sajtolt almalé",
     description:
-      "Tiszta, adalekmentes ital csaladi gazdasagbol, szezonalis tetelben.",
+      "Tiszta, adalékmentes almalé családi gazdaságból, szezonális készletben.",
     price: "1 990 Ft / 750 ml",
-    badge: "Uj tetel",
+    badge: "Újdonság",
   },
 ];
 
 const steps = [
   {
-    title: "Kivalasztod, mit szeretnel",
-    text: "A kiemelt termekekbol es a heti kinalatbol egyszeruen osszeallitod a kosarad.",
+    title: "Kiválasztod, mire van szükséged",
+    text: "A kiemelt termékekből és a heti kínálatból egyszerűen összeállíthatod a kosaradat.",
   },
   {
-    title: "Lefoglaljuk neked",
-    text: "A rendelesedet felretesszuk, igy nem kell attol tartanod, hogy elfogy mire kialsz a piacra.",
+    title: "Félretesszük neked",
+    text: "A rendelésedet előkészítjük, így nem kell attól tartanod, hogy elfogy, mire kiérsz a piacra.",
   },
   {
-    title: "Atveszed a piacon",
-    text: "Gyors atvetel, sorbanallas helyett biztos csomaggal. Pontosan erre valo a rendszer.",
+    title: "Átveszed a piacon",
+    text: "Gyors átvétel sorban állás nélkül, biztosan összeállított csomaggal.",
   },
 ];
 
 const highlights = [
-  "Helyi, szezonalis es atgondolt valogatas",
-  "Piaci atvetel felesleges varakozas nelkul",
-  "Kis kinalat, gondosan valasztott termekek",
-  "Laura Organic hangulat: tiszta, szemelyes, emberi",
+  "Helyi, szezonális és gondosan válogatott termékek",
+  "Piaci átvétel felesleges várakozás nélkül",
+  "Kis kínálat, tudatosan kiválasztott termékek",
+  "Laura Organic – letisztult, személyes és természetes",
 ];
 
 export default function Home() {
@@ -81,7 +81,7 @@ export default function Home() {
               </div>
             </div>
             <a className="pill-link" href="#termekek">
-              Heti kinalat
+              Heti kínálat
             </a>
           </header>
 
@@ -89,42 +89,42 @@ export default function Home() {
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-sm text-primary">
                 <Leaf className="h-4 w-4" />
-                Biopiac Biokaja rendelo
+                Biopiac – biokosár rendelés
               </div>
 
               <div className="space-y-5">
                 <h1 className="max-w-4xl text-balance font-display text-5xl font-semibold leading-[0.96] md:text-7xl">
-                  Lefoglalas online, atvetel a piacon.
+                  Foglalás online, átvétel a piacon.
                 </h1>
                 <p className="max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">
-                  A Laura Organic oldala arra epul, hogy a legjobb termekeket mar elore
-                  biztosithasd magadnak. Nem keresgelsz, nem kapkodsz, csak atveszed a
-                  piacra keszitett csomagodat.
+                  A Laura Organic azért jött létre, hogy a legjobb biotermékeket előre
+                  lefoglalhasd magadnak. Nincs keresgélés vagy kapkodás – csak átveszed
+                  az előkészített csomagodat a piacon.
                 </p>
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row">
                 <a className="cta-primary" href="#termekek">
-                  4 kiemelt termek
+                  4 kiemelt termék
                   <ArrowRight className="h-4 w-4" />
                 </a>
                 <a className="cta-secondary" href="#atvetel">
-                  Hogyan mukodik
+                  Hogyan működik?
                 </a>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-3">
                 <article className="stat-card">
                   <span className="stat-value">4</span>
-                  <span className="stat-label">kiemelt termek</span>
+                  <span className="stat-label">kiemelt termék</span>
                 </article>
                 <article className="stat-card">
                   <span className="stat-value">1</span>
-                  <span className="stat-label">atveteli pont: piac</span>
+                  <span className="stat-label">átvételi pont</span>
                 </article>
                 <article className="stat-card">
                   <span className="stat-value">100%</span>
-                  <span className="stat-label">elore osszekeszitve</span>
+                  <span className="stat-label">100%-ban előkészítve</span>
                 </article>
               </div>
             </div>
@@ -139,31 +139,30 @@ export default function Home() {
                 <div className="panel-row">
                   <CalendarDays className="h-4 w-4 text-primary" />
                   <div>
-                    <p className="panel-title">Foglalas a heti kinalatra</p>
-                    <p className="panel-copy">A hangsuly a rovid, vilagos es gyors rendelesen van.</p>
+                    <p className="panel-title">Foglalás a heti kínálatra</p>
+                    <p className="panel-copy">A hangsúly a gyors, egyszerű és átlátható rendelésen van.</p>
                   </div>
                 </div>
                 <div className="panel-row">
                   <ShoppingBasket className="h-4 w-4 text-primary" />
                   <div>
-                    <p className="panel-title">Elore osszekeszitett csomag</p>
-                    <p className="panel-copy">A kiemelt termekek biztosan megvarnak, mire megerkezel.</p>
+                    <p className="panel-title">Előkészített csomag</p>
+                    <p className="panel-copy">A lefoglalt termékek biztosan megvárnak, mire megérkezel.</p>
                   </div>
                 </div>
                 <div className="panel-row">
                   <MapPin className="h-4 w-4 text-primary" />
                   <div>
-                    <p className="panel-title">Atvetel a piacon</p>
-                    <p className="panel-copy">Szemelyes atadas, online bizonytalansag helyett valos kapcsolat.</p>
+                    <p className="panel-title">Átvétel a piacon</p>
+                    <p className="panel-copy">Személyes átvétel, online bizonytalanság helyett valódi kapcsolat.</p>
                   </div>
                 </div>
               </div>
 
               <div className="rounded-[1.6rem] border border-border/80 bg-accent p-5">
-                <p className="panel-kicker">Oldalirany</p>
+                <p className="panel-kicker">Letisztult felépítés</p>
                 <p className="mt-2 text-2xl font-semibold text-foreground">
-                  Tiszta landing oldal, eros termekkiemelessel es Vercelre alkalmas
-                  Next.js App Router alapon.
+                  Átlátható landing oldal erős termékkiemeléssel, modern Next.js alapokon.
                 </p>
               </div>
             </aside>
@@ -174,12 +173,12 @@ export default function Home() {
       <section id="termekek" className="page-shell py-16 md:py-24">
         <div className="section-head">
           <div>
-            <p className="section-kicker">Kiemelt kinalat</p>
-            <h2 className="section-title">4 termek, ami miatt erdemes elore foglalni</h2>
+            <p className="section-kicker">Kiemelt kínálat</p>
+            <h2 className="section-title">4 termék, amit érdemes előre lefoglalni</h2>
           </div>
           <p className="section-copy">
-            Ezek a blokkok konnyen szerkeszthetok, ha a heti kinalat valtozik. Jelenleg eros
-            nyitooldali termekkiemelest adnak.
+            A kínálat hetente frissül, ezért ezek a blokkok könnyen szerkeszthetők.
+            Jelenleg a legnépszerűbb termékeket emelik ki.
           </p>
         </div>
 
@@ -194,7 +193,7 @@ export default function Home() {
               <div className="mt-8 flex items-end justify-between gap-4">
                 <p className="text-2xl font-semibold text-primary">{product.price}</p>
                 <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
-                  foglalhato
+                  Előre lefoglalom
                 </span>
               </div>
             </article>
@@ -206,12 +205,12 @@ export default function Home() {
         <div className="rounded-[2rem] border border-border/80 bg-card p-7 shadow-soft md:p-10">
           <div className="section-head">
             <div>
-              <p className="section-kicker">Atvetel a piacon</p>
-              <h2 className="section-title">Pontosan erre valo az oldal</h2>
+              <p className="section-kicker">Átvétel a piacon</p>
+              <h2 className="section-title">Pontosan erre való az oldal</h2>
             </div>
             <p className="section-copy">
-              Nem webshop-logikat epitunk, hanem egy gyors foglalasi elmenyt, amit a piaci
-              szemelyes atvetel zar le.
+              Nem egy klasszikus webshopot építünk, hanem egy gyors és egyszerű foglalási
+              élményt, amelyet személyes piaci átvétel zár le.
             </p>
           </div>
 
@@ -230,11 +229,12 @@ export default function Home() {
       <section className="page-shell pb-20">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="space-y-4">
-            <p className="section-kicker">Miert mukodik</p>
-            <h2 className="section-title">Egyszeru szerkezet, erosen pozicionalt uzenet</h2>
+            <p className="section-kicker">Miért működik?</p>
+            <h2 className="section-title">Egyszerű felépítés, világos üzenet</h2>
             <p className="text-lg leading-8 text-muted-foreground">
-              A hangsuly nem a tulbonyolitott funkciokon van, hanem azon, hogy a latogato 10
-              masodperc alatt ertse meg: itt biotermeket foglal, majd a piacon veszi at.
+              A hangsúly nem a túlbonyolított funkciókon van, hanem azon, hogy a látogató
+              néhány másodperc alatt megértse: itt biotermékeket foglalhat, amelyeket
+              később személyesen vehet át a piacon.
             </p>
           </div>
 
