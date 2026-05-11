@@ -45,25 +45,25 @@ const weeklyItems = [
     name: "Zöldborsó krémleves mentával",
     description: "Friss, tavaszi ízek egy tányérban.",
     price: "1 890 Ft",
-    tone: "soup",
+    image: "/zoldborso_kremleves_mentaval.png",
   },
   {
     name: "Csicseriborsó curry jázminrizzsel",
     description: "Laktató, fűszeres, melengető.",
     price: "2 690 Ft",
-    tone: "curry",
+    image: "/csicseriborso_curry_jazminrizzsel.png",
   },
   {
     name: "Medvehagymás kesudiós pesto tészta",
     description: "Krémes, friss, tavaszi hangulat.",
     price: "2 490 Ft",
-    tone: "pasta",
+    image: "/medvehagymas_kesudios_pesto_teszta.png",
   },
   {
     name: "Csokoládé mousse málnával",
     description: "Édes befejezés, bűntudat nélkül.",
     price: "1 490 Ft",
-    tone: "dessert",
+    image: "/csokolade_mousse_malnaval.png",
   },
 ];
 
@@ -103,7 +103,7 @@ export default function Home() {
             <a href="#" className="brand-lockup" aria-label="Laura Organic">
               <div className="brand-logo-wrap">
                 <Image
-                  src="/laura_organic_logo_small.png"
+                  src="/logo.png"
                   alt="Laura Organic logo"
                   fill
                   sizes="128px"
@@ -204,8 +204,14 @@ export default function Home() {
           <div className="weekly-grid">
             {weeklyItems.map((item) => (
               <article key={item.name} className="weekly-card">
-                <div className={`weekly-image weekly-image-${item.tone}`}>
-                  <div className="plate" />
+                <div className="weekly-image">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    sizes="(min-width: 1200px) 25vw, (min-width: 768px) 50vw, 100vw"
+                    className="weekly-photo"
+                  />
                 </div>
                 <div className="weekly-content">
                   <h3 className="weekly-title">{item.name}</h3>
