@@ -159,14 +159,16 @@ export default function Home() {
 
             <div className="hero-visual">
               <div className="visual-canvas">
-                <Image
-                  src="/laura_organic_hero.png"
-                  alt="Laura Organic foodtruck a piacon"
-                  fill
-                  sizes="(min-width: 1200px) 60vw, 100vw"
-                  className="hero-photo"
-                  priority
-                />
+                <div className="hero-photo-frame">
+                  <Image
+                    src="/laura_organic_hero.png"
+                    alt="Laura Organic foodtruck a piacon"
+                    fill
+                    sizes="(min-width: 1200px) 60vw, 100vw"
+                    className="hero-photo"
+                    priority
+                  />
+                </div>
                 <div className="hero-photo-overlay" />
               </div>
             </div>
