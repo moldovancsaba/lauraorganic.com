@@ -2,458 +2,279 @@ import Image from "next/image";
 import {
   ArrowRight,
   CalendarDays,
-  Check,
-  Clock3,
-  Coffee,
+  CirclePlus,
+  Heart,
   Leaf,
-  Mail,
   MapPin,
-  ShoppingBasket,
-  Truck,
+  PackageCheck,
+  ShoppingBag,
+  Soup,
 } from "lucide-react";
 
-const featuredProducts = [
-  {
-    name: "Lassan sült szezonális zöldségtál",
-    description:
-      "Lassan sült szezonális zöldségek, friss fűszerek és természetes alapanyagok — egyszerűen elkészítve, hogy minden íz a helyén maradjon.",
-    price: "4 900 Ft",
-  },
-  {
-    name: "Zöldfűszeres kecskesajtos quiche",
-    description:
-      "Vajas tészta, lágy kecskesajt és friss zöldfűszerek egy olyan fogásban, amit szombati ebédre is öröm hazavinni.",
-    price: "3 600 Ft",
-  },
-  {
-    name: "Tavaszi krémleves pirított magvakkal",
-    description:
-      "Selymes, szezonális leves organikus alapanyagokból, frissen elkészítve a heti kínálat részeként.",
-    price: "2 800 Ft",
-  },
-  {
-    name: "Hidegen sajtolt almalé",
-    description:
-      "Tiszta, adalékmentes almalé családi gazdaságból, amely jól illik a szombati piaci ritmushoz.",
-    price: "1 990 Ft",
-  },
-];
-
-const steps = [
-  {
-    title: "Előrendelés",
-    text: "Hét közben kiválasztod, mit vinnél haza a szombati kínálatból.",
-  },
-  {
-    title: "Friss elkészítés",
-    text: "Pénteken és szombat hajnalban készítjük el a rendeléseket kis mennyiségben.",
-  },
-  {
-    title: "Átvétel",
-    text: "Szombaton átveszed a biopiacon vagy a foodtrucknál — sorban állás és bizonytalanság nélkül.",
-  },
-];
-
-const pickupLabels = [
-  "Piaci átvétel",
-  "Foodtruck pickup",
-  "Szombat délelőtt",
-  "Frissen elkészítve",
-];
-
-const highlights = [
-  "Szezonális organikus fogások heti rotációban",
-  "Kis mennyiségben készül, frissen a szombati átvételhez",
-  "Piaci hangulat, személyesebb és nyugodtabb rutin",
-  "Nem harsány, nem teches — valódi ízekre épülő márka",
-];
-
 const navItems = [
-  { label: "Heti kínálat", href: "#termekek" },
-  { label: "Szombati átvétel", href: "#atvetel" },
-  { label: "Piac & foodtruck", href: "#ritmus" },
+  { label: "Étlap", href: "#heti-ajanlat" },
   { label: "Rólunk", href: "#rolunk" },
+  { label: "Heti ajánlat", href: "#heti-ajanlat" },
+  { label: "GYIK", href: "#gyik" },
+  { label: "Kapcsolat", href: "#kapcsolat" },
+];
+
+const featureItems = [
+  {
+    title: "Találkozzunk szombat reggel!",
+    text: "Minden szombaton a biopiacon vagyunk a foodtruckunkkal.",
+    meta: "Biomarket Budapest\nSzombatonként 7:00 – 13:00",
+    icon: MapPin,
+  },
+  {
+    title: "Rendelj előre, spórolj időt!",
+    text: "Add le rendelésed online péntek éjfélig, és vedd át könnyedén a piacon.",
+    meta: "HOGYAN MŰKÖDIK?",
+    icon: ShoppingBag,
+  },
+  {
+    title: "Frissen főzve, neked készítve.",
+    text: "Heti étlapunk szezonálisan változik, mindig a legjobb alapanyagokból.",
+    meta: "100% organikus • növényi alapú • csomagolásmentes",
+    icon: Soup,
+  },
+];
+
+const weeklyItems = [
+  {
+    name: "Zöldborsó krémleves mentával",
+    description: "Friss, tavaszi ízek egy tányérban.",
+    price: "1 890 Ft",
+    tone: "soup",
+  },
+  {
+    name: "Csicseriborsó curry jázminrizzsel",
+    description: "Laktató, fűszeres, melengető.",
+    price: "2 690 Ft",
+    tone: "curry",
+  },
+  {
+    name: "Medvehagymás kesudiós pesto tészta",
+    description: "Krémes, friss, tavaszi hangulat.",
+    price: "2 490 Ft",
+    tone: "pasta",
+  },
+  {
+    name: "Csokoládé mousse málnával",
+    description: "Édes befejezés, bűntudat nélkül.",
+    price: "1 490 Ft",
+    tone: "dessert",
+  },
+];
+
+const preorderSteps = [
+  {
+    step: "1",
+    title: "Válassz kedvedre",
+    text: "Böngészd át a heti ajánlatot, és tedd a kosárba, amihez épp kedved van.",
+    icon: Soup,
+  },
+  {
+    step: "2",
+    title: "Rendelj péntek éjfélig",
+    text: "Add le rendelésed online péntek 24:00-ig.",
+    icon: CalendarDays,
+  },
+  {
+    step: "3",
+    title: "Vedd át a piacon",
+    text: "Szombaton a foodtrucknál fenntartjuk neked.",
+    icon: PackageCheck,
+  },
+  {
+    step: "4",
+    title: "Élvezd tudatosan",
+    text: "Finom, tápláló étel – neked, a testednek és a bolygónknak.",
+    icon: Heart,
+  },
 ];
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <section className="relative overflow-hidden">
-        <div className="hero-orb hero-orb-left" />
-        <div className="hero-orb hero-orb-right" />
-        <div className="page-shell pt-6 pb-16 md:pt-8 md:pb-24">
-          <header className="flex flex-wrap items-center justify-between gap-4 rounded-[2rem] border border-border/70 bg-white/70 px-4 py-3 backdrop-blur md:px-6">
-            <div className="flex items-center gap-3">
-              <div className="relative h-12 w-12 overflow-hidden rounded-full border border-border/70 bg-card">
+    <main className="laura-page">
+      <section className="hero-section">
+        <div className="page-shell">
+          <header className="topbar">
+            <a href="#" className="brand-lockup" aria-label="Laura Organic">
+              <div className="brand-logo-wrap">
                 <Image
-                  src="/laura_organic_logo.png"
+                  src="/laura_organic_logo_small.png"
                   alt="Laura Organic logo"
                   fill
-                  sizes="48px"
-                  className="object-cover"
+                  sizes="128px"
+                  className="object-contain"
                   priority
                 />
               </div>
-              <div>
-                <p className="brand-mark">Laura Organic</p>
-                <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
-                  szombati piac • foodtruck • előrendelés
-                </p>
-              </div>
-            </div>
+            </a>
 
-            <nav className="hidden items-center gap-5 text-sm text-muted-foreground lg:flex">
+            <nav className="desktop-nav" aria-label="Fő navigáció">
               {navItems.map((item) => (
-                <a key={item.href} href={item.href} className="hover:text-primary">
+                <a key={item.label} href={item.href} className="nav-link">
                   {item.label}
                 </a>
               ))}
             </nav>
 
-            <a className="pill-link" href="#termekek">
-              E heti menü
+            <a href="#heti-ajanlat" className="nav-cta">
+              <ShoppingBag className="h-4 w-4" />
+              Előrendelés
             </a>
           </header>
 
-          <div className="mt-14 grid gap-12 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-sm text-primary">
-                <Leaf className="h-4 w-4" />
-                Szezonális bioételek előrendeléssel
-              </div>
+          <div className="hero-grid">
+            <div className="hero-copy">
+              <p className="hero-kicker">Bio ételek. Igazi alapanyagokból.</p>
+              <div className="hero-line" />
+              <h1 className="hero-title">
+                Organikus.
+                <br />
+                Kézműves.
+                <br />
+                Készen, neked.
+              </h1>
+              <p className="hero-body">
+                100% organikus, szezonális alapanyagokból készült, növényi alapú ételek.
+                Főzzük helyetted, hogy több időd legyen az igazán fontos dolgokra.
+              </p>
 
-              <div className="space-y-5">
-                <h1 className="max-w-4xl text-balance font-display text-5xl font-semibold leading-[0.92] md:text-7xl">
-                  Szombati piac. Frissen elkészítve. Csak átveszed.
-                </h1>
-                <p className="max-w-2xl text-lg leading-8 text-muted-foreground md:text-xl">
-                  Kis tételben készített, organikus készételek és friss fogások a
-                  szombati biopiac hangulatával. Előrendelsz online, majd kényelmesen
-                  átveszed a piacon vagy a foodtrucknál.
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <a className="cta-primary" href="#termekek">
-                  Előrendelek szombatra
+              <div className="hero-actions">
+                <a href="#heti-ajanlat" className="primary-button">
+                  Nézd meg a heti étlapot
                   <ArrowRight className="h-4 w-4" />
                 </a>
-                <a className="cta-secondary" href="#atvetel">
-                  Hol vehető át?
-                </a>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-3">
-                <article className="stat-card">
-                  <span className="stat-value">Heti</span>
-                  <span className="stat-label">rotációban készül</span>
-                </article>
-                <article className="stat-card">
-                  <span className="stat-value">Szombat</span>
-                  <span className="stat-label">átvétel a piacon</span>
-                </article>
-                <article className="stat-card">
-                  <span className="stat-value">Kis tétel</span>
-                  <span className="stat-label">frissen elkészítve</span>
-                </article>
+              <div className="hero-tags">
+                <span>100% organikus</span>
+                <span>Növényi alapú</span>
+                <span>Csomagolásmentes</span>
               </div>
             </div>
 
-            <aside className="feature-panel">
-              <div className="flex items-center justify-between">
-                <p className="panel-kicker">A piac ritmusa</p>
-                <Coffee className="h-4 w-4 text-primary" />
+            <div className="hero-visual">
+              <div className="visual-canvas">
+                <Image
+                  src="/laura_organic_hero.png"
+                  alt="Laura Organic foodtruck a piacon"
+                  fill
+                  sizes="(min-width: 1200px) 60vw, 100vw"
+                  className="hero-photo"
+                  priority
+                />
+                <div className="hero-photo-overlay" />
               </div>
-
-              <div className="space-y-4">
-                <div className="panel-row">
-                  <CalendarDays className="h-4 w-4 text-primary" />
-                  <div>
-                    <p className="panel-title">Előrendelés hét közben</p>
-                    <p className="panel-copy">
-                      Nyugodtan kiválasztod, mit vinnél haza a szombati kínálatból.
-                    </p>
-                  </div>
-                </div>
-                <div className="panel-row">
-                  <ShoppingBasket className="h-4 w-4 text-primary" />
-                  <div>
-                    <p className="panel-title">Friss elkészítés kis tételben</p>
-                    <p className="panel-copy">
-                      Pontosan annyi készül, amennyire valóban szükség van.
-                    </p>
-                  </div>
-                </div>
-                <div className="panel-row">
-                  <MapPin className="h-4 w-4 text-primary" />
-                  <div>
-                    <p className="panel-title">Átvétel a piacon vagy a foodtrucknál</p>
-                    <p className="panel-copy">
-                      Személyes, kiszámítható, sorban állás és bizonytalanság nélkül.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-[1.6rem] border border-border/80 bg-accent p-5">
-                <p className="panel-kicker">Nyugodt szombat reggel</p>
-                <p className="mt-2 text-2xl font-semibold text-foreground">
-                  Nem webshop. Inkább egy lassabb, jobb szombat.
-                </p>
-              </div>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section className="page-shell py-10 md:py-16">
-        <div className="section-head">
-          <div>
-            <p className="section-kicker">Miért más?</p>
-            <h2 className="section-title">Nem webshop. Inkább egy lassabb, jobb szombat.</h2>
-          </div>
-          <div className="space-y-4 text-base leading-8 text-muted-foreground md:text-lg">
-            <p>
-              A Laura Organic nem polcokra gyártott étel. Hetente változó, szezonális
-              kínálattal készülünk — olyan fogásokkal, amelyeket mi magunk is szívesen
-              vinnénk haza a piacról.
-            </p>
-            <p>
-              Minden kis adagban készül, valódi alapanyagokból, fölösleges kompromisszumok
-              nélkül. Az előrendelés miatt pontosan annyi készül, amennyire valóban szükség van.
-            </p>
-            <p>Az eredmény: frissebb étel, nyugodtabb átvétel, kevesebb pazarlás.</p>
-          </div>
-        </div>
-      </section>
-
-      <section id="atvetel" className="page-shell pb-16 md:pb-24">
-        <div className="rounded-[2rem] border border-border/80 bg-card p-7 shadow-soft md:p-10">
-          <div className="section-head">
-            <div>
-              <p className="section-kicker">Így működik</p>
-              <h2 className="section-title">Egyszerű. Friss. Kiszámítható.</h2>
             </div>
-            <p className="section-copy">
-              Előrendelésből indul, friss elkészítéssel folytatódik, és személyes
-              szombati átvétellel zárul.
-            </p>
           </div>
 
-          <div className="mt-8 grid gap-4 lg:grid-cols-3">
-            {steps.map((step, index) => (
-              <article key={step.title} className="step-card">
-                <span className="step-index">0{index + 1}</span>
-                <h3 className="mt-6 text-2xl font-semibold">{step.title}</h3>
-                <p className="mt-3 text-base leading-7 text-muted-foreground">{step.text}</p>
+          <section className="feature-band">
+            {featureItems.map((item) => (
+              <article key={item.title} className="feature-card">
+                <div className="feature-icon">
+                  <item.icon className="h-7 w-7" />
+                </div>
+                <div>
+                  <h2 className="feature-title">{item.title}</h2>
+                  <p className="feature-text">{item.text}</p>
+                  <p className="feature-meta whitespace-pre-line">{item.meta}</p>
+                </div>
+              </article>
+            ))}
+          </section>
+        </div>
+      </section>
+
+      <section id="heti-ajanlat" className="weekly-section">
+        <div className="page-shell">
+          <div className="section-heading centered">
+            <div className="section-leaf">
+              <Leaf className="h-4 w-4" />
+            </div>
+            <h2 className="section-title">Heti ajánlat</h2>
+            <p className="section-subtitle">Finom, tápláló, 100% organikus.</p>
+          </div>
+
+          <div className="weekly-grid">
+            {weeklyItems.map((item) => (
+              <article key={item.name} className="weekly-card">
+                <div className={`weekly-image weekly-image-${item.tone}`}>
+                  <div className="plate" />
+                </div>
+                <div className="weekly-content">
+                  <h3 className="weekly-title">{item.name}</h3>
+                  <p className="weekly-description">{item.description}</p>
+                  <div className="weekly-footer">
+                    <span className="weekly-price">{item.price}</span>
+                    <button type="button" className="add-button" aria-label={`${item.name} hozzáadása`}>
+                      <CirclePlus className="h-5 w-5" />
+                    </button>
+                  </div>
+                </div>
               </article>
             ))}
           </div>
+
+          <div className="section-action">
+            <a href="#kapcsolat" className="primary-button compact">
+              Összes étel megnézése
+            </a>
+          </div>
         </div>
       </section>
 
-      <section id="ritmus" className="page-shell pb-16 md:pb-24">
-        <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="space-y-4">
-            <p className="section-kicker">A piac ritmusa</p>
-            <h2 className="section-title">Korai kávéillat, friss fogások, ismerős beszélgetések.</h2>
-            <div className="space-y-4 text-base leading-8 text-muted-foreground md:text-lg">
-              <p>
-                A Laura Organic ezt a hangulatot szeretné megőrizni: nem sietős rendelést,
-                hanem egy nyugodt szombati rutin részeként.
-              </p>
-              <p>
-                A foodtrucknál átvenni az ételt épp annyira fontos élmény, mint maga az étel.
-              </p>
+      <section id="gyik" className="process-section">
+        <div className="page-shell">
+          <div className="process-panel">
+            <div className="section-heading centered compact-heading">
+              <h2 className="section-title small">Így működik az előrendelés</h2>
             </div>
-          </div>
 
-          <div className="grid gap-3">
-            <div className="highlight-row">
-              <div className="highlight-icon">
-                <Coffee className="h-4 w-4" />
-              </div>
-              <p className="text-base font-medium text-foreground">
-                Korai kávéillat, lassan ébredő piac és frissen sült fogások.
-              </p>
-            </div>
-            <div className="highlight-row">
-              <div className="highlight-icon">
-                <Truck className="h-4 w-4" />
-              </div>
-              <p className="text-base font-medium text-foreground">
-                Foodtruckos átvétel, ami a márka hangulatának része.
-              </p>
-            </div>
-            <div className="highlight-row">
-              <div className="highlight-icon">
-                <Clock3 className="h-4 w-4" />
-              </div>
-              <p className="text-base font-medium text-foreground">
-                Nem sietős élmény, hanem egy lassabb és jobb szombat.
-              </p>
+            <div className="process-grid">
+              {preorderSteps.map((item) => (
+                <article key={item.step} className="process-card">
+                  <span className="process-step">{item.step}</span>
+                  <div className="process-icon">
+                    <item.icon className="h-7 w-7" />
+                  </div>
+                  <div>
+                    <h3 className="process-title">{item.title}</h3>
+                    <p className="process-text">{item.text}</p>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section id="termekek" className="page-shell pb-16 md:pb-24">
-        <div className="section-head">
-          <div>
-            <p className="section-kicker">E heti kínálat</p>
-            <h2 className="section-title">Szezonális organikus fogások, heti rotációban.</h2>
-          </div>
-          <p className="section-copy">
-            Amit most találsz, jövő héten már lehet, hogy nem lesz ugyanaz.
-          </p>
-        </div>
-
-        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {featuredProducts.map((product) => (
-            <article key={product.name} className="product-card">
-              <span className="product-badge">E heti fogás</span>
-              <div className="space-y-4">
-                <h3 className="text-2xl font-semibold text-foreground">{product.name}</h3>
-                <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
-                  Frissen készített organikus fogás szombati átvétellel.
-                </p>
-                <p className="text-base leading-7 text-muted-foreground">{product.description}</p>
-              </div>
-              <div className="mt-8 space-y-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  Korlátozott mennyiségben készül.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Átvétel: szombaton a biopiacon vagy a foodtrucknál.
-                </p>
-                <div className="flex items-end justify-between gap-4">
-                  <p className="text-2xl font-semibold text-primary">{product.price}</p>
-                  <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground">
-                    Szombati átvétellel
-                  </span>
-                </div>
-                <a className="cta-secondary w-full" href="#newsletter">
-                  Előrendelem
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="page-shell pb-16 md:pb-24">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="space-y-4">
-            <p className="section-kicker">Átvétel szombaton</p>
-            <h2 className="section-title">Személyesen a biopiacon vagy a foodtrucknál.</h2>
-            <div className="space-y-4 text-base leading-8 text-muted-foreground md:text-lg">
-              <p>
-                A rendeléseket személyesen lehet átvenni a szombati biopiacon vagy a foodtrucknál.
-              </p>
-              <p>
-                Nem futárra és raktárra épülünk — hanem frissen elkészített ételekre és
-                személyes átvételre.
-              </p>
-            </div>
+      <footer id="kapcsolat" className="footer-section">
+        <div className="page-shell footer-grid">
+          <div className="footer-visual">
+            <div className="footer-bowl" />
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
-            {pickupLabels.map((item) => (
-              <div key={item} className="highlight-row">
-                <div className="highlight-icon">
-                  <Check className="h-4 w-4" />
-                </div>
-                <p className="text-base font-medium text-foreground">{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="rolunk" className="page-shell pb-16 md:pb-24">
-        <div className="rounded-[2rem] border border-border/80 bg-card p-7 shadow-soft md:p-10">
-          <div className="section-head">
-            <div>
-              <p className="section-kicker">Miért Laura Organic?</p>
-              <h2 className="section-title">A jó ételhez nem kell túlmagyarázott koncepció.</h2>
-            </div>
-            <div className="space-y-4 text-base leading-8 text-muted-foreground md:text-lg">
-              <p>
-                Elég hozzá jó alapanyag, szezonális gondolkodás és idő arra, hogy rendesen elkészüljön.
-              </p>
-              <p>A Laura Organic ebből indul ki minden héten.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="page-shell pb-16">
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="space-y-4">
-            <p className="section-kicker">Márkairány</p>
-            <h2 className="section-title">Nyugodt, prémium, budapesti organikus márka.</h2>
-            <p className="text-lg leading-8 text-muted-foreground">
-              Szombati biopiaci élményként, szezonális foodtruckként és előrendeléses
-              frissétel-rendszerként kommunikálunk.
+          <div id="rolunk" className="footer-copy">
+            <h2 className="footer-title">Laura Organic</h2>
+            <p className="footer-text">
+              Hiszünk az egyszerűségben, a minőségben és a természet ritmusában.
+              Ételeinkkel szeretnénk hozzájárulni egy egészségesebb, tudatosabb mindennaphoz.
             </p>
+            <a href="https://instagram.com" className="footer-link">
+              Kövess minket Instagramon
+            </a>
           </div>
 
-          <div className="grid gap-3">
-            {highlights.map((item) => (
-              <div key={item} className="highlight-row">
-                <div className="highlight-icon">
-                  <Leaf className="h-4 w-4" />
-                </div>
-                <p className="text-base font-medium text-foreground">{item}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="newsletter" className="page-shell pb-20">
-        <div className="rounded-[2rem] border border-border/80 bg-card p-7 shadow-soft md:p-10">
-          <div className="section-head">
-            <div>
-              <p className="section-kicker">Heti kínálat és piaci hírek</p>
-              <h2 className="section-title">Péntekenként elküldjük az aktuális szombati kínálatot.</h2>
-            </div>
-            <div className="space-y-5">
-              <p className="section-copy">
-                Iratkozz fel, és péntekenként elküldjük az aktuális szombati kínálatot.
-              </p>
-              <form className="flex flex-col gap-3 sm:flex-row">
-                <label className="sr-only" htmlFor="email">
-                  Email
-                </label>
-                <div className="relative flex-1">
-                  <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <input
-                    id="email"
-                    type="email"
-                    placeholder="Email címed"
-                    className="w-full rounded-full border border-border bg-background px-11 py-3 text-foreground outline-none transition focus:border-primary"
-                  />
-                </div>
-                <button type="submit" className="cta-primary">
-                  Kérem az e heti menüt
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer className="border-t border-border/70 bg-white/40 py-8">
-        <div className="page-shell flex flex-col gap-4 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>Organikus készételek szombati átvétellel</p>
-          <div className="flex flex-wrap gap-4">
-            {navItems.map((item) => (
-              <a key={item.href} href={item.href} className="hover:text-primary">
-                {item.label}
-              </a>
-            ))}
-          </div>
+          <blockquote className="footer-quote">
+            “A jó étel kapcsolat.
+            <br />
+            Önmagaddal és
+            <br />a természettel.”
+          </blockquote>
         </div>
       </footer>
     </main>
