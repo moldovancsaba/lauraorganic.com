@@ -70,6 +70,11 @@ export type ReservationDraft = {
   customer: CustomerContactPayload;
 };
 
+export type ReservationRow = ReservationItemInput & {
+  product: ReservationProduct;
+  lineTotal: number;
+};
+
 export type ValidationIssue = {
   field: string;
   code: ReservationErrorCode;
@@ -122,6 +127,8 @@ export const pickupSlots: PickupSlot[] = [
   },
 ];
 
+export const defaultPickupSlotId = pickupSlots.find((slot) => slot.isActive)?.id ?? "";
+
 export const activeWeeklyAvailability: WeeklyAvailability = {
   weekKey: "laura-organic-current-week",
   title: lauraSiteContent.weeklyOffer.title,
@@ -168,6 +175,38 @@ export function calculateReservationSubtotal(items: ReservationItemInput[]): num
     const product = getReservationProduct(item.productId);
     return total + (product ? product.unitPrice * item.quantity : 0);
   }, 0);
+}
+
+export function buildReservationRows(items: ReservationItemInput[]): ReservationRow[] {
+  return items
+    .map((item) => {
+      const product = getReservationProduct(item.productId);
+
+      if (!product) {
+        return null;
+      }
+
+      return {
+        ...item,
+        product,
+        lineTotal: product.unitPrice * item.quantity,
+      };
+    })
+    .filter((row): row is ReservationRow => row !== null);
+}
+
+export function sanitizeReservationItems(items: ReservationItemInput[]): ReservationItemInput[] {
+  return items
+    .filter((item) => getReservationProduct(item.productId))
+    .map((item) => {
+      const availability = getAvailabilityItem(item.productId);
+      const maxPerOrder = availability?.maxPerOrder ?? 10;
+
+      return {
+        productId: item.productId,
+        quantity: Math.max(1, Math.min(item.quantity, maxPerOrder)),
+      };
+    });
 }
 
 export function validateReservationItem(item: ReservationItemInput): ValidationResult<ReservationItemInput> {

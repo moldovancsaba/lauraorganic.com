@@ -1,0 +1,318 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { AccentPanel, PageHeader, PublicShell } from "@gds/core/client";
+import { ReservationSummaryPanel } from "@/components/reservation/reservation-summary-panel";
+import {
+  activeWeeklyAvailability,
+  pickupSlots,
+  validateReservationDraft,
+  type ValidationIssue,
+} from "@/lib/reservation";
+import { useReservation } from "@/components/reservation/reservation-provider";
+
+type CustomerFormState = {
+  fullName: string;
+  email: string;
+  phone: string;
+  notes: string;
+};
+
+function BrandLockup() {
+  return (
+    <Link href="/" className="brand-lockup" aria-label="Laura Organic">
+      <span className="brand-logo-wrap">
+        <Image
+          src="/logo.png"
+          alt="Laura Organic logo"
+          fill
+          sizes="192px"
+          className="brand-logo"
+          priority
+        />
+      </span>
+    </Link>
+  );
+}
+
+export default function ReservationPage() {
+  const { items, selectedPickupSlotId, setPickupSlot } = useReservation();
+  const selectedPickupSlot = pickupSlots.find((slot) => slot.id === selectedPickupSlotId);
+  const [customer, setCustomer] = useState<CustomerFormState>({
+    fullName: "",
+    email: "",
+    phone: "",
+    notes: "",
+  });
+  const [issues, setIssues] = useState<ValidationIssue[]>([]);
+  const [isValidated, setIsValidated] = useState(false);
+
+  const issueMap = useMemo(
+    () =>
+      new Map(
+        issues
+          .filter((issue) => issue.field.startsWith("customer."))
+          .map((issue) => [issue.field.replace("customer.", ""), issue.message]),
+      ),
+    [issues],
+  );
+
+  function updateCustomerField<K extends keyof CustomerFormState>(
+    field: K,
+    value: CustomerFormState[K],
+  ) {
+    setCustomer((current) => ({ ...current, [field]: value }));
+    setIsValidated(false);
+  }
+
+  function handleValidationSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const result = validateReservationDraft({
+      weekKey: activeWeeklyAvailability.weekKey,
+      items,
+      customer: {
+        ...customer,
+        pickupSlotId: selectedPickupSlotId,
+      },
+    });
+
+    if (!result.success) {
+      setIssues(result.issues);
+      setIsValidated(false);
+      return;
+    }
+
+    setIssues([]);
+    setCustomer({
+      fullName: result.data.customer.fullName,
+      email: result.data.customer.email,
+      phone: result.data.customer.phone ?? "",
+      notes: result.data.customer.notes ?? "",
+    });
+    setIsValidated(true);
+  }
+
+  return (
+    <PublicShell
+      brand={<BrandLockup />}
+      actions={
+        <Link href="/" className="nav-cta">
+          Vissza az étlaphoz
+        </Link>
+      }
+      maxContentWidth={1100}
+      headerBordered={false}
+      compact
+    >
+      <main className="laura-page review-page">
+        <section className="review-hero-section">
+          <div className="section-header-wrap centered">
+            <PageHeader
+              eyebrow="Szombati rendelés"
+              title="Átvétel véglegesítése"
+              description="Ellenőrizd a kiválasztott fogásokat, az átvételi helyet és a heti rendelésed összesítését."
+            />
+          </div>
+
+          <div className="review-grid">
+            <div className="review-main-column">
+              <ReservationSummaryPanel showReviewAction={false} />
+            </div>
+
+            <div className="review-side-column">
+              <AccentPanel
+                tone="amber"
+                variant="subtle"
+                title="Mit ellenőrizz most?"
+              >
+                <div className="review-note-list">
+                  <p>1. Minden kiválasztott fogás szerepel-e a rendelésben.</p>
+                  <p>2. A megfelelő átvételi hely van-e kijelölve.</p>
+                  <p>3. A rendelést péntek éjfélig kell véglegesíteni.</p>
+                </div>
+              </AccentPanel>
+
+              <AccentPanel tone="gray" variant="subtle" title="Heti tudnivalók">
+                <div className="review-note-list">
+                  <p>
+                    Előrendelési határidő: <strong>{activeWeeklyAvailability.preorderDeadlineLabel}</strong>
+                  </p>
+                  <p>
+                    Átvételi idősáv: <strong>{activeWeeklyAvailability.pickupWindowLabel}</strong>
+                  </p>
+                  <p>
+                    Kiválasztott hely:{" "}
+                    <strong>
+                      {selectedPickupSlot
+                        ? `${selectedPickupSlot.location} • ${selectedPickupSlot.label}`
+                        : "Még nincs kiválasztva"}
+                    </strong>
+                  </p>
+                </div>
+              </AccentPanel>
+
+              <AccentPanel tone="amber" variant="subtle" title="Kapcsolat és átvétel">
+                <form className="review-form" onSubmit={handleValidationSubmit} noValidate>
+                  <div className="review-form-field">
+                    <label className="review-form-label" htmlFor="fullName">
+                      Név
+                    </label>
+                    <input
+                      id="fullName"
+                      name="fullName"
+                      type="text"
+                      className="review-form-input"
+                      value={customer.fullName}
+                      onChange={(event) => updateCustomerField("fullName", event.target.value)}
+                      autoComplete="name"
+                    />
+                    {issueMap.get("fullName") ? (
+                      <p className="review-form-error">{issueMap.get("fullName")}</p>
+                    ) : null}
+                  </div>
+
+                  <div className="review-form-field">
+                    <label className="review-form-label" htmlFor="email">
+                      E-mail
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      className="review-form-input"
+                      value={customer.email}
+                      onChange={(event) => updateCustomerField("email", event.target.value)}
+                      autoComplete="email"
+                    />
+                    {issueMap.get("email") ? (
+                      <p className="review-form-error">{issueMap.get("email")}</p>
+                    ) : null}
+                  </div>
+
+                  <div className="review-form-field">
+                    <label className="review-form-label" htmlFor="phone">
+                      Telefonszám
+                    </label>
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      className="review-form-input"
+                      value={customer.phone ?? ""}
+                      onChange={(event) => updateCustomerField("phone", event.target.value)}
+                      autoComplete="tel"
+                    />
+                    {issueMap.get("phone") ? (
+                      <p className="review-form-error">{issueMap.get("phone")}</p>
+                    ) : null}
+                  </div>
+
+                  <div className="review-form-field">
+                    <label className="review-form-label" htmlFor="pickupSlot">
+                      Átvételi hely
+                    </label>
+                    <select
+                      id="pickupSlot"
+                      name="pickupSlot"
+                      className="review-form-input"
+                      value={selectedPickupSlotId}
+                      onChange={(event) => {
+                        setPickupSlot(event.target.value);
+                        setIsValidated(false);
+                      }}
+                    >
+                      {pickupSlots
+                        .filter((slot) => slot.isActive)
+                        .map((slot) => (
+                          <option key={slot.id} value={slot.id}>
+                            {slot.label} • {slot.location}
+                          </option>
+                        ))}
+                    </select>
+                    {issueMap.get("pickupSlotId") ? (
+                      <p className="review-form-error">{issueMap.get("pickupSlotId")}</p>
+                    ) : null}
+                  </div>
+
+                  <div className="review-form-field">
+                    <label className="review-form-label" htmlFor="notes">
+                      Megjegyzés
+                    </label>
+                    <textarea
+                      id="notes"
+                      name="notes"
+                      className="review-form-input review-form-textarea"
+                      value={customer.notes ?? ""}
+                      onChange={(event) => updateCustomerField("notes", event.target.value)}
+                    />
+                    {issueMap.get("notes") ? (
+                      <p className="review-form-error">{issueMap.get("notes")}</p>
+                    ) : null}
+                  </div>
+
+                  {issues.find((issue) => issue.field === "items") ? (
+                    <p className="review-form-error">
+                      {issues.find((issue) => issue.field === "items")?.message}
+                    </p>
+                  ) : null}
+
+                  <div className="review-form-actions">
+                    <button type="submit" className="primary-button">
+                      Rendelés ellenőrzése
+                    </button>
+                  </div>
+                </form>
+              </AccentPanel>
+
+              {items.length === 0 ? (
+                <AccentPanel tone="blue" variant="subtle" title="Még nincs mit véglegesíteni">
+                  <div className="review-note-list">
+                    <p>Először válassz fogásokat a heti kínálatból.</p>
+                    <p>
+                      A rendelésed a landing oldalon azonnal frissül, és ide visszatérve már
+                      ellenőrizheted az összesítést.
+                    </p>
+                    <Link href="/#heti-ajanlat" className="primary-button">
+                      Heti kínálat megnyitása
+                    </Link>
+                  </div>
+                </AccentPanel>
+              ) : (
+                <AccentPanel
+                  tone={isValidated ? "green" : "amber"}
+                  variant="subtle"
+                  title={isValidated ? "A rendelés adatai rendben vannak" : "Következő lépés"}
+                >
+                  <div className="review-note-list">
+                    {isValidated ? (
+                      <>
+                        <p>A rendelésed helyben már validálva van.</p>
+                        <p>
+                          A következő fejlesztési lépésben ezt a validált adatot fogjuk tényleges
+                          szerveroldali beküldéssé alakítani.
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p>
+                          Töltsd ki az elérhetőségeidet, majd futtasd le a helyi ellenőrzést.
+                        </p>
+                        <p>
+                          Ha minden rendben van, a következő lépésben már a tényleges beküldés
+                          következik.
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </AccentPanel>
+              )}
+            </div>
+          </div>
+        </section>
+      </main>
+    </PublicShell>
+  );
+}

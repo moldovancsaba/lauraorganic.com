@@ -35,11 +35,13 @@ a {
 
 .site-header {
   background: transparent;
+  padding-inline: clamp(0.9rem, 2vw, 1.5rem);
 }
 
 .brand-lockup {
   display: inline-flex;
   align-items: center;
+  padding: 0.4rem 0.2rem 0.4rem 0.4rem;
 }
 
 .brand-logo-wrap {
@@ -451,6 +453,11 @@ a {
   border-top: 1px solid light-dark(rgb(185 167 140 / 0.38), rgb(109 100 85 / 0.38));
 }
 
+.reservation-summary-actions {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .reservation-summary-label {
   font-size: 0.88rem;
   font-weight: 800;
@@ -471,6 +478,92 @@ a {
 .reservation-empty-state {
   display: grid;
   gap: 0.8rem;
+}
+
+.review-page {
+  padding-top: 1rem;
+}
+
+.review-hero-section {
+  padding: 1rem 0 3.5rem;
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(18rem, 0.9fr);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.review-side-column {
+  display: grid;
+  gap: 1rem;
+}
+
+.review-note-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.review-note-list p {
+  margin: 0;
+  color: light-dark(#554a3b, #d8ccbb);
+  line-height: 1.7;
+}
+
+.review-note-list strong {
+  color: light-dark(#2f3b28, #f4eadb);
+}
+
+.review-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.review-form-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.review-form-label {
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: light-dark(#33402c, #f4eadb);
+}
+
+.review-form-input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid var(--border);
+  border-radius: 0.95rem;
+  background: light-dark(#fffaf1, #262c23);
+  color: inherit;
+  font: inherit;
+}
+
+.review-form-textarea {
+  min-height: 7.5rem;
+  resize: vertical;
+}
+
+.review-form-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--primary) 72%, white 28%);
+  outline-offset: 2px;
+}
+
+.review-form-error {
+  margin: 0;
+  color: light-dark(#9b4337, #ffb8a6);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.review-form-actions {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .process-band-wrap section > div {
@@ -571,6 +664,10 @@ a {
   }
 
   .pickup-slot-list {
+    grid-template-columns: 1fr;
+  }
+
+  .review-grid {
     grid-template-columns: 1fr;
   }
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import {
   AccentPanel,
@@ -14,15 +13,10 @@ import {
   PublicShell,
 } from "@gds/core/client";
 import {
-  activeWeeklyAvailability,
-  calculateReservationSubtotal,
-  formatHufPrice,
-  getReservationProduct,
-  pickupSlots,
-  type PickupSlot,
   type ProductId,
-  type ReservationItemInput,
 } from "@/lib/reservation";
+import { ReservationSummaryPanel } from "@/components/reservation/reservation-summary-panel";
+import { useReservation } from "@/components/reservation/reservation-provider";
 import { lauraSiteContent, type LauraIconKey } from "@/lib/site-content";
 
 const iconMap: Record<LauraIconKey, (typeof GdsIcons)[LauraIconKey]> = {
@@ -53,68 +47,7 @@ function BrandLockup() {
 export default function Home() {
   const { about, featureBand, footer, hero, navigation, process, shell, weeklyOffer } =
     lauraSiteContent;
-  const [reservationItems, setReservationItems] = useState<ReservationItemInput[]>([]);
-  const [selectedPickupSlotId, setSelectedPickupSlotId] = useState<string>(
-    pickupSlots.find((slot) => slot.isActive)?.id ?? "",
-  );
-
-  const selectedPickupSlot = pickupSlots.find((slot) => slot.id === selectedPickupSlotId);
-  const reservationSubtotal = calculateReservationSubtotal(reservationItems);
-  const reservationCount = reservationItems.reduce((total, item) => total + item.quantity, 0);
-  const reservationRows = reservationItems
-    .map((item) => {
-      const product = getReservationProduct(item.productId);
-
-      if (!product) {
-        return null;
-      }
-
-      return {
-        ...item,
-        product,
-        lineTotal: product.unitPrice * item.quantity,
-      };
-    })
-    .filter((row): row is NonNullable<typeof row> => row !== null);
-
-  function addToReservation(productId: ProductId) {
-    const availability = activeWeeklyAvailability.items.find((item) => item.productId === productId);
-    const maxPerOrder = availability?.maxPerOrder ?? 10;
-
-    setReservationItems((current) => {
-      const existingItem = current.find((item) => item.productId === productId);
-
-      if (!existingItem) {
-        return [...current, { productId, quantity: 1 }];
-      }
-
-      return current.map((item) =>
-        item.productId === productId
-          ? { ...item, quantity: Math.min(item.quantity + 1, maxPerOrder) }
-          : item,
-      );
-    });
-  }
-
-  function decrementReservationItem(productId: ProductId) {
-    setReservationItems((current) =>
-      current.flatMap((item) => {
-        if (item.productId !== productId) {
-          return [item];
-        }
-
-        if (item.quantity <= 1) {
-          return [];
-        }
-
-        return [{ ...item, quantity: item.quantity - 1 }];
-      }),
-    );
-  }
-
-  function removeReservationItem(productId: ProductId) {
-    setReservationItems((current) => current.filter((item) => item.productId !== productId));
-  }
+  const { addItem, items } = useReservation();
 
   return (
     <PublicShell
@@ -209,8 +142,7 @@ export default function Home() {
           <div className="weekly-grid">
             {weeklyOffer.items.map((item) => {
               const quantityInReservation =
-                reservationItems.find((reservationItem) => reservationItem.productId === item.id)
-                  ?.quantity ?? 0;
+                items.find((reservationItem) => reservationItem.productId === item.id)?.quantity ?? 0;
 
               return (
                 <div key={item.id} className="weekly-card-wrap">
@@ -235,7 +167,7 @@ export default function Home() {
                       <button
                         type="button"
                         className="product-action-link"
-                        onClick={() => addToReservation(item.id)}
+                        onClick={() => addItem(item.id as ProductId)}
                       >
                         {item.ctaLabel}
                       </button>
@@ -270,117 +202,7 @@ export default function Home() {
           </div>
 
           <div className="reservation-panel-wrap">
-            <AccentPanel
-              tone={reservationRows.length > 0 ? "green" : "gray"}
-              variant="subtle"
-              title={
-                reservationRows.length > 0
-                  ? `${reservationCount} tétel van a szombati rendelésedben.`
-                  : "Még nincs semmi a szombati rendelésedben."
-              }
-            >
-              {reservationRows.length > 0 ? (
-                <div className="reservation-shell">
-                  <div className="pickup-slot-list" role="list" aria-label="Átvételi hely választása">
-                    {pickupSlots
-                      .filter((slot) => slot.isActive)
-                      .map((slot: PickupSlot) => (
-                        <button
-                          key={slot.id}
-                          type="button"
-                          className={`pickup-slot-button ${
-                            selectedPickupSlotId === slot.id ? "pickup-slot-button-active" : ""
-                          }`}
-                          onClick={() => setSelectedPickupSlotId(slot.id)}
-                        >
-                          <span className="pickup-slot-label">{slot.label}</span>
-                          <span className="pickup-slot-meta">
-                            {slot.location} • {slot.dayLabel} • {slot.timeWindow}
-                          </span>
-                        </button>
-                      ))}
-                  </div>
-
-                  <div className="reservation-items">
-                    {reservationRows.map((row) => (
-                      <div key={row.product.id} className="reservation-row">
-                        <div className="reservation-row-main">
-                          <div>
-                            <h3 className="reservation-row-title">{row.product.name}</h3>
-                            <p className="reservation-row-meta">
-                              {formatHufPrice(row.product.unitPrice)} / adag
-                            </p>
-                          </div>
-                          <p className="reservation-row-total">{formatHufPrice(row.lineTotal)}</p>
-                        </div>
-
-                        <div className="reservation-row-actions">
-                          <div
-                            className="reservation-quantity-controls"
-                            role="group"
-                            aria-label={`${row.product.name} mennyiség`}
-                          >
-                            <button
-                              type="button"
-                              className="quantity-button"
-                              onClick={() => decrementReservationItem(row.product.id)}
-                              aria-label={`${row.product.name} mennyiségének csökkentése`}
-                            >
-                              -
-                            </button>
-                            <span className="quantity-value">{row.quantity}</span>
-                            <button
-                              type="button"
-                              className="quantity-button"
-                              onClick={() => addToReservation(row.product.id)}
-                              aria-label={`${row.product.name} mennyiségének növelése`}
-                            >
-                              +
-                            </button>
-                          </div>
-
-                          <button
-                            type="button"
-                            className="reservation-remove-button"
-                            onClick={() => removeReservationItem(row.product.id)}
-                          >
-                            Törlés
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="reservation-summary">
-                    <div>
-                      <p className="reservation-summary-label">Összesen</p>
-                      <p className="reservation-summary-value">
-                        {formatHufPrice(reservationSubtotal)}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="reservation-summary-label">Átvétel</p>
-                      <p className="reservation-summary-meta">
-                        {selectedPickupSlot
-                          ? `${selectedPickupSlot.location} • ${selectedPickupSlot.dayLabel} • ${selectedPickupSlot.timeWindow}`
-                          : activeWeeklyAvailability.pickupWindowLabel}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="reservation-empty-state">
-                  <p>
-                    Válassz egy fogást a heti kínálatból, és itt rögtön látni fogod az
-                    összesítést.
-                  </p>
-                  <p>
-                    Az átvétel szombaton történik, a rendeléseket pedig frissen készítjük
-                    el az átvétel napjára.
-                  </p>
-                </div>
-              )}
-            </AccentPanel>
+            <ReservationSummaryPanel />
           </div>
         </section>
 
