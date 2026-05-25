@@ -1,6 +1,8 @@
-import { lauraSiteContent, type LauraSiteContent } from "@/lib/site-content";
+import { getActiveWeeklyOffer, type LauraSiteContent } from "@/lib/site-content";
 
-export type ProductId = LauraSiteContent["weeklyOffer"]["items"][number]["id"];
+type WeeklyOfferItem = LauraSiteContent["weeklyOffers"][number]["items"][number];
+
+export type ProductId = WeeklyOfferItem["id"];
 
 export type ReservationProductState = "available" | "limited" | "sold-out" | "preorder";
 export type PickupMode = "market" | "foodtruck";
@@ -81,6 +83,32 @@ export type ValidationIssue = {
   message: string;
 };
 
+export type ReservationReceipt = {
+  reservationId: string;
+  submittedAt: string;
+  weekKey: string;
+  customerName: string;
+  customerEmail: string;
+  pickupLabel: string;
+  pickupLocation: string;
+  itemCount: number;
+  subtotal: number;
+};
+
+export type ReservationSubmitSuccess = {
+  success: true;
+  receipt: ReservationReceipt;
+};
+
+export type ReservationSubmitFailure = {
+  success: false;
+  message: string;
+  retryable: boolean;
+  issues?: ValidationIssue[];
+};
+
+export type ReservationSubmitResponse = ReservationSubmitSuccess | ReservationSubmitFailure;
+
 export type ValidationResult<T> =
   | {
       success: true;
@@ -91,20 +119,61 @@ export type ValidationResult<T> =
       issues: ValidationIssue[];
     };
 
-export const reservationProducts: ReservationProduct[] = lauraSiteContent.weeklyOffer.items.map(
-  (item) => ({
-    id: item.id,
-    name: item.name,
-    description: item.description,
-    unitPrice: parseHufPrice(item.price),
-    currency: "HUF",
-    imageSrc: item.image.src,
-    imageAlt: item.image.alt,
-    helperText: item.helperText,
+const activeOffer = getActiveWeeklyOffer();
+
+const AVAILABILITY_CONFIG: Partial<
+  Record<
+    ProductId,
+    {
+      state: ReservationProductState;
+      remainingQuantity: number | null;
+      maxPerOrder: number;
+    }
+  >
+> = {
+  "green-pea-soup": {
+    state: "limited",
+    remainingQuantity: 6,
+    maxPerOrder: 4,
+  },
+  "chickpea-curry": {
     state: "preorder",
-    ctaLabel: item.ctaLabel,
-  }),
-);
+    remainingQuantity: null,
+    maxPerOrder: 6,
+  },
+  "wild-garlic-pasta": {
+    state: "limited",
+    remainingQuantity: 4,
+    maxPerOrder: 3,
+  },
+  "chocolate-mousse": {
+    state: "preorder",
+    remainingQuantity: null,
+    maxPerOrder: 6,
+  },
+};
+
+export const reservationProducts: ReservationProduct[] =
+  activeOffer?.items.map((item) => {
+    const availability = AVAILABILITY_CONFIG[item.id] ?? {
+      state: "preorder",
+      remainingQuantity: null,
+      maxPerOrder: 10,
+    };
+
+    return {
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      unitPrice: parseHufPrice(item.price),
+      currency: "HUF",
+      imageSrc: item.image.src,
+      imageAlt: item.image.alt,
+      helperText: item.helperText,
+      state: availability.state,
+      ctaLabel: item.ctaLabel,
+    };
+  }) ?? [];
 
 export const pickupSlots: PickupSlot[] = [
   {
@@ -129,19 +198,29 @@ export const pickupSlots: PickupSlot[] = [
 
 export const defaultPickupSlotId = pickupSlots.find((slot) => slot.isActive)?.id ?? "";
 
-export const activeWeeklyAvailability: WeeklyAvailability = {
-  weekKey: "laura-organic-current-week",
-  title: lauraSiteContent.weeklyOffer.title,
-  preorderDeadlineLabel: "Péntek 24:00",
-  pickupWindowLabel: "Szombat 7:00 – 13:00",
-  status: "active",
-  items: reservationProducts.map((product) => ({
-    productId: product.id,
-    state: product.state,
-    remainingQuantity: null,
-    maxPerOrder: 10,
-  })),
-};
+export const activeWeeklyAvailability: WeeklyAvailability | null = activeOffer
+  ? {
+      weekKey: activeOffer.weekKey,
+      title: activeOffer.title,
+      preorderDeadlineLabel: "Péntek 24:00",
+      pickupWindowLabel: "Szombat 7:00 – 13:00",
+      status: "active",
+      items: reservationProducts.map((product) => {
+        const availability = AVAILABILITY_CONFIG[product.id] ?? {
+          state: "preorder" as const,
+          remainingQuantity: null,
+          maxPerOrder: 10,
+        };
+
+        return {
+          productId: product.id,
+          state: availability.state,
+          remainingQuantity: availability.remainingQuantity,
+          maxPerOrder: availability.maxPerOrder,
+        };
+      }),
+    }
+  : null;
 
 export function parseHufPrice(value: string): number {
   const normalized = value.replace(/\s/g, "").replace("Ft", "").trim();
@@ -163,7 +242,7 @@ export function getReservationProduct(productId: ProductId): ReservationProduct 
 }
 
 export function getAvailabilityItem(productId: ProductId): WeeklyAvailabilityItem | undefined {
-  return activeWeeklyAvailability.items.find((item) => item.productId === productId);
+  return activeWeeklyAvailability?.items.find((item) => item.productId === productId);
 }
 
 export function getPickupSlot(slotId: string): PickupSlot | undefined {
@@ -197,16 +276,19 @@ export function buildReservationRows(items: ReservationItemInput[]): Reservation
 
 export function sanitizeReservationItems(items: ReservationItemInput[]): ReservationItemInput[] {
   return items
-    .filter((item) => getReservationProduct(item.productId))
-    .map((item) => {
+    .filter((item) => {
       const availability = getAvailabilityItem(item.productId);
-      const maxPerOrder = availability?.maxPerOrder ?? 10;
+      return getReservationProduct(item.productId) && availability?.state !== "sold-out";
+    })
+    .map((item) => {
+      const maxPerOrder = getMaxReservableQuantity(item.productId);
 
       return {
         productId: item.productId,
         quantity: Math.max(1, Math.min(item.quantity, maxPerOrder)),
       };
-    });
+    })
+    .filter((item) => item.quantity > 0);
 }
 
 export function validateReservationItem(item: ReservationItemInput): ValidationResult<ReservationItemInput> {
@@ -234,11 +316,11 @@ export function validateReservationItem(item: ReservationItemInput): ValidationR
       code: "out_of_range",
       message: "Legalább 1 darabot kell megadni.",
     });
-  } else if (availability && item.quantity > availability.maxPerOrder) {
+  } else if (item.quantity > getMaxReservableQuantity(item.productId)) {
     issues.push({
       field: "quantity",
       code: "out_of_range",
-      message: `Egyszerre legfeljebb ${availability.maxPerOrder} darab foglalható ebből a termékből.`,
+      message: `Egyszerre legfeljebb ${getMaxReservableQuantity(item.productId)} darab foglalható ebből a termékből.`,
     });
   }
 
@@ -327,7 +409,13 @@ export function validateReservationDraft(
 ): ValidationResult<ReservationDraft> {
   const issues: ValidationIssue[] = [];
 
-  if (draft.weekKey !== activeWeeklyAvailability.weekKey) {
+  if (!activeWeeklyAvailability) {
+    issues.push({
+      field: "weekKey",
+      code: "unavailable",
+      message: "Erre a hétre még nincs aktív kínálat.",
+    });
+  } else if (draft.weekKey !== activeWeeklyAvailability.weekKey) {
     issues.push({
       field: "weekKey",
       code: "invalid",
@@ -378,6 +466,78 @@ export function validateReservationDraft(
       ...draft,
       customer: normalizedCustomer,
     },
+  };
+}
+
+export function getMaxReservableQuantity(productId: ProductId): number {
+  const availability = getAvailabilityItem(productId);
+
+  if (!availability) {
+    return 0;
+  }
+
+  if (availability.state === "sold-out") {
+    return 0;
+  }
+
+  if (availability.remainingQuantity === null) {
+    return availability.maxPerOrder;
+  }
+
+  return Math.max(0, Math.min(availability.maxPerOrder, availability.remainingQuantity));
+}
+
+export function getAvailabilityStateLabel(productId: ProductId): string {
+  const availability = getAvailabilityItem(productId);
+
+  if (!availability) {
+    return "Hamarosan érkezik a következő heti menü.";
+  }
+
+  switch (availability.state) {
+    case "limited":
+      return "Korlátozott adag készül.";
+    case "sold-out":
+      return "Erre a hétre elfogyott.";
+    case "available":
+    case "preorder":
+    default:
+      return "Szombati átvétellel";
+  }
+}
+
+export function getAvailabilityActionLabel(productId: ProductId, defaultLabel: string): string {
+  const availability = getAvailabilityItem(productId);
+
+  if (!availability) {
+    return "Hamarosan";
+  }
+
+  if (availability.state === "sold-out") {
+    return "Elfogyott";
+  }
+
+  return defaultLabel;
+}
+
+export function isProductReservable(productId: ProductId): boolean {
+  return getMaxReservableQuantity(productId) > 0;
+}
+
+export function buildReservationReceipt(draft: ReservationDraft): ReservationReceipt {
+  const pickupSlot = getPickupSlot(draft.customer.pickupSlotId);
+  const itemCount = draft.items.reduce((total, item) => total + item.quantity, 0);
+
+  return {
+    reservationId: `LO-${Date.now().toString(36).toUpperCase()}`,
+    submittedAt: new Date().toISOString(),
+    weekKey: draft.weekKey,
+    customerName: draft.customer.fullName,
+    customerEmail: draft.customer.email,
+    pickupLabel: pickupSlot?.label ?? "Átvétel",
+    pickupLocation: pickupSlot?.location ?? "Laura Organic",
+    itemCount,
+    subtotal: calculateReservationSubtotal(draft.items),
   };
 }
 

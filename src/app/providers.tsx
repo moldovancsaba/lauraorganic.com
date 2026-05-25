@@ -8,7 +8,7 @@ import { lauraTheme } from "@/lib/gds-theme";
 
 export default function Providers({ children }: { children: ReactNode }) {
   return (
-    <GdsProvider locale="hu" messages={hu} theme={lauraTheme} defaultColorScheme="auto">
+    <GdsProvider locale="hu" messages={hu} theme={lauraTheme} defaultColorScheme="light">
       <ReservationProvider>{children}</ReservationProvider>
     </GdsProvider>
   );

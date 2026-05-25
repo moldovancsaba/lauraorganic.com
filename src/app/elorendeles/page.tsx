@@ -9,9 +9,12 @@ import {
   activeWeeklyAvailability,
   pickupSlots,
   validateReservationDraft,
+  type ReservationReceipt,
+  type ReservationSubmitResponse,
   type ValidationIssue,
 } from "@/lib/reservation";
 import { useReservation } from "@/components/reservation/reservation-provider";
+import { trackAnalyticsEvent } from "@/lib/analytics";
 
 type CustomerFormState = {
   fullName: string;
@@ -38,7 +41,7 @@ function BrandLockup() {
 }
 
 export default function ReservationPage() {
-  const { items, selectedPickupSlotId, setPickupSlot } = useReservation();
+  const { clearReservation, items, selectedPickupSlotId, setPickupSlot, subtotal } = useReservation();
   const selectedPickupSlot = pickupSlots.find((slot) => slot.id === selectedPickupSlotId);
   const [customer, setCustomer] = useState<CustomerFormState>({
     fullName: "",
@@ -48,6 +51,9 @@ export default function ReservationPage() {
   });
   const [issues, setIssues] = useState<ValidationIssue[]>([]);
   const [isValidated, setIsValidated] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [receipt, setReceipt] = useState<ReservationReceipt | null>(null);
 
   const issueMap = useMemo(
     () =>
@@ -65,10 +71,23 @@ export default function ReservationPage() {
   ) {
     setCustomer((current) => ({ ...current, [field]: value }));
     setIsValidated(false);
+    setSubmitError(null);
   }
 
-  function handleValidationSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleValidationSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!activeWeeklyAvailability) {
+      setIssues([
+        {
+          field: "weekKey",
+          code: "unavailable",
+          message: "Erre a hétre még nincs aktív kínálat.",
+        },
+      ]);
+      setIsValidated(false);
+      return;
+    }
 
     const result = validateReservationDraft({
       weekKey: activeWeeklyAvailability.weekKey,
@@ -82,17 +101,70 @@ export default function ReservationPage() {
     if (!result.success) {
       setIssues(result.issues);
       setIsValidated(false);
+      setSubmitError(null);
+      trackAnalyticsEvent("reservation_validation_failed", {
+        issueCount: result.issues.length,
+      });
       return;
     }
 
-    setIssues([]);
-    setCustomer({
-      fullName: result.data.customer.fullName,
-      email: result.data.customer.email,
-      phone: result.data.customer.phone ?? "",
-      notes: result.data.customer.notes ?? "",
+    trackAnalyticsEvent("reservation_submit_started", {
+      itemCount: result.data.items.reduce((total, item) => total + item.quantity, 0),
+      subtotal,
+      pickupSlotId: result.data.customer.pickupSlotId,
     });
-    setIsValidated(true);
+
+    setIsSubmitting(true);
+    setIssues([]);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch("/api/reservations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
+      });
+
+      const payload = (await response.json()) as ReservationSubmitResponse;
+
+      if (!response.ok || !payload.success) {
+        const nextIssues = payload.success ? [] : payload.issues ?? [];
+        setIssues(nextIssues);
+        setSubmitError(payload.success ? "A rendelés mentése nem sikerült." : payload.message);
+        setIsValidated(false);
+        trackAnalyticsEvent("reservation_submit_failed", {
+          status: response.status,
+          retryable: payload.success ? false : payload.retryable,
+        });
+        return;
+      }
+
+      setCustomer({
+        fullName: result.data.customer.fullName,
+        email: result.data.customer.email,
+        phone: result.data.customer.phone ?? "",
+        notes: result.data.customer.notes ?? "",
+      });
+      setIsValidated(true);
+      setReceipt(payload.receipt);
+      clearReservation();
+      trackAnalyticsEvent("reservation_submit_succeeded", {
+        reservationId: payload.receipt.reservationId,
+        itemCount: payload.receipt.itemCount,
+        subtotal: payload.receipt.subtotal,
+      });
+    } catch {
+      setSubmitError("A rendelés mentése közben hálózati hiba történt. Próbáld meg újra.");
+      setIsValidated(false);
+      trackAnalyticsEvent("reservation_submit_failed", {
+        status: "network_error",
+        retryable: true,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -138,10 +210,12 @@ export default function ReservationPage() {
               <AccentPanel tone="gray" variant="subtle" title="Heti tudnivalók">
                 <div className="review-note-list">
                   <p>
-                    Előrendelési határidő: <strong>{activeWeeklyAvailability.preorderDeadlineLabel}</strong>
+                    Előrendelési határidő:{" "}
+                    <strong>{activeWeeklyAvailability?.preorderDeadlineLabel ?? "Péntek 24:00"}</strong>
                   </p>
                   <p>
-                    Átvételi idősáv: <strong>{activeWeeklyAvailability.pickupWindowLabel}</strong>
+                    Átvételi idősáv:{" "}
+                    <strong>{activeWeeklyAvailability?.pickupWindowLabel ?? "Szombat 7:00 – 13:00"}</strong>
                   </p>
                   <p>
                     Kiválasztott hely:{" "}
@@ -260,14 +334,35 @@ export default function ReservationPage() {
                   ) : null}
 
                   <div className="review-form-actions">
-                    <button type="submit" className="primary-button">
-                      Rendelés ellenőrzése
+                    <button type="submit" className="primary-button" disabled={isSubmitting}>
+                      {isSubmitting ? "Rendelés mentése..." : "Rendelés megerősítése"}
                     </button>
                   </div>
                 </form>
               </AccentPanel>
 
-              {items.length === 0 ? (
+              {receipt ? (
+                <AccentPanel tone="green" variant="subtle" title="Köszönjük a rendelést. Szombaton várunk az átvételnél.">
+                  <div className="review-note-list">
+                    <p>
+                      Azonosító: <strong>{receipt.reservationId}</strong>
+                    </p>
+                    <p>
+                      Név: <strong>{receipt.customerName}</strong>
+                    </p>
+                    <p>
+                      Átvétel:{" "}
+                      <strong>
+                        {receipt.pickupLocation} • {receipt.pickupLabel}
+                      </strong>
+                    </p>
+                    <p>
+                      Összesen: <strong>{receipt.itemCount} tétel</strong>
+                    </p>
+                    <p>A rendelésedet frissen készítjük el az átvétel napjára.</p>
+                  </div>
+                </AccentPanel>
+              ) : items.length === 0 ? (
                 <AccentPanel tone="blue" variant="subtle" title="Még nincs mit véglegesíteni">
                   <div className="review-note-list">
                     <p>Először válassz fogásokat a heti kínálatból.</p>
@@ -284,25 +379,32 @@ export default function ReservationPage() {
                 <AccentPanel
                   tone={isValidated ? "green" : "amber"}
                   variant="subtle"
-                  title={isValidated ? "A rendelés adatai rendben vannak" : "Következő lépés"}
+                  title={
+                    submitError
+                      ? "A rendelés most nem menthető"
+                      : isValidated
+                        ? "A rendelés adatai rendben vannak"
+                        : "Következő lépés"
+                  }
                 >
                   <div className="review-note-list">
-                    {isValidated ? (
+                    {submitError ? (
                       <>
-                        <p>A rendelésed helyben már validálva van.</p>
-                        <p>
-                          A következő fejlesztési lépésben ezt a validált adatot fogjuk tényleges
-                          szerveroldali beküldéssé alakítani.
-                        </p>
+                        <p>{submitError}</p>
+                        <p>Az adatok megmaradtak, ezért ugyaninnen újra megpróbálhatod.</p>
+                      </>
+                    ) : isValidated ? (
+                      <>
+                        <p>A rendelésed sikeresen átment a helyi és a szerveroldali ellenőrzésen.</p>
+                        <p>A visszaigazolást fent látod a rendelési azonosítóval együtt.</p>
                       </>
                     ) : (
                       <>
                         <p>
-                          Töltsd ki az elérhetőségeidet, majd futtasd le a helyi ellenőrzést.
+                          Töltsd ki az elérhetőségeidet, majd erősítsd meg a rendelést.
                         </p>
                         <p>
-                          Ha minden rendben van, a következő lépésben már a tényleges beküldés
-                          következik.
+                          Ha minden rendben van, a rendszer rögtön elmenti a rendelést.
                         </p>
                       </>
                     )}

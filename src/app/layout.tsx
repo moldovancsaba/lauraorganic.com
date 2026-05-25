@@ -20,6 +20,23 @@ export const metadata: Metadata = {
   title: "Laura Organic | Szombati piac, organikus fogások",
   description:
     "Kis tételben készített organikus fogások előrendeléssel, szombati átvétellel a biopiacon vagy a foodtrucknál.",
+  applicationName: "Laura Organic",
+  keywords: [
+    "Laura Organic",
+    "organikus fogások",
+    "szombati piac",
+    "előrendelés",
+    "biopiac Budapest",
+    "foodtruck",
+  ],
+  category: "food",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://lauraorganic.com",
+  },
   openGraph: {
     title: "Laura Organic | Szombati piac, organikus fogások",
     description:

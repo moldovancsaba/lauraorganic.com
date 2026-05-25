@@ -13,11 +13,19 @@ import {
   PublicShell,
 } from "@gds/core/client";
 import {
+  activeWeeklyAvailability,
+  getAvailabilityActionLabel,
+  getAvailabilityStateLabel,
+  isProductReservable,
   type ProductId,
 } from "@/lib/reservation";
 import { ReservationSummaryPanel } from "@/components/reservation/reservation-summary-panel";
 import { useReservation } from "@/components/reservation/reservation-provider";
-import { lauraSiteContent, type LauraIconKey } from "@/lib/site-content";
+import {
+  getActiveWeeklyOffer,
+  lauraSiteContent,
+  type LauraIconKey,
+} from "@/lib/site-content";
 
 const iconMap: Record<LauraIconKey, (typeof GdsIcons)[LauraIconKey]> = {
   Home: GdsIcons.Home,
@@ -45,9 +53,12 @@ function BrandLockup() {
 }
 
 export default function Home() {
-  const { about, featureBand, footer, hero, navigation, process, shell, weeklyOffer } =
+  const { about, featureBand, footer, hero, navigation, process, shell, weeklyOfferFallback } =
     lauraSiteContent;
   const { addItem, items } = useReservation();
+  const activeWeeklyOffer = getActiveWeeklyOffer();
+  const hasActiveWeeklyOffer = Boolean(activeWeeklyOffer && activeWeeklyOffer.items.length > 0);
+  const weeklyItems = activeWeeklyOffer?.items ?? [];
 
   return (
     <PublicShell
@@ -133,63 +144,85 @@ export default function Home() {
         <section id="heti-ajanlat" className="weekly-section">
           <div className="section-header-wrap centered">
             <PageHeader
-              eyebrow={weeklyOffer.eyebrow}
-              title={weeklyOffer.title}
-              description={weeklyOffer.description}
+              eyebrow={activeWeeklyOffer?.eyebrow ?? "Heti kínálat"}
+              title={activeWeeklyOffer?.title ?? weeklyOfferFallback.title}
+              description={activeWeeklyOffer?.description ?? weeklyOfferFallback.description}
             />
           </div>
 
-          <div className="weekly-grid">
-            {weeklyOffer.items.map((item) => {
-              const quantityInReservation =
-                items.find((reservationItem) => reservationItem.productId === item.id)?.quantity ?? 0;
+          {hasActiveWeeklyOffer ? (
+            <>
+              <div className="weekly-grid">
+                {weeklyItems.map((item) => {
+                  const quantityInReservation =
+                    items.find((reservationItem) => reservationItem.productId === item.id)
+                      ?.quantity ?? 0;
+                  const isReservable = isProductReservable(item.id as ProductId);
 
-              return (
-                <div key={item.id} className="weekly-card-wrap">
-                  <PublicProductCard
-                    title={item.name}
-                    description={item.description}
-                    image={
-                      <div className="weekly-image">
-                        <Image
-                          src={item.image.src}
-                          alt={item.image.alt}
-                          fill
-                          sizes="(min-width: 1200px) 25vw, (min-width: 768px) 50vw, 100vw"
-                          className="weekly-photo"
-                        />
-                      </div>
-                    }
-                    price={item.price}
-                    helperText={item.helperText}
-                    state="preorder"
-                    primaryAction={
-                      <button
-                        type="button"
-                        className="product-action-link"
-                        onClick={() => addItem(item.id as ProductId)}
-                      >
-                        {item.ctaLabel}
-                      </button>
-                    }
-                    secondaryAction={
-                      quantityInReservation > 0 ? (
-                        <span className="product-cart-hint">
-                          {quantityInReservation} darab a rendelésben
-                        </span>
-                      ) : undefined
-                    }
-                  />
+                  return (
+                    <div key={item.id} className="weekly-card-wrap">
+                      <PublicProductCard
+                        title={item.name}
+                        description={item.description}
+                        image={
+                          <div className="weekly-image">
+                            <Image
+                              src={item.image.src}
+                              alt={item.image.alt}
+                              fill
+                              sizes="(min-width: 1200px) 25vw, (min-width: 768px) 50vw, 100vw"
+                              className="weekly-photo"
+                            />
+                          </div>
+                        }
+                        price={item.price}
+                        helperText={getAvailabilityStateLabel(item.id as ProductId)}
+                        state={isReservable ? "preorder" : "sold-out"}
+                        primaryAction={
+                          <button
+                            type="button"
+                            className={`product-action-link ${
+                              isReservable ? "" : "product-action-link-disabled"
+                            }`}
+                            onClick={() => {
+                              if (isReservable) {
+                                addItem(item.id as ProductId);
+                              }
+                            }}
+                            disabled={!isReservable}
+                          >
+                            {getAvailabilityActionLabel(item.id as ProductId, item.ctaLabel)}
+                          </button>
+                        }
+                        secondaryAction={
+                          quantityInReservation > 0 ? (
+                            <span className="product-cart-hint">
+                              {quantityInReservation} darab a rendelésben
+                            </span>
+                          ) : undefined
+                        }
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="section-action">
+                <a href={activeWeeklyOffer?.sectionAction.href ?? "#kapcsolat"} className="primary-button">
+                  {activeWeeklyOffer?.sectionAction.label ?? "Kapcsolat"}
+                </a>
+              </div>
+            </>
+          ) : (
+            <div className="weekly-fallback-wrap">
+              <AccentPanel tone="amber" variant="subtle" title={weeklyOfferFallback.title}>
+                <div className="review-note-list">
+                  <p>{weeklyOfferFallback.description}</p>
+                  <p>{weeklyOfferFallback.helperText}</p>
                 </div>
-              );
-            })}
-          </div>
-
-          <div className="section-action">
-            <a href={weeklyOffer.sectionAction.href} className="primary-button">
-              {weeklyOffer.sectionAction.label}
-            </a>
-          </div>
+              </AccentPanel>
+            </div>
+          )}
         </section>
 
         <section className="reservation-shell-section">
@@ -202,7 +235,7 @@ export default function Home() {
           </div>
 
           <div className="reservation-panel-wrap">
-            <ReservationSummaryPanel />
+            <ReservationSummaryPanel preorderClosed={!activeWeeklyAvailability} />
           </div>
         </section>
 

@@ -13,6 +13,7 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
 }
 
 body {
@@ -290,6 +291,8 @@ a {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
+  border: 0;
+  cursor: pointer;
 }
 
 .product-cart-hint {
@@ -299,10 +302,22 @@ a {
   color: light-dark(#6f614e, #d9cebe);
 }
 
+.product-action-link-disabled,
+.product-action-link:disabled {
+  background: light-dark(#9f998d, #545b4d);
+  color: #f6efe2;
+  cursor: not-allowed;
+}
+
 .section-action {
   margin-top: 2rem;
   display: flex;
   justify-content: center;
+}
+
+.weekly-fallback-wrap {
+  max-width: 52rem;
+  margin: 0 auto;
 }
 
 .reservation-panel-wrap [class*="mantine-Paper-root"] {
@@ -433,6 +448,11 @@ a {
   cursor: pointer;
 }
 
+.quantity-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .quantity-value {
   min-width: 1.5rem;
   text-align: center;
@@ -552,6 +572,11 @@ a {
 .review-form-input:focus {
   outline: 2px solid color-mix(in srgb, var(--primary) 72%, white 28%);
   outline-offset: 2px;
+}
+
+.review-form-actions .primary-button:disabled {
+  opacity: 0.75;
+  cursor: progress;
 }
 
 .review-form-error {

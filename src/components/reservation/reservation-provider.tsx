@@ -14,12 +14,14 @@ import {
   buildReservationRows,
   calculateReservationSubtotal,
   defaultPickupSlotId,
+  getMaxReservableQuantity,
   getAvailabilityItem,
   getPickupSlot,
   sanitizeReservationItems,
   type ProductId,
   type ReservationItemInput,
 } from "@/lib/reservation";
+import { trackAnalyticsEvent } from "@/lib/analytics";
 
 type ReservationContextValue = {
   items: ReservationItemInput[];
@@ -119,19 +121,38 @@ export function ReservationProvider({ children }: { children: ReactNode }) {
       rows,
       addItem(productId) {
         const availability = getAvailabilityItem(productId);
+        const maxReservable = getMaxReservableQuantity(productId);
+
+        if (!activeWeeklyAvailability || !availability || maxReservable <= 0) {
+          return;
+        }
+
         const maxPerOrder = availability?.maxPerOrder ?? 10;
 
         setItems((current) => {
           const existingItem = current.find((item) => item.productId === productId);
 
           if (!existingItem) {
+            trackAnalyticsEvent("reservation_add_item", {
+              productId,
+              quantity: 1,
+            });
             return [...current, { productId, quantity: 1 }];
           }
 
+          const nextQuantity = Math.min(itemQuantityWithCap(existingItem.quantity + 1, productId), maxPerOrder);
+
+          if (nextQuantity === existingItem.quantity) {
+            return current;
+          }
+
+          trackAnalyticsEvent("reservation_add_item", {
+            productId,
+            quantity: nextQuantity,
+          });
+
           return current.map((item) =>
-            item.productId === productId
-              ? { ...item, quantity: Math.min(item.quantity + 1, maxPerOrder) }
-              : item,
+            item.productId === productId ? { ...item, quantity: nextQuantity } : item,
           );
         });
       },
@@ -143,14 +164,26 @@ export function ReservationProvider({ children }: { children: ReactNode }) {
             }
 
             if (item.quantity <= 1) {
+              trackAnalyticsEvent("reservation_remove_item", {
+                productId,
+                quantity: 0,
+              });
               return [];
             }
 
+            trackAnalyticsEvent("reservation_decrement_item", {
+              productId,
+              quantity: item.quantity - 1,
+            });
             return [{ ...item, quantity: item.quantity - 1 }];
           }),
         );
       },
       removeItem(productId) {
+        trackAnalyticsEvent("reservation_remove_item", {
+          productId,
+          quantity: 0,
+        });
         setItems((current) => current.filter((item) => item.productId !== productId));
       },
       clearReservation() {
@@ -158,6 +191,9 @@ export function ReservationProvider({ children }: { children: ReactNode }) {
       },
       setPickupSlot(slotId) {
         if (getPickupSlot(slotId)) {
+          trackAnalyticsEvent("reservation_pickup_slot_selected", {
+            slotId,
+          });
           setSelectedPickupSlotId(slotId);
         }
       },
@@ -179,8 +215,13 @@ export function useReservation() {
 
 export function getReservationWeekLabel() {
   return {
-    title: activeWeeklyAvailability.title,
-    deadline: activeWeeklyAvailability.preorderDeadlineLabel,
-    pickup: activeWeeklyAvailability.pickupWindowLabel,
+    title: activeWeeklyAvailability?.title ?? "Heti ajánlat",
+    deadline: activeWeeklyAvailability?.preorderDeadlineLabel ?? "Péntek 24:00",
+    pickup: activeWeeklyAvailability?.pickupWindowLabel ?? "Szombat 7:00 – 13:00",
   };
+}
+
+function itemQuantityWithCap(quantity: number, productId: ProductId) {
+  const maxReservable = getMaxReservableQuantity(productId);
+  return Math.max(1, Math.min(quantity, maxReservable));
 }

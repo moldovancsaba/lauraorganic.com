@@ -46,6 +46,19 @@ export type WeeklyDishContent = {
   ctaHref: string;
 };
 
+export type WeeklyOfferContent = {
+  weekKey: string;
+  status: "active" | "scheduled";
+  eyebrow: string;
+  title: string;
+  description: string;
+  items: WeeklyDishContent[];
+  sectionAction: {
+    label: string;
+    href: string;
+  };
+};
+
 export type ProcessStepContent = {
   id: string;
   title: string;
@@ -85,15 +98,11 @@ export type LauraSiteContent = {
   };
   hero: HeroContent;
   featureBand: FeatureItemContent[];
-  weeklyOffer: {
-    eyebrow: string;
+  weeklyOffers: WeeklyOfferContent[];
+  weeklyOfferFallback: {
     title: string;
     description: string;
-    items: WeeklyDishContent[];
-    sectionAction: {
-      label: string;
-      href: string;
-    };
+    helperText: string;
   };
   process: {
     title: string;
@@ -159,68 +168,89 @@ export const lauraSiteContent: LauraSiteContent = {
       icon: "Reward",
     },
   ],
-  weeklyOffer: {
-    eyebrow: "Heti kínálat",
-    title: "Heti ajánlat",
-    description: "Finom, tápláló, 100% organikus.",
-    items: [
-      {
-        id: "green-pea-soup",
-        name: "Zöldborsó krémleves mentával",
-        description: "Friss, tavaszi ízek egy tányérban.",
-        price: "1 890 Ft",
-        image: {
-          src: "/zoldborso_kremleves_mentaval.png",
-          alt: "Zöldborsó krémleves mentával",
+  weeklyOffers: [
+    {
+      weekKey: "laura-organic-2026-w21",
+      status: "active",
+      eyebrow: "Heti kínálat",
+      title: "Heti ajánlat",
+      description: "Finom, tápláló, 100% organikus.",
+      items: [
+        {
+          id: "green-pea-soup",
+          name: "Zöldborsó krémleves mentával",
+          description: "Friss, tavaszi ízek egy tányérban.",
+          price: "1 890 Ft",
+          image: {
+            src: "/zoldborso_kremleves_mentaval.png",
+            alt: "Zöldborsó krémleves mentával",
+          },
+          helperText: "Szombati átvétellel",
+          ctaLabel: "Előrendelem",
+          ctaHref: "#kapcsolat",
         },
-        helperText: "Szombati átvétellel",
-        ctaLabel: "Előrendelem",
-        ctaHref: "#kapcsolat",
-      },
-      {
-        id: "chickpea-curry",
-        name: "Csicseriborsó curry jázminrizzsel",
-        description: "Laktató, fűszeres, melengető.",
-        price: "2 690 Ft",
-        image: {
-          src: "/csicseriborso_curry_jazminrizzsel.png",
-          alt: "Csicseriborsó curry jázminrizzsel",
+        {
+          id: "chickpea-curry",
+          name: "Csicseriborsó curry jázminrizzsel",
+          description: "Laktató, fűszeres, melengető.",
+          price: "2 690 Ft",
+          image: {
+            src: "/csicseriborso_curry_jazminrizzsel.png",
+            alt: "Csicseriborsó curry jázminrizzsel",
+          },
+          helperText: "Szombati átvétellel",
+          ctaLabel: "Előrendelem",
+          ctaHref: "#kapcsolat",
         },
-        helperText: "Szombati átvétellel",
-        ctaLabel: "Előrendelem",
-        ctaHref: "#kapcsolat",
-      },
-      {
-        id: "wild-garlic-pasta",
-        name: "Medvehagymás kesudiós pesto tészta",
-        description: "Krémes, friss, tavaszi hangulat.",
-        price: "2 490 Ft",
-        image: {
-          src: "/medvehagymas_kesudios_pesto_teszta.png",
-          alt: "Medvehagymás kesudiós pesto tészta",
+        {
+          id: "wild-garlic-pasta",
+          name: "Medvehagymás kesudiós pesto tészta",
+          description: "Krémes, friss, tavaszi hangulat.",
+          price: "2 490 Ft",
+          image: {
+            src: "/medvehagymas_kesudios_pesto_teszta.png",
+            alt: "Medvehagymás kesudiós pesto tészta",
+          },
+          helperText: "Szombati átvétellel",
+          ctaLabel: "Előrendelem",
+          ctaHref: "#kapcsolat",
         },
-        helperText: "Szombati átvétellel",
-        ctaLabel: "Előrendelem",
-        ctaHref: "#kapcsolat",
-      },
-      {
-        id: "chocolate-mousse",
-        name: "Csokoládé mousse málnával",
-        description: "Édes befejezés, bűntudat nélkül.",
-        price: "1 490 Ft",
-        image: {
-          src: "/csokolade_mousse_malnaval.png",
-          alt: "Csokoládé mousse málnával",
+        {
+          id: "chocolate-mousse",
+          name: "Csokoládé mousse málnával",
+          description: "Édes befejezés, bűntudat nélkül.",
+          price: "1 490 Ft",
+          image: {
+            src: "/csokolade_mousse_malnaval.png",
+            alt: "Csokoládé mousse málnával",
+          },
+          helperText: "Szombati átvétellel",
+          ctaLabel: "Előrendelem",
+          ctaHref: "#kapcsolat",
         },
-        helperText: "Szombati átvétellel",
-        ctaLabel: "Előrendelem",
-        ctaHref: "#kapcsolat",
+      ],
+      sectionAction: {
+        label: "Összes étel megnézése",
+        href: "#kapcsolat",
       },
-    ],
-    sectionAction: {
-      label: "Összes étel megnézése",
-      href: "#kapcsolat",
     },
+    {
+      weekKey: "laura-organic-2026-w22",
+      status: "scheduled",
+      eyebrow: "Következő heti kínálat",
+      title: "Hamarosan érkezik",
+      description: "A következő szombati menü pénteken kerül ki.",
+      items: [],
+      sectionAction: {
+        label: "Kapcsolat",
+        href: "#kapcsolat",
+      },
+    },
+  ],
+  weeklyOfferFallback: {
+    title: "Erre a hétre még nincs aktív kínálat.",
+    description: "A következő szombati menü pénteken kerül fel az oldalra.",
+    helperText: "Hamarosan érkezik a következő heti menü.",
   },
   process: {
     title: "Így működik az előrendelés",
@@ -276,3 +306,7 @@ export const lauraSiteContent: LauraSiteContent = {
     quoteLines: ["“A jó étel kapcsolat.", "Önmagaddal és", "a természettel.”"],
   },
 };
+
+export function getActiveWeeklyOffer() {
+  return lauraSiteContent.weeklyOffers.find((offer) => offer.status === "active") ?? null;
+}

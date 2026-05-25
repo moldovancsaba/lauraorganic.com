@@ -2,17 +2,24 @@
 
 import Link from "next/link";
 import { AccentPanel } from "@gds/core/client";
-import { activeWeeklyAvailability, formatHufPrice, pickupSlots } from "@/lib/reservation";
+import {
+  activeWeeklyAvailability,
+  formatHufPrice,
+  getMaxReservableQuantity,
+  pickupSlots,
+} from "@/lib/reservation";
 import { useReservation } from "@/components/reservation/reservation-provider";
 
 type ReservationSummaryPanelProps = {
   reviewHref?: string;
   showReviewAction?: boolean;
+  preorderClosed?: boolean;
 };
 
 export function ReservationSummaryPanel({
   reviewHref = "/elorendeles",
   showReviewAction = true,
+  preorderClosed = false,
 }: ReservationSummaryPanelProps) {
   const {
     addItem,
@@ -37,18 +44,23 @@ export function ReservationSummaryPanel({
           : "Még nincs semmi a szombati rendelésedben."
       }
     >
-      {rows.length > 0 ? (
+      {preorderClosed ? (
+        <div className="reservation-empty-state">
+          <p>Erre a hétre még nincs aktív kínálat.</p>
+          <p>Hamarosan érkezik a következő heti menü, addig az előrendelés szünetel.</p>
+        </div>
+      ) : rows.length > 0 ? (
         <div className="reservation-shell">
           <div className="pickup-slot-list" role="list" aria-label="Átvételi hely választása">
             {pickupSlots
               .filter((slot) => slot.isActive)
               .map((slot) => (
-                <button
-                  key={slot.id}
-                  type="button"
-                  className={`pickup-slot-button ${
-                    selectedPickupSlotId === slot.id ? "pickup-slot-button-active" : ""
-                  }`}
+                  <button
+                    key={slot.id}
+                    type="button"
+                    className={`pickup-slot-button ${
+                      selectedPickupSlotId === slot.id ? "pickup-slot-button-active" : ""
+                    }`}
                   onClick={() => setPickupSlot(slot.id)}
                 >
                   <span className="pickup-slot-label">{slot.label}</span>
@@ -92,6 +104,7 @@ export function ReservationSummaryPanel({
                       className="quantity-button"
                       onClick={() => addItem(row.product.id)}
                       aria-label={`${row.product.name} mennyiségének növelése`}
+                      disabled={row.quantity >= getMaxReservableQuantity(row.product.id)}
                     >
                       +
                     </button>
@@ -119,7 +132,7 @@ export function ReservationSummaryPanel({
               <p className="reservation-summary-meta">
                 {selectedPickupSlot
                   ? `${selectedPickupSlot.location} • ${selectedPickupSlot.dayLabel} • ${selectedPickupSlot.timeWindow}`
-                  : activeWeeklyAvailability.pickupWindowLabel}
+                  : activeWeeklyAvailability?.pickupWindowLabel ?? "Szombat 7:00 – 13:00"}
               </p>
             </div>
           </div>
