@@ -1,42 +1,47 @@
+"use client";
+
 import Image from "next/image";
 import {
-  ArrowRight,
-  CalendarDays,
-  CirclePlus,
-  Heart,
-  Leaf,
-  MapPin,
-  PackageCheck,
-  ShoppingBag,
-  Soup,
-} from "lucide-react";
+  AccentPanel,
+  EditorialHero,
+  FeatureBand,
+  GdsIcons,
+  PageHeader,
+  PublicBrandFooter,
+  PublicNav,
+  PublicProductCard,
+  PublicShell,
+} from "@gds/core/client";
 
 const navItems = [
-  { label: "Étlap", href: "#heti-ajanlat" },
-  { label: "Rólunk", href: "#rolunk" },
-  { label: "Heti ajánlat", href: "#heti-ajanlat" },
-  { label: "GYIK", href: "#gyik" },
-  { label: "Kapcsolat", href: "#kapcsolat" },
+  { id: "menu", label: "Étlap", href: "#heti-ajanlat" },
+  { id: "about", label: "Rólunk", href: "#rolunk" },
+  { id: "weekly", label: "Heti ajánlat", href: "#heti-ajanlat" },
+  { id: "faq", label: "GYIK", href: "#gyik" },
+  { id: "contact", label: "Kapcsolat", href: "#kapcsolat" },
 ];
 
 const featureItems = [
   {
+    id: "market",
     title: "Találkozzunk szombat reggel!",
     text: "Minden szombaton a biopiacon vagyunk a foodtruckunkkal.",
     meta: "Biomarket Budapest\nSzombatonként 7:00 – 13:00",
-    icon: MapPin,
+    icon: GdsIcons.Home,
   },
   {
+    id: "preorder",
     title: "Rendelj előre, spórolj időt!",
     text: "Add le rendelésed online péntek éjfélig, és vedd át könnyedén a piacon.",
-    meta: "HOGYAN MŰKÖDIK?",
-    icon: ShoppingBag,
+    meta: "Hogyan működik?",
+    icon: GdsIcons.Calendar,
   },
   {
+    id: "fresh",
     title: "Frissen főzve, neked készítve.",
     text: "Heti étlapunk szezonálisan változik, mindig a legjobb alapanyagokból.",
     meta: "100% organikus • növényi alapú • csomagolásmentes",
-    icon: Soup,
+    icon: GdsIcons.Reward,
   },
 ];
 
@@ -69,97 +74,100 @@ const weeklyItems = [
 
 const preorderSteps = [
   {
-    step: "1",
+    id: "choose",
     title: "Válassz kedvedre",
     text: "Böngészd át a heti ajánlatot, és tedd a kosárba, amihez épp kedved van.",
-    icon: Soup,
+    icon: GdsIcons.List,
   },
   {
-    step: "2",
+    id: "deadline",
     title: "Rendelj péntek éjfélig",
     text: "Add le rendelésed online péntek 24:00-ig.",
-    icon: CalendarDays,
+    icon: GdsIcons.Calendar,
   },
   {
-    step: "3",
+    id: "pickup",
     title: "Vedd át a piacon",
     text: "Szombaton a foodtrucknál fenntartjuk neked.",
-    icon: PackageCheck,
+    icon: GdsIcons.Check,
   },
   {
-    step: "4",
+    id: "enjoy",
     title: "Élvezd tudatosan",
     text: "Finom, tápláló étel – neked, a testednek és a bolygónknak.",
-    icon: Heart,
+    icon: GdsIcons.Reward,
   },
 ];
 
+function BrandLockup() {
+  return (
+    <a href="#" className="brand-lockup" aria-label="Laura Organic">
+      <div className="brand-logo-wrap">
+        <Image
+          src="/logo.png"
+          alt="Laura Organic logo"
+          fill
+          sizes="192px"
+          className="brand-logo"
+          priority
+        />
+      </div>
+    </a>
+  );
+}
+
 export default function Home() {
   return (
-    <main className="laura-page">
-      <section className="hero-section">
-        <div className="page-shell">
-          <header className="topbar">
-            <a href="#" className="brand-lockup" aria-label="Laura Organic">
-              <div className="brand-logo-wrap">
-                <Image
-                  src="/logo.png"
-                  alt="Laura Organic logo"
-                  fill
-                  sizes="128px"
-                  className="object-contain"
-                  priority
-                />
-              </div>
+    <PublicShell
+      brand={<BrandLockup />}
+      navigation={
+        <PublicNav
+          items={navItems}
+          activeId="weekly"
+          renderLink={(item, active) => (
+            <a
+              href={item.href}
+              className={`nav-link ${active ? "nav-link-active" : ""}`}
+              aria-current={active ? "page" : undefined}
+            >
+              {item.label}
             </a>
-
-            <nav className="desktop-nav" aria-label="Fő navigáció">
-              {navItems.map((item) => (
-                <a key={item.label} href={item.href} className="nav-link">
-                  {item.label}
-                </a>
-              ))}
-            </nav>
-
-            <a href="#heti-ajanlat" className="nav-cta">
-              <ShoppingBag className="h-4 w-4" />
-              Előrendelés
-            </a>
-          </header>
-
-          <div className="hero-grid">
-            <div className="hero-copy">
-              <p className="hero-kicker">Bio ételek. Igazi alapanyagokból.</p>
-              <div className="hero-line" />
-              <h1 className="hero-title">
-                Organikus.
-                <br />
-                Kézműves.
-                <br />
-                Készen, neked.
-              </h1>
-              <p className="hero-body">
-                100% organikus, szezonális alapanyagokból készült, növényi alapú ételek.
-                Főzzük helyetted, hogy több időd legyen az igazán fontos dolgokra.
-              </p>
-
-              <div className="hero-actions">
-                <a href="#heti-ajanlat" className="primary-button">
-                  Nézd meg a heti étlapot
-                  <ArrowRight className="h-4 w-4" />
-                </a>
-              </div>
-
-              <div className="hero-tags">
-                <span>100% organikus</span>
-                <span>Növényi alapú</span>
-                <span>Csomagolásmentes</span>
-              </div>
-            </div>
-
-            <div className="hero-visual">
-              <div className="visual-canvas">
-                <div className="hero-photo-frame">
+          )}
+        />
+      }
+      actions={
+        <a href="#heti-ajanlat" className="nav-cta">
+          Előrendelés
+        </a>
+      }
+      maxContentWidth={1500}
+      headerBordered={false}
+    >
+      <main className="laura-page">
+        <section className="hero-section">
+          <div className="hero-editorial">
+            <EditorialHero
+              eyebrow="Bio ételek. Igazi alapanyagokból."
+              title={
+                <>
+                  Organikus.
+                  <br />
+                  Kézműves.
+                  <br />
+                  Készen, neked.
+                </>
+              }
+              description="100% organikus, szezonális alapanyagokból készült, növényi alapú ételek. Főzzük helyetted, hogy több időd legyen az igazán fontos dolgokra."
+              actions={[
+                { label: "Nézd meg a heti étlapot", href: "#heti-ajanlat", variant: "primary" },
+              ]}
+              meta={[
+                { id: "organic", label: "100% organikus" },
+                { id: "plant", label: "Növényi alapú" },
+                { id: "packaging", label: "Csomagolásmentes" },
+              ]}
+              media={
+                <div className="hero-media">
                   <Image
                     src="/laura_organic_header_right.png"
                     alt="Laura Organic foodtruck a piacon"
@@ -169,128 +177,151 @@ export default function Home() {
                     priority
                   />
                 </div>
-                <div className="hero-photo-overlay" />
-              </div>
-            </div>
+              }
+              mediaAlt="Laura Organic foodtruck a piacon"
+              mediaFade="background-blend"
+            />
           </div>
 
-          <section className="feature-band">
-            {featureItems.map((item) => (
-              <article key={item.title} className="feature-card">
-                <div className="feature-icon">
-                  <item.icon className="h-7 w-7" />
-                </div>
-                <div>
-                  <h2 className="feature-title">{item.title}</h2>
-                  <p className="feature-text">{item.text}</p>
-                  <p className="feature-meta whitespace-pre-line">{item.meta}</p>
-                </div>
-              </article>
-            ))}
-          </section>
-        </div>
-      </section>
+          <div className="feature-band-wrap">
+            <FeatureBand
+              items={featureItems.map((item) => ({
+                id: item.id,
+                title: item.title,
+                description: item.text,
+                meta: <span className="feature-meta">{item.meta}</span>,
+                icon: <item.icon size="1.4rem" />,
+              }))}
+              columns={3}
+            />
+          </div>
+        </section>
 
-      <section id="heti-ajanlat" className="weekly-section">
-        <div className="page-shell">
-          <div className="section-heading centered">
-            <div className="section-leaf">
-              <Leaf className="h-4 w-4" />
-            </div>
-            <h2 className="section-title">Heti ajánlat</h2>
-            <p className="section-subtitle">Finom, tápláló, 100% organikus.</p>
+        <section id="heti-ajanlat" className="weekly-section">
+          <div className="section-header-wrap centered">
+            <PageHeader
+              eyebrow="Heti kínálat"
+              title="Heti ajánlat"
+              description="Finom, tápláló, 100% organikus."
+            />
           </div>
 
           <div className="weekly-grid">
             {weeklyItems.map((item) => (
-              <article key={item.name} className="weekly-card">
-                <div className="weekly-image">
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    sizes="(min-width: 1200px) 25vw, (min-width: 768px) 50vw, 100vw"
-                    className="weekly-photo"
-                  />
-                </div>
-                <div className="weekly-content">
-                  <h3 className="weekly-title">{item.name}</h3>
-                  <p className="weekly-description">{item.description}</p>
-                  <div className="weekly-footer">
-                    <span className="weekly-price">{item.price}</span>
-                    <button type="button" className="add-button" aria-label={`${item.name} hozzáadása`}>
-                      <CirclePlus className="h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
-              </article>
+              <div key={item.name} className="weekly-card-wrap">
+                <PublicProductCard
+                  title={item.name}
+                  description={item.description}
+                  image={
+                    <div className="weekly-image">
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        sizes="(min-width: 1200px) 25vw, (min-width: 768px) 50vw, 100vw"
+                        className="weekly-photo"
+                      />
+                    </div>
+                  }
+                  price={item.price}
+                  helperText="Szombati átvétellel"
+                  state="preorder"
+                  primaryAction={
+                    <a href="#kapcsolat" className="product-action-link">
+                      Előrendelem
+                    </a>
+                  }
+                />
+              </div>
             ))}
           </div>
 
           <div className="section-action">
-            <a href="#kapcsolat" className="primary-button compact">
+            <a href="#kapcsolat" className="primary-button">
               Összes étel megnézése
             </a>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="gyik" className="process-section">
-        <div className="page-shell">
-          <div className="process-panel">
-            <div className="section-heading centered compact-heading">
-              <h2 className="section-title small">Így működik az előrendelés</h2>
-            </div>
-
-            <div className="process-grid">
-              {preorderSteps.map((item) => (
-                <article key={item.step} className="process-card">
-                  <span className="process-step">{item.step}</span>
-                  <div className="process-icon">
-                    <item.icon className="h-7 w-7" />
-                  </div>
-                  <div>
-                    <h3 className="process-title">{item.title}</h3>
-                    <p className="process-text">{item.text}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
+        <section id="gyik" className="process-section">
+          <div className="section-header-wrap centered compact">
+            <PageHeader title="Így működik az előrendelés" />
           </div>
-        </div>
-      </section>
-
-      <footer id="kapcsolat" className="footer-section">
-        <div className="page-shell footer-grid">
-          <div className="footer-visual">
-            <Image
-              src="/laura_organic_footer_left.png"
-              alt="Laura Organic heti fogások"
-              fill
-              sizes="(min-width: 1200px) 35vw, 100vw"
-              className="footer-photo"
+          <div className="process-band-wrap">
+            <FeatureBand
+              items={preorderSteps.map((item, index) => ({
+                id: item.id,
+                title: (
+                  <span>
+                    <span className="process-step-inline">{index + 1}</span>
+                    {item.title}
+                  </span>
+                ),
+                description: item.text,
+                icon: <item.icon size="1.4rem" />,
+              }))}
+              columns={2}
             />
           </div>
+        </section>
 
-          <div id="rolunk" className="footer-copy">
-            <h2 className="footer-title">Laura Organic</h2>
-            <p className="footer-text">
-              Hiszünk az egyszerűségben, a minőségben és a természet ritmusában.
-              Ételeinkkel szeretnénk hozzájárulni egy egészségesebb, tudatosabb mindennaphoz.
-            </p>
-            <a href="https://instagram.com" className="footer-link">
-              Kövess minket Instagramon
-            </a>
+        <section id="rolunk" className="about-section">
+          <div className="section-header-wrap centered compact">
+            <PageHeader
+              eyebrow="Miért Laura Organic?"
+              title="Nem webshop. Inkább egy lassabb, jobb szombat."
+              description="Kis tételben készített organikus fogások, a piac ritmusához igazítva."
+            />
           </div>
+          <div className="about-panel-wrap">
+            <AccentPanel tone="amber" variant="subtle" title="A jó ételhez nem kell túlmagyarázott koncepció.">
+              <div className="about-copy">
+                <p>
+                  Elég hozzá jó alapanyag, szezonális gondolkodás és idő arra, hogy
+                  rendesen elkészüljön.
+                </p>
+                <p>
+                  A Laura Organic ebből indul ki minden héten: frissebb étel, nyugodtabb
+                  átvétel, kevesebb pazarlás.
+                </p>
+              </div>
+            </AccentPanel>
+          </div>
+        </section>
 
-          <blockquote className="footer-quote">
-            “A jó étel kapcsolat.
-            <br />
-            Önmagaddal és
-            <br />a természettel.”
-          </blockquote>
-        </div>
-      </footer>
-    </main>
+        <footer id="kapcsolat" className="footer-section">
+          <div className="footer-shell">
+            <PublicBrandFooter
+              media={
+                <div className="footer-visual">
+                  <Image
+                    src="/laura_organic_footer_left.png"
+                    alt="Laura Organic heti fogások"
+                    fill
+                    sizes="(min-width: 1200px) 35vw, 100vw"
+                    className="footer-photo"
+                  />
+                </div>
+              }
+              brandTitle="Laura Organic"
+              description="Hiszünk az egyszerűségben, a minőségben és a természet ritmusában. Ételeinkkel szeretnénk hozzájárulni egy egészségesebb, tudatosabb mindennaphoz."
+              actions={
+                <a href="https://instagram.com" className="footer-link">
+                  Kövess minket Instagramon
+                </a>
+              }
+              secondary={
+                <blockquote className="footer-quote">
+                  “A jó étel kapcsolat.
+                  <br />
+                  Önmagaddal és
+                  <br />a természettel.”
+                </blockquote>
+              }
+            />
+          </div>
+        </footer>
+      </main>
+    </PublicShell>
   );
 }

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Fraunces, Manrope } from "next/font/google";
+import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import "./globals.css";
+import Providers from "./providers";
 
 const fraunces = Fraunces({
   variable: "--font-fraunces",
@@ -50,7 +53,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="hu" className={`${fraunces.variable} ${manrope.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
