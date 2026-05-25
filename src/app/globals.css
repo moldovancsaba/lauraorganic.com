@@ -34,6 +34,7 @@ a {
   padding-bottom: 3rem;
 }
 
+.mantine-AppShell-header,
 .site-header {
   background: transparent;
   padding-inline: clamp(0.9rem, 2vw, 1.5rem);
@@ -42,17 +43,25 @@ a {
 .brand-lockup {
   display: inline-flex;
   align-items: center;
-  padding: 0.4rem 0.2rem 0.4rem 0.4rem;
+  padding: 10px 0.25rem 6px 10px;
 }
 
 .brand-logo-wrap {
   position: relative;
-  width: 12rem;
-  height: 5rem;
+  width: min(12rem, 38vw);
+  height: 3.4rem;
 }
 
 .brand-logo {
   object-fit: contain;
+}
+
+.mantine-AppShell-main > .mantine-Container-root {
+  padding-top: 0 !important;
+}
+
+.mantine-AppShell-main > .mantine-Container-root > .mantine-Stack-root {
+  gap: 0 !important;
 }
 
 .desktop-nav {
