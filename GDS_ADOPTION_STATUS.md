@@ -22,16 +22,15 @@ Active package/runtime contract:
 
 ## Current Install Path
 
-The canonical package names are in use, but the install source is a temporary GitHub release asset path:
+The canonical package names are in use from npm:
 
-- [gds-v2.6.1 release assets](https://github.com/sovereignsquad/general-design-system/releases/tag/gds-v2.6.1)
+- `@doneisbetter/gds-theme@2.6.1`
+- `@doneisbetter/gds-core@2.6.1`
+- `@doneisbetter/gds-admin@2.6.1`
+- `@doneisbetter/gds-eslint-config@2.6.1`
+- `@doneisbetter/gds-compliance@2.6.1`
 
-Reason:
-
-- the SSOT release/install docs approve GitHub release assets until npm publication is live
-- the future canonical source remains npm
-
-This exception is documented in the manifest and is temporary.
+This now matches the canonical package source.
 
 ## Canonical Contracts Currently Used
 
@@ -70,10 +69,6 @@ These remain product-local by design and are allowed:
 
 ## Current Exceptions
 
-### Temporary package distribution exception
-
-- scope: install source only
-- current path: GitHub release asset tarballs for `gds-v2.6.1`
-- removal condition: switch to npm installation as soon as `@doneisbetter/*` is published there
+There are no active GDS adoption exceptions at the moment.
 
 No legacy placeholder runtime imports should remain in the codebase after this migration.

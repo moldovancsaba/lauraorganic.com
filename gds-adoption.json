@@ -37,15 +37,7 @@
       "status": "active"
     }
   ],
-  "approvedExceptions": [
-    {
-      "surface": "Temporary package install path",
-      "reason": "The canonical future source is npm, but publication is not live yet. Laura consumes the public GitHub release asset tarballs for gds-v2.6.1 until the npm registry path is available.",
-      "owner": "lauraorganic",
-      "reviewDate": "2026-05-26",
-      "removeBy": "2026-06-30"
-    }
-  ],
+  "approvedExceptions": [],
   "compliance": {
     "documentationPaths": [
       "README.md",

@@ -14,8 +14,8 @@ Next.js App Router implementation for `lauraorganic.com`.
   - `@doneisbetter/gds-eslint-config`
   - `@doneisbetter/gds-compliance`
 - current install path:
-  - temporary GitHub release asset tarballs from [gds-v2.6.1](https://github.com/sovereignsquad/general-design-system/releases/tag/gds-v2.6.1)
-  - referenced directly from [package.json](/Users/Shared/Projects/lauraorganic/package.json)
+  - npm registry packages
+  - pinned directly in [package.json](/Users/Shared/Projects/lauraorganic/package.json)
 
 ## Local Adapter Paths
 
@@ -44,6 +44,4 @@ Next.js App Router implementation for `lauraorganic.com`.
 - `npm run gds:manifest`
 - `npm run gds:compliance`
 
-## Approved Exception
-
-- package distribution is temporarily pinned to the GitHub release assets because npm publication is not live yet for `@doneisbetter/*`
+There are currently no active GDS adoption exceptions in this repo.
