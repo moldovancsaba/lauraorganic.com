@@ -1,16 +1,31 @@
 # Laura Organic
 
-Next.js landing page for `lauraorganic.com`.
+Next.js App Router implementation for `lauraorganic.com`.
 
-## UI Stack
+`/Users/Shared/Projects/general-design-system` is the single source of truth for design, UI, and UX. Project-local files describe only implementation adapter details, migration state, validation commands, and approved exceptions.
 
-- Next.js App Router
-- GDS runtime packages via local vendored tarballs
-- Mantine through the GDS provider contract
+## GDS Runtime
 
-## Current GDS Status
+- consumed GDS package line: `2.6.1`
+- canonical package names:
+  - `@doneisbetter/gds-theme`
+  - `@doneisbetter/gds-core`
+  - `@doneisbetter/gds-admin`
+  - `@doneisbetter/gds-eslint-config`
+  - `@doneisbetter/gds-compliance`
+- current install path:
+  - temporary GitHub release asset tarballs from [gds-v2.6.1](https://github.com/sovereignsquad/general-design-system/releases/tag/gds-v2.6.1)
+  - referenced directly from [package.json](/Users/Shared/Projects/lauraorganic/package.json)
 
-The landing page is built on canonical GDS public primitives:
+## Local Adapter Paths
+
+- root provider: [src/app/providers.tsx](/Users/Shared/Projects/lauraorganic/src/app/providers.tsx)
+- root layout bootstrap: [src/app/layout.tsx](/Users/Shared/Projects/lauraorganic/src/app/layout.tsx)
+- theme extension: [src/theme/gds-theme.ts](/Users/Shared/Projects/lauraorganic/src/theme/gds-theme.ts)
+- machine-readable adoption manifest: [gds-adoption.json](/Users/Shared/Projects/lauraorganic/gds-adoption.json)
+- current migration/adoption notes: [GDS_ADOPTION_STATUS.md](/Users/Shared/Projects/lauraorganic/GDS_ADOPTION_STATUS.md)
+
+## Canonical GDS Contracts In Use
 
 - `PublicShell`
 - `PublicNav`
@@ -21,19 +36,14 @@ The landing page is built on canonical GDS public primitives:
 - `PublicBrandFooter`
 - `AccentPanel`
 
-Project-local branding is currently handled through:
+## Validation Commands
 
-- [src/lib/gds-theme.ts](/Users/Shared/Projects/lauraorganic/src/lib/gds-theme.ts)
-- [src/app/globals.css](/Users/Shared/Projects/lauraorganic/src/app/globals.css)
+- `npm run dev`
+- `npm run build`
+- `npm run lint`
+- `npm run gds:manifest`
+- `npm run gds:compliance`
 
-See [GDS_ADOPTION_STATUS.md](/Users/Shared/Projects/lauraorganic/GDS_ADOPTION_STATUS.md) for the exact Laura-specific adoption baseline and the remaining upstream GDS blockers.
+## Approved Exception
 
-## Scripts
-
-- `npm run dev` - local development
-- `npm run build` - production build
-- `npm run start` - run the production build locally
-
-## Deployment
-
-The repository is ready for automatic deployment on Vercel from GitHub.
+- package distribution is temporarily pinned to the GitHub release assets because npm publication is not live yet for `@doneisbetter/*`

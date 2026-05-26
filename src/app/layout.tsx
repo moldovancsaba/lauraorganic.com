@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { ColorSchemeScript } from "@mantine/core";
+import { getGdsMessages } from "@doneisbetter/gds-core/server";
 import { Fraunces, Manrope } from "next/font/google";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
@@ -68,10 +70,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = "hu";
+  const messages = getGdsMessages(locale);
+
   return (
-    <html lang="hu" className={`${fraunces.variable} ${manrope.variable}`}>
+    <html lang={locale} dir="ltr" className={`${fraunces.variable} ${manrope.variable}`}>
+      <head>
+        <ColorSchemeScript defaultColorScheme="light" />
+      </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers locale={locale} messages={messages}>
+          {children}
+        </Providers>
       </body>
     </html>
   );

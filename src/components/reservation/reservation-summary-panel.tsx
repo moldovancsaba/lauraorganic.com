@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AccentPanel } from "@gds/core/client";
+import { AccentPanel } from "@doneisbetter/gds-core/client";
 import {
   activeWeeklyAvailability,
   formatHufPrice,

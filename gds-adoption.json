@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "gdsVersion": "2.6.1",
+  "productArchetype": "public",
+  "supportedEntryPoints": [
+    "@doneisbetter/gds-theme/client",
+    "@doneisbetter/gds-theme/server",
+    "@doneisbetter/gds-core/client",
+    "@doneisbetter/gds-core/server",
+    "@doneisbetter/gds-admin/client",
+    "@doneisbetter/gds-admin/server"
+  ],
+  "requiredContracts": [
+    "PublicShell",
+    "PageHeader",
+    "StateBlock",
+    "EditorialHero",
+    "FeatureBand",
+    "PublicProductCard",
+    "PublicBrandFooter",
+    "AccentPanel"
+  ],
+  "localAdapters": [
+    {
+      "contract": "Theme extension",
+      "path": "src/theme/gds-theme.ts",
+      "status": "active"
+    },
+    {
+      "contract": "Root provider",
+      "path": "src/app/providers.tsx",
+      "status": "active"
+    },
+    {
+      "contract": "Public page composition",
+      "path": "src/app/page.tsx",
+      "status": "active"
+    }
+  ],
+  "approvedExceptions": [
+    {
+      "surface": "Temporary package install path",
+      "reason": "The canonical future source is npm, but publication is not live yet. Laura consumes the public GitHub release asset tarballs for gds-v2.6.1 until the npm registry path is available.",
+      "owner": "lauraorganic",
+      "reviewDate": "2026-05-26",
+      "removeBy": "2026-06-30"
+    }
+  ],
+  "compliance": {
+    "documentationPaths": [
+      "README.md",
+      "GDS_ADOPTION_STATUS.md"
+    ],
+    "staleDocumentationReferences": [
+      "@gds/",
+      "vendor/gds",
+      "GENERAL_DESIGN_SYSTEM"
+    ],
+    "protectedSurfacePaths": [
+      "src/app",
+      "src/theme"
+    ],
+    "bannedImports": [
+      "@gds/core",
+      "@gds/theme",
+      "tailwindcss"
+    ]
+  },
+  "migrationStatus": "governed",
+  "owner": "lauraorganic",
+  "lastReviewedAt": "2026-05-26"
+}

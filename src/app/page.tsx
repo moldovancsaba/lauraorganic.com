@@ -11,7 +11,7 @@ import {
   PublicNav,
   PublicProductCard,
   PublicShell,
-} from "@gds/core/client";
+} from "@doneisbetter/gds-core/client";
 import {
   activeWeeklyAvailability,
   getAvailabilityActionLabel,

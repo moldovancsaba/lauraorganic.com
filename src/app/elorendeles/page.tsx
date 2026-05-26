@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AccentPanel, PageHeader, PublicShell } from "@gds/core/client";
+import { AccentPanel, PageHeader, PublicShell } from "@doneisbetter/gds-core/client";
 import { ReservationSummaryPanel } from "@/components/reservation/reservation-summary-panel";
 import {
   activeWeeklyAvailability,

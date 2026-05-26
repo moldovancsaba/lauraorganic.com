@@ -1,10 +1,39 @@
 # GDS Adoption Status
 
-## Current Laura Baseline
+## Current Baseline
 
-Laura Organic is now built on real GDS runtime packages rather than local stand-in UI components.
+Laura Organic now consumes the current publishable GDS package line under the `@doneisbetter/*` scope.
 
-Canonical GDS primitives currently used in the landing page:
+Active package/runtime contract:
+
+- `@doneisbetter/gds-theme/client` for the root provider in [src/app/providers.tsx](/Users/Shared/Projects/lauraorganic/src/app/providers.tsx)
+- `@doneisbetter/gds-theme/server` for the theme extension in [src/theme/gds-theme.ts](/Users/Shared/Projects/lauraorganic/src/theme/gds-theme.ts)
+- `@doneisbetter/gds-core/server` for server-safe locale/message lookup in [src/app/layout.tsx](/Users/Shared/Projects/lauraorganic/src/app/layout.tsx)
+- `@doneisbetter/gds-core/client` for interactive public primitives in:
+  - [src/app/page.tsx](/Users/Shared/Projects/lauraorganic/src/app/page.tsx)
+  - [src/app/elorendeles/page.tsx](/Users/Shared/Projects/lauraorganic/src/app/elorendeles/page.tsx)
+  - [src/components/reservation/reservation-summary-panel.tsx](/Users/Shared/Projects/lauraorganic/src/components/reservation/reservation-summary-panel.tsx)
+
+## Consumed GDS Version
+
+- package line: `2.6.1`
+- SSOT docs reviewed from `/Users/Shared/Projects/general-design-system`
+- adoption manifest: [gds-adoption.json](/Users/Shared/Projects/lauraorganic/gds-adoption.json)
+
+## Current Install Path
+
+The canonical package names are in use, but the install source is a temporary GitHub release asset path:
+
+- [gds-v2.6.1 release assets](https://github.com/sovereignsquad/general-design-system/releases/tag/gds-v2.6.1)
+
+Reason:
+
+- the SSOT release/install docs approve GitHub release assets until npm publication is live
+- the future canonical source remains npm
+
+This exception is documented in the manifest and is temporary.
+
+## Canonical Contracts Currently Used
 
 - `PublicShell`
 - `PublicNav`
@@ -15,159 +44,36 @@ Canonical GDS primitives currently used in the landing page:
 - `PublicBrandFooter`
 - `AccentPanel`
 
-Runtime/theme integration:
+## Repo-Level Compliance
 
-- `GdsProvider` in [src/app/providers.tsx](/Users/Shared/Projects/lauraorganic/src/app/providers.tsx)
-- theme extension in [src/lib/gds-theme.ts](/Users/Shared/Projects/lauraorganic/src/lib/gds-theme.ts)
-- package consumption from [package.json](/Users/Shared/Projects/lauraorganic/package.json) through vendored tarballs in [vendor/gds](/Users/Shared/Projects/lauraorganic/vendor/gds)
+Active governance files:
 
-## What Was Removed
+- [gds-adoption.json](/Users/Shared/Projects/lauraorganic/gds-adoption.json)
+- [eslint.config.mjs](/Users/Shared/Projects/lauraorganic/eslint.config.mjs)
+- [README.md](/Users/Shared/Projects/lauraorganic/README.md)
 
-The app no longer depends on project-local stand-in design-system components for public layout composition.
-
-Removed local stand-ins:
-
-- prior local shell wrapper
-- prior local accent panel wrapper
-- prior local section-header wrapper
-- prior local theme file replaced by the GDS theme extension contract
-
-## What Was Fixed In Laura
-
-- the public page is composed from canonical GDS primitives
-- the `Rólunk` navigation target now resolves to a real section instead of a dead anchor
-- feature-band meta formatting no longer depends on inline styles
-- the app builds and lints successfully on the current GDS-based setup
-
-## What Is Still Project-Local
-
-These parts are still Laura-specific and expected:
-
-- brand colors, typography, and flat-surface preferences in [src/lib/gds-theme.ts](/Users/Shared/Projects/lauraorganic/src/lib/gds-theme.ts)
-- page-level composition styling in [src/app/globals.css](/Users/Shared/Projects/lauraorganic/src/app/globals.css)
-- content, imagery, and layout assembly in [src/app/page.tsx](/Users/Shared/Projects/lauraorganic/src/app/page.tsx)
-
-These are acceptable local brand adaptations, not parallel UI primitives.
-
-## Remaining Upstream GDS Blockers
-
-These are the real reasons Laura is not yet fully reducible to zero branded page-level CSS or fully server-safe public rendering.
-
-### 1. `@gds/core/server` is still not safe enough for this page
-
-Attempted change:
-
-- switch [src/app/page.tsx](/Users/Shared/Projects/lauraorganic/src/app/page.tsx) from `@gds/core/client` to `@gds/core/server`
-- remove page-level client boundary
-
-Observed result:
-
-- Next.js prerender failed during `npm run build`
-- the page currently needs `"use client"` to remain stable with the shipped GDS package line in this repo
-
-Practical effect:
-
-- Laura cannot yet rely on the promised server entrypoint for this public landing page
-
-### 2. `EditorialHero` still needs stronger branded-public controls
-
-Current workaround in Laura:
-
-- hero image masking and blend treatment in [src/app/globals.css](/Users/Shared/Projects/lauraorganic/src/app/globals.css)
-
-Missing GDS capability:
-
-- more precise background-matched fade behavior
-- clearer text/media slot hooks
-- flatter public presentation controls without page-level overrides
-
-### 3. `FeatureBand` is still too narrow for process-strip use
-
-Current workaround in Laura:
-
-- local numbered-step treatment in the preorder section
-
-Missing GDS capability:
-
-- stronger process-strip variant
-- better numbered-step support
-- broader public support-strip flexibility
-
-### 4. `PublicShell` still needs branded header flexibility
-
-Current workaround in Laura:
-
-- local nav and CTA styling in [src/app/globals.css](/Users/Shared/Projects/lauraorganic/src/app/globals.css)
-
-Missing GDS capability:
-
-- stronger branded header spacing and slot-control contract
-- clearer mobile-header/navigation flexibility
-
-### 5. `PublicBrandFooter` still needs richer layout hooks
-
-Current workaround in Laura:
-
-- local footer media sizing and quote styling
-
-Missing GDS capability:
-
-- stronger layout variants for media/narrative/secondary composition
-- stable slot hooks for branded footer refinement
-
-### 6. `PublicProductCard` still needs tighter preorder/pickup semantics
-
-Current workaround in Laura:
-
-- local CTA styling
-- product helper text kept simple to avoid semantic ambiguity
-
-Missing GDS capability:
-
-- stronger public preorder/pickup messaging contract
-- clearer helper/state separation for food/menu use
-
-## Verification
-
-Current verified commands:
+Active compliance commands:
 
 ```bash
-npm run build
 npm run lint
+npm run gds:manifest
+npm run gds:compliance
 ```
 
-Expected result:
+## Remaining Local Responsibility
 
-- build passes
-- lint passes
-- homepage prerenders as static content
+These remain product-local by design and are allowed:
 
-## Recommended Next Steps
+- brand theme overrides in [src/theme/gds-theme.ts](/Users/Shared/Projects/lauraorganic/src/theme/gds-theme.ts)
+- narrow global layout and branding CSS in [src/app/globals.css](/Users/Shared/Projects/lauraorganic/src/app/globals.css)
+- reservation/business-flow code outside the design-system scope
 
-### In Laura
+## Current Exceptions
 
-- keep the current GDS-based baseline stable
-- minimize new page-local styling that duplicates component behavior
-- upgrade to published GDS packages once the upstream install contract is stable
+### Temporary package distribution exception
 
-### In GDS
+- scope: install source only
+- current path: GitHub release asset tarballs for `gds-v2.6.1`
+- removal condition: switch to npm installation as soon as `@doneisbetter/*` is published there
 
-- harden `@gds/core/server`
-- improve `EditorialHero`
-- improve `FeatureBand`
-- improve `PublicShell`
-- improve `PublicBrandFooter`
-- improve `PublicProductCard`
-
-## Operational Rule For Laura
-
-Do not introduce new local public UI primitives unless a shipped GDS component is genuinely missing or broken.
-
-Branding belongs in:
-
-- theme extension
-- content
-- imagery
-- narrowly-scoped page styling
-
-Layout/system behavior should continue moving toward canonical GDS items as upstream capabilities improve.
+No legacy placeholder runtime imports should remain in the codebase after this migration.
