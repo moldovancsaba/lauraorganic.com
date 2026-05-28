@@ -17,7 +17,7 @@ Active package/runtime contract:
 
 ## Consumed GDS Version
 
-- package line: `2.6.3`
+- package line: `2.6.4`
 - SSOT docs reviewed from [sovereignsquad/general-design-system](https://github.com/sovereignsquad/general-design-system)
 - adoption manifest: [gds-adoption.json](/Users/Shared/Projects/lauraorganic/gds-adoption.json)
 
@@ -25,9 +25,9 @@ Active package/runtime contract:
 
 The canonical package names are in use from npm:
 
-- `@doneisbetter/gds@2.6.3`
-- `@doneisbetter/gds-eslint-config@2.6.3`
-- `@doneisbetter/gds-compliance@2.6.3`
+- `@doneisbetter/gds@2.6.4`
+- `@doneisbetter/gds-eslint-config@2.6.4`
+- `@doneisbetter/gds-compliance@2.6.4`
 
 This now matches the canonical package source.
 
@@ -41,6 +41,10 @@ This now matches the canonical package source.
 - `PublicProductCard`
 - `PublicBrandFooter`
 - `AccentPanel`
+- `EmptyState`
+- `ChoiceChip`
+- `StatusBadge`
+- `FormField`
 
 ## Repo-Level Compliance
 

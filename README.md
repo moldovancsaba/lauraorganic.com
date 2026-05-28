@@ -6,7 +6,7 @@ Next.js App Router implementation for `lauraorganic.com`.
 
 ## GDS Runtime
 
-- consumed GDS package line: `2.6.3`
+- consumed GDS package line: `2.6.4`
 - canonical package names:
   - `@doneisbetter/gds`
   - `@doneisbetter/gds-eslint-config`
@@ -33,6 +33,10 @@ Next.js App Router implementation for `lauraorganic.com`.
 - `PublicProductCard`
 - `PublicBrandFooter`
 - `AccentPanel`
+- `EmptyState`
+- `ChoiceChip`
+- `StatusBadge`
+- `FormField`
 
 ## Validation Commands
 

@@ -506,6 +506,12 @@ export function getAvailabilityStateLabel(productId: ProductId): string {
   }
 }
 
+export function getAvailabilityState(productId: ProductId): ReservationProductState {
+  const availability = getAvailabilityItem(productId);
+
+  return availability?.state ?? "preorder";
+}
+
 export function getAvailabilityActionLabel(productId: ProductId, defaultLabel: string): string {
   const availability = getAvailabilityItem(productId);
 

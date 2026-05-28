@@ -5,10 +5,10 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   AccentPanel,
+  EmptyState,
   FormField,
   PageHeader,
   PublicShell,
-  StateBlock,
 } from "@doneisbetter/gds/client";
 import { ReservationSummaryPanel } from "@/components/reservation/reservation-summary-panel";
 import {
@@ -344,8 +344,7 @@ export default function ReservationPage() {
                   </div>
                 </AccentPanel>
               ) : items.length === 0 ? (
-                <StateBlock
-                  variant="empty"
+                <EmptyState
                   title="Még nincs mit véglegesíteni"
                   description="Először válassz fogásokat a heti kínálatból. A rendelésed a landing oldalon azonnal frissül, és ide visszatérve már ellenőrizheted az összesítést."
                   action={

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { AccentPanel } from "@doneisbetter/gds/client";
+import { AccentPanel, ChoiceChip, EmptyState, StatusBadge } from "@doneisbetter/gds/client";
 import {
   activeWeeklyAvailability,
   formatHufPrice,
@@ -45,29 +45,27 @@ export function ReservationSummaryPanel({
       }
     >
       {preorderClosed ? (
-        <div className="reservation-empty-state">
-          <p>Erre a hétre még nincs aktív kínálat.</p>
-          <p>Hamarosan érkezik a következő heti menü, addig az előrendelés szünetel.</p>
-        </div>
+        <EmptyState
+          title="Erre a hétre még nincs aktív kínálat."
+          description="Hamarosan érkezik a következő heti menü, addig az előrendelés szünetel."
+        />
       ) : rows.length > 0 ? (
         <div className="reservation-shell">
           <div className="pickup-slot-list" role="list" aria-label="Átvételi hely választása">
             {pickupSlots
               .filter((slot) => slot.isActive)
               .map((slot) => (
-                  <button
-                    key={slot.id}
-                    type="button"
-                    className={`pickup-slot-button ${
-                      selectedPickupSlotId === slot.id ? "pickup-slot-button-active" : ""
-                    }`}
-                  onClick={() => setPickupSlot(slot.id)}
-                >
-                  <span className="pickup-slot-label">{slot.label}</span>
+                <div key={slot.id} className="pickup-slot-chip">
+                  <ChoiceChip
+                    label={slot.label}
+                    active={selectedPickupSlotId === slot.id}
+                    onClick={() => setPickupSlot(slot.id)}
+                    component="button"
+                  />
                   <span className="pickup-slot-meta">
                     {slot.location} • {slot.dayLabel} • {slot.timeWindow}
                   </span>
-                </button>
+                </div>
               ))}
           </div>
 
@@ -134,6 +132,11 @@ export function ReservationSummaryPanel({
                   ? `${selectedPickupSlot.location} • ${selectedPickupSlot.dayLabel} • ${selectedPickupSlot.timeWindow}`
                   : activeWeeklyAvailability?.pickupWindowLabel ?? "Szombat 7:00 – 13:00"}
               </p>
+              <div className="reservation-summary-statuses">
+                <StatusBadge status="info">
+                  {selectedPickupSlot?.label ?? "Szombati átvétellel"}
+                </StatusBadge>
+              </div>
             </div>
           </div>
 
@@ -146,23 +149,17 @@ export function ReservationSummaryPanel({
           ) : null}
         </div>
       ) : (
-        <div className="reservation-empty-state">
-          <p>
-            Válassz egy fogást a heti kínálatból, és itt rögtön látni fogod az
-            összesítést.
-          </p>
-          <p>
-            Az átvétel szombaton történik, a rendeléseket pedig frissen készítjük el
-            az átvétel napjára.
-          </p>
-          {showReviewAction ? (
-            <div className="reservation-summary-actions">
+        <EmptyState
+          title="Még nincs semmi a szombati rendelésedben."
+          description="Válassz egy fogást a heti kínálatból, és itt rögtön látni fogod az összesítést. Az átvétel szombaton történik, a rendeléseket pedig frissen készítjük el az átvétel napjára."
+          action={
+            showReviewAction ? (
               <Link href="#heti-ajanlat" className="primary-button">
                 Vissza a heti kínálathoz
               </Link>
-            </div>
-          ) : null}
-        </div>
+            ) : undefined
+          }
+        />
       )}
     </AccentPanel>
   );

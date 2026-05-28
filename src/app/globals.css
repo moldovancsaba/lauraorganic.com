@@ -313,11 +313,11 @@ a {
   cursor: pointer;
 }
 
-.product-cart-hint {
-  display: inline-flex;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: light-dark(#6f614e, #d9cebe);
+.product-status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .product-action-link-disabled,
@@ -354,7 +354,6 @@ a {
   gap: 1rem;
 }
 
-.pickup-slot-button,
 .quantity-button,
 .reservation-remove-button {
   border: 1px solid var(--border);
@@ -363,25 +362,14 @@ a {
   font: inherit;
 }
 
-.pickup-slot-button {
+.pickup-slot-chip {
   display: grid;
-  gap: 0.35rem;
-  width: 100%;
-  padding: 1rem 1.1rem;
-  border-radius: 1rem;
-  text-align: left;
-  cursor: pointer;
+  gap: 0.55rem;
+  align-content: start;
 }
 
-.pickup-slot-button-active {
-  border-color: var(--primary);
-  background: light-dark(#f2ebdd, #31372c);
-}
-
-.pickup-slot-label {
-  font-size: 1rem;
-  font-weight: 800;
-  color: light-dark(#33402c, #f7efde);
+.pickup-slot-chip [class*="mantine-Badge-root"] {
+  justify-self: start;
 }
 
 .pickup-slot-meta {
@@ -429,8 +417,7 @@ a {
 
 .reservation-row-meta,
 .reservation-summary-label,
-.reservation-summary-meta,
-.reservation-empty-state p {
+.reservation-summary-meta {
   margin: 0;
   color: light-dark(#615646, #d9cebd);
   line-height: 1.6;
@@ -513,9 +500,10 @@ a {
   text-align: right;
 }
 
-.reservation-empty-state {
-  display: grid;
-  gap: 0.8rem;
+.reservation-summary-statuses {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.65rem;
 }
 
 .review-page {

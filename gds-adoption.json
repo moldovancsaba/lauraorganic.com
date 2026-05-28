@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "gdsVersion": "2.6.3",
+  "gdsVersion": "2.6.4",
   "productArchetype": "public",
   "supportedEntryPoints": [
     "@doneisbetter/gds/client",
@@ -9,12 +9,15 @@
   "requiredContracts": [
     "PublicShell",
     "PageHeader",
-    "StateBlock",
     "EditorialHero",
     "FeatureBand",
     "PublicProductCard",
     "PublicBrandFooter",
-    "AccentPanel"
+    "AccentPanel",
+    "EmptyState",
+    "ChoiceChip",
+    "StatusBadge",
+    "FormField"
   ],
   "localAdapters": [
     {

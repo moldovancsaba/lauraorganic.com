@@ -3,6 +3,7 @@
 import Image from "next/image";
 import {
   AccentPanel,
+  EmptyState,
   EditorialHero,
   FeatureBand,
   GdsIcons,
@@ -11,11 +12,12 @@ import {
   PublicNav,
   PublicProductCard,
   PublicShell,
-  StateBlock,
+  StatusBadge,
 } from "@doneisbetter/gds/client";
 import {
   activeWeeklyAvailability,
   getAvailabilityActionLabel,
+  getAvailabilityState,
   getAvailabilityStateLabel,
   isProductReservable,
   type ProductId,
@@ -168,6 +170,7 @@ export default function Home() {
                   const quantityInReservation =
                     items.find((reservationItem) => reservationItem.productId === item.id)
                       ?.quantity ?? 0;
+                  const availabilityState = getAvailabilityState(item.id as ProductId);
                   const isReservable = isProductReservable(item.id as ProductId);
 
                   return (
@@ -188,7 +191,15 @@ export default function Home() {
                         }
                         price={item.price}
                         helperText={getAvailabilityStateLabel(item.id as ProductId)}
-                        state={isReservable ? "preorder" : "sold-out"}
+                        helperKind="inventory"
+                        inventoryNote={item.helperText}
+                        state={availabilityState}
+                        stateLabels={{
+                          preorder: "Előrendelhető",
+                          limited: "Korlátozott",
+                          "sold-out": "Elfogyott",
+                          available: "Elérhető",
+                        }}
                         primaryAction={
                           <button
                             type="button"
@@ -206,11 +217,24 @@ export default function Home() {
                           </button>
                         }
                         secondaryAction={
-                          quantityInReservation > 0 ? (
-                            <span className="product-cart-hint">
-                              {quantityInReservation} darab a rendelésben
-                            </span>
-                          ) : undefined
+                          <div className="product-status-row">
+                            <StatusBadge
+                              status={
+                                availabilityState === "sold-out"
+                                  ? "danger"
+                                  : availabilityState === "limited"
+                                    ? "warning"
+                                    : "success"
+                              }
+                            >
+                              {getAvailabilityStateLabel(item.id as ProductId)}
+                            </StatusBadge>
+                            {quantityInReservation > 0 ? (
+                              <StatusBadge status="info">
+                                {quantityInReservation} darab a rendelésben
+                              </StatusBadge>
+                            ) : null}
+                          </div>
                         }
                       />
                     </div>
@@ -226,17 +250,10 @@ export default function Home() {
             </>
           ) : (
             <div className="weekly-fallback-wrap">
-              <StateBlock
-                variant="not-enough-data"
+              <EmptyState
+                icon={<GdsIcons.Calendar size="1.6rem" />}
                 title={weeklyOfferFallback.title}
-                description={
-                  <span>
-                    {weeklyOfferFallback.description}
-                    <br />
-                    {weeklyOfferFallback.helperText}
-                  </span>
-                }
-                compact
+                description={`${weeklyOfferFallback.description} ${weeklyOfferFallback.helperText}`}
               />
             </div>
           )}

@@ -11,7 +11,7 @@
     "gds:compliance": "gds-compliance check --manifest ./gds-adoption.json"
   },
   "dependencies": {
-    "@doneisbetter/gds": "^2.6.3",
+    "@doneisbetter/gds": "^2.6.4",
     "@mantine/core": "^7.17.8",
     "@mantine/hooks": "^7.17.8",
     "@mantine/modals": "^7.17.8",
@@ -22,8 +22,8 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
-    "@doneisbetter/gds-compliance": "^2.6.3",
-    "@doneisbetter/gds-eslint-config": "^2.6.3",
+    "@doneisbetter/gds-compliance": "^2.6.4",
+    "@doneisbetter/gds-eslint-config": "^2.6.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
