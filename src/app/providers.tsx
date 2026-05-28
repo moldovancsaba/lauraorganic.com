@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { GdsProvider } from "@doneisbetter/gds-theme/client";
+import { GdsProvider } from "@doneisbetter/gds/client";
 import { ReservationProvider } from "@/components/reservation/reservation-provider";
 import { lauraTheme } from "@/theme/gds-theme";
 

@@ -34,7 +34,6 @@ a {
   padding-bottom: 3rem;
 }
 
-.mantine-AppShell-header,
 .site-header {
   background: #2b2a28;
   padding-inline: clamp(0.9rem, 2vw, 1.5rem);
@@ -57,31 +56,33 @@ a {
   object-fit: contain;
 }
 
-.mantine-AppShell-main > .mantine-Container-root {
+.site-content {
   padding-top: 0 !important;
 }
 
-.mantine-AppShell-main > .mantine-Container-root > .mantine-Stack-root {
+.site-content > .mantine-Stack-root {
   gap: 0 !important;
 }
 
-.desktop-nav {
+.site-navigation {
   gap: 2.4rem;
 }
 
 .nav-link {
+  color: #efe7d7;
   font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  transition: color 140ms ease;
 }
 
 .nav-link:hover {
-  color: var(--primary);
+  color: #fff7e9;
 }
 
 .nav-link-active {
-  color: var(--foreground);
+  color: #fff7e9;
 }
 
 .nav-cta,
@@ -102,6 +103,10 @@ a {
 }
 
 .hero-section {
+  --mantine-color-violet-filled: var(--primary);
+  --mantine-color-violet-filled-hover: #35422a;
+  --mantine-color-violet-light: rgb(73 87 58 / 0.12);
+  --mantine-color-violet-light-color: var(--primary);
   padding: 1.5rem 0 3.5rem;
   background:
     radial-gradient(circle at 20% 0%, rgb(247 231 194 / 0.82), transparent 30%),
@@ -109,7 +114,7 @@ a {
     linear-gradient(180deg, #faf5eb 0%, #f3ebdc 100%);
 }
 
-.hero-editorial > * {
+.hero-surface {
   border: 0;
   background: transparent;
   padding-inline: 0;
@@ -117,26 +122,29 @@ a {
   padding-bottom: 1.4rem;
 }
 
-.hero-editorial h1,
+.hero-actions a[href="/elorendeles"] {
+  color: #f6efe2 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: none !important;
+}
+
+.hero-content h1,
 .feature-band-wrap h4,
 .weekly-grid h4,
-.footer-shell h4 {
+.footer-card h4 {
   font-family: var(--font-fraunces), Fraunces, serif;
   letter-spacing: -0.04em;
 }
 
-.hero-editorial h1 {
+.hero-content h1 {
   font-size: clamp(3.8rem, 7vw, 7rem);
   line-height: 0.98;
   color: light-dark(#33402c, #f7efde);
 }
 
-.hero-editorial [data-align="center"] h1,
-.hero-editorial [data-align="center"] p {
-  text-align: left;
-}
-
-.hero-editorial p {
+.hero-content p {
   font-size: 1.45rem;
   line-height: 1.7;
   color: light-dark(#403b32, #d8cfbf);
@@ -550,12 +558,7 @@ a {
   gap: 1rem;
 }
 
-.review-form-field {
-  display: grid;
-  gap: 0.45rem;
-}
-
-.review-form-label {
+.review-form label > [class*="mantine-Stack-root"] > [class*="mantine-Text-root"]:first-child {
   font-size: 0.92rem;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -589,6 +592,7 @@ a {
   cursor: progress;
 }
 
+.review-form label > [class*="mantine-Stack-root"] > [class*="mantine-Text-root"]:last-child,
 .review-form-error {
   margin: 0;
   color: light-dark(#9b4337, #ffb8a6);
@@ -607,21 +611,6 @@ a {
 
 .process-band-wrap [class*="mantine-Paper-root"] {
   background: light-dark(#faf5ec, #282d24);
-}
-
-.process-step-inline {
-  display: inline-flex;
-  width: 2rem;
-  height: 2rem;
-  align-items: center;
-  justify-content: center;
-  margin-right: 0.75rem;
-  border-radius: 999px;
-  background: light-dark(#efe3cc, #4b4336);
-  color: light-dark(#6a5e48, #f0e4d2);
-  font-size: 0.95rem;
-  font-weight: 700;
-  vertical-align: middle;
 }
 
 .about-panel-wrap [class*="mantine-Paper-root"] {
@@ -654,19 +643,19 @@ a {
   border-radius: 1.5rem;
 }
 
-.footer-shell > * {
+.footer-card {
   border: 0;
   background: transparent;
   color: inherit;
   padding-inline: 0;
 }
 
-.footer-shell h4 {
+.footer-card h4 {
   font-family: var(--font-fraunces), Fraunces, serif;
   font-size: 3rem;
 }
 
-.footer-shell p {
+.footer-card p {
   color: rgb(244 236 221 / 0.9);
   font-size: 1.15rem;
   line-height: 1.9;
@@ -713,11 +702,11 @@ a {
     width: 100%;
   }
 
-  .hero-editorial h1 {
+  .hero-content h1 {
     font-size: 3.35rem;
   }
 
-  .hero-editorial p,
+  .hero-content p,
   .section-header-wrap p {
     font-size: 1.1rem;
   }

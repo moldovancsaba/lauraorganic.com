@@ -6,29 +6,28 @@ Laura Organic now consumes the current publishable GDS package line under the `@
 
 Active package/runtime contract:
 
-- `@doneisbetter/gds-theme/client` for the root provider in [src/app/providers.tsx](/Users/Shared/Projects/lauraorganic/src/app/providers.tsx)
-- `@doneisbetter/gds-theme/server` for the theme extension in [src/theme/gds-theme.ts](/Users/Shared/Projects/lauraorganic/src/theme/gds-theme.ts)
-- `@doneisbetter/gds-core/server` for server-safe locale/message lookup in [src/app/layout.tsx](/Users/Shared/Projects/lauraorganic/src/app/layout.tsx)
-- `@doneisbetter/gds-core/client` for interactive public primitives in:
+- `@doneisbetter/gds/client` for the root provider and interactive public primitives in:
+  - [src/app/providers.tsx](/Users/Shared/Projects/lauraorganic/src/app/providers.tsx)
   - [src/app/page.tsx](/Users/Shared/Projects/lauraorganic/src/app/page.tsx)
   - [src/app/elorendeles/page.tsx](/Users/Shared/Projects/lauraorganic/src/app/elorendeles/page.tsx)
   - [src/components/reservation/reservation-summary-panel.tsx](/Users/Shared/Projects/lauraorganic/src/components/reservation/reservation-summary-panel.tsx)
+- `@doneisbetter/gds/server` for the theme extension and server-safe locale/message lookup in:
+  - [src/theme/gds-theme.ts](/Users/Shared/Projects/lauraorganic/src/theme/gds-theme.ts)
+  - [src/app/layout.tsx](/Users/Shared/Projects/lauraorganic/src/app/layout.tsx)
 
 ## Consumed GDS Version
 
-- package line: `2.6.1`
-- SSOT docs reviewed from `/Users/Shared/Projects/general-design-system`
+- package line: `2.6.3`
+- SSOT docs reviewed from [sovereignsquad/general-design-system](https://github.com/sovereignsquad/general-design-system)
 - adoption manifest: [gds-adoption.json](/Users/Shared/Projects/lauraorganic/gds-adoption.json)
 
 ## Current Install Path
 
 The canonical package names are in use from npm:
 
-- `@doneisbetter/gds-theme@2.6.1`
-- `@doneisbetter/gds-core@2.6.1`
-- `@doneisbetter/gds-admin@2.6.1`
-- `@doneisbetter/gds-eslint-config@2.6.1`
-- `@doneisbetter/gds-compliance@2.6.1`
+- `@doneisbetter/gds@2.6.3`
+- `@doneisbetter/gds-eslint-config@2.6.3`
+- `@doneisbetter/gds-compliance@2.6.3`
 
 This now matches the canonical package source.
 
@@ -71,4 +70,49 @@ These remain product-local by design and are allowed:
 
 There are no active GDS adoption exceptions at the moment.
 
-No legacy placeholder runtime imports should remain in the codebase after this migration.
+No legacy split-entry runtime imports should remain in the codebase after this migration.
+
+## Additional Canonical Items Available Now
+
+The unified `@doneisbetter/gds` package exposes more governed items than Laura currently uses. These can be adopted without requesting new GDS features:
+
+- Public/editorial:
+  - `ArticleShell`
+  - `BrowseSurface`
+  - `ConsumerSection`
+  - `EditorialCard`
+  - `MediaCard`
+  - `CtaButtonGroup`
+  - `EmptyState`
+  - `PlaceholderPanel`
+  - `PublicSiteFooter`
+  - `StatsSection`
+- Selection, filtering, and status:
+  - `ChoiceChip`
+  - `FilterDrawer`
+  - `StatusBadge`
+- Trust and access messaging:
+  - `AccessSummary`
+  - `AccessRecoveryPanel`
+- Admin/operations for future Laura issues:
+  - `AppShell`
+  - `WorkspaceHeader`
+  - `DataToolbar`
+  - `DataTable`
+  - `ResponsiveDataView`
+  - `ContentOpsEditor`
+  - `ContentOpsSection`
+  - `FormSection`
+  - `MetricCard`
+  - `ProgressCard`
+  - `StatsStrip`
+  - `ConfirmDialog`
+  - `UploadDropzone`
+  - `MediaField`
+
+Best immediate Laura fits:
+
+- `EmptyState` or `PlaceholderPanel` for richer no-menu / no-order states
+- `CtaButtonGroup` if the landing page returns to multi-CTA hero behavior
+- `ChoiceChip` and `StatusBadge` for pickup-slot and inventory-state presentation
+- `ResponsiveDataView`, `DataToolbar`, and `ConfirmDialog` for the planned reservation console

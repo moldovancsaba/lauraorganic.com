@@ -1,4 +1,4 @@
-import { createPublicBrandTheme } from "@doneisbetter/gds-theme/server";
+import { createPublicBrandTheme } from "@doneisbetter/gds/server";
 
 export const lauraTheme = createPublicBrandTheme({
   flatSurfaces: true,

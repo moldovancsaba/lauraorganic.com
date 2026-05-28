@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ColorSchemeScript } from "@mantine/core";
-import { getGdsMessages } from "@doneisbetter/gds-core/server";
+import { getGdsMessages } from "@doneisbetter/gds/server";
 import { Fraunces, Manrope } from "next/font/google";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";

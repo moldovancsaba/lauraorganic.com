@@ -3,7 +3,13 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { AccentPanel, PageHeader, PublicShell } from "@doneisbetter/gds-core/client";
+import {
+  AccentPanel,
+  FormField,
+  PageHeader,
+  PublicShell,
+  StateBlock,
+} from "@doneisbetter/gds/client";
 import { ReservationSummaryPanel } from "@/components/reservation/reservation-summary-panel";
 import {
   activeWeeklyAvailability,
@@ -177,6 +183,11 @@ export default function ReservationPage() {
       }
       maxContentWidth={1100}
       headerBordered={false}
+      headerVariant="branded-quiet"
+      classNames={{
+        header: "site-header",
+        content: "site-content",
+      }}
       compact
     >
       <main className="laura-page review-page">
@@ -230,10 +241,7 @@ export default function ReservationPage() {
 
               <AccentPanel tone="amber" variant="subtle" title="Kapcsolat és átvétel">
                 <form className="review-form" onSubmit={handleValidationSubmit} noValidate>
-                  <div className="review-form-field">
-                    <label className="review-form-label" htmlFor="fullName">
-                      Név
-                    </label>
+                  <FormField label="Név" error={issueMap.get("fullName")}>
                     <input
                       id="fullName"
                       name="fullName"
@@ -243,15 +251,9 @@ export default function ReservationPage() {
                       onChange={(event) => updateCustomerField("fullName", event.target.value)}
                       autoComplete="name"
                     />
-                    {issueMap.get("fullName") ? (
-                      <p className="review-form-error">{issueMap.get("fullName")}</p>
-                    ) : null}
-                  </div>
+                  </FormField>
 
-                  <div className="review-form-field">
-                    <label className="review-form-label" htmlFor="email">
-                      E-mail
-                    </label>
+                  <FormField label="E-mail" error={issueMap.get("email")}>
                     <input
                       id="email"
                       name="email"
@@ -261,15 +263,9 @@ export default function ReservationPage() {
                       onChange={(event) => updateCustomerField("email", event.target.value)}
                       autoComplete="email"
                     />
-                    {issueMap.get("email") ? (
-                      <p className="review-form-error">{issueMap.get("email")}</p>
-                    ) : null}
-                  </div>
+                  </FormField>
 
-                  <div className="review-form-field">
-                    <label className="review-form-label" htmlFor="phone">
-                      Telefonszám
-                    </label>
+                  <FormField label="Telefonszám" error={issueMap.get("phone")}>
                     <input
                       id="phone"
                       name="phone"
@@ -279,15 +275,9 @@ export default function ReservationPage() {
                       onChange={(event) => updateCustomerField("phone", event.target.value)}
                       autoComplete="tel"
                     />
-                    {issueMap.get("phone") ? (
-                      <p className="review-form-error">{issueMap.get("phone")}</p>
-                    ) : null}
-                  </div>
+                  </FormField>
 
-                  <div className="review-form-field">
-                    <label className="review-form-label" htmlFor="pickupSlot">
-                      Átvételi hely
-                    </label>
+                  <FormField label="Átvételi hely" error={issueMap.get("pickupSlotId")}>
                     <select
                       id="pickupSlot"
                       name="pickupSlot"
@@ -306,15 +296,9 @@ export default function ReservationPage() {
                           </option>
                         ))}
                     </select>
-                    {issueMap.get("pickupSlotId") ? (
-                      <p className="review-form-error">{issueMap.get("pickupSlotId")}</p>
-                    ) : null}
-                  </div>
+                  </FormField>
 
-                  <div className="review-form-field">
-                    <label className="review-form-label" htmlFor="notes">
-                      Megjegyzés
-                    </label>
+                  <FormField label="Megjegyzés" error={issueMap.get("notes")}>
                     <textarea
                       id="notes"
                       name="notes"
@@ -322,10 +306,7 @@ export default function ReservationPage() {
                       value={customer.notes ?? ""}
                       onChange={(event) => updateCustomerField("notes", event.target.value)}
                     />
-                    {issueMap.get("notes") ? (
-                      <p className="review-form-error">{issueMap.get("notes")}</p>
-                    ) : null}
-                  </div>
+                  </FormField>
 
                   {issues.find((issue) => issue.field === "items") ? (
                     <p className="review-form-error">
@@ -363,18 +344,16 @@ export default function ReservationPage() {
                   </div>
                 </AccentPanel>
               ) : items.length === 0 ? (
-                <AccentPanel tone="blue" variant="subtle" title="Még nincs mit véglegesíteni">
-                  <div className="review-note-list">
-                    <p>Először válassz fogásokat a heti kínálatból.</p>
-                    <p>
-                      A rendelésed a landing oldalon azonnal frissül, és ide visszatérve már
-                      ellenőrizheted az összesítést.
-                    </p>
+                <StateBlock
+                  variant="empty"
+                  title="Még nincs mit véglegesíteni"
+                  description="Először válassz fogásokat a heti kínálatból. A rendelésed a landing oldalon azonnal frissül, és ide visszatérve már ellenőrizheted az összesítést."
+                  action={
                     <Link href="/#heti-ajanlat" className="primary-button">
                       Heti kínálat megnyitása
                     </Link>
-                  </div>
-                </AccentPanel>
+                  }
+                />
               ) : (
                 <AccentPanel
                   tone={isValidated ? "green" : "amber"}

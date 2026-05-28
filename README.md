@@ -2,15 +2,13 @@
 
 Next.js App Router implementation for `lauraorganic.com`.
 
-`/Users/Shared/Projects/general-design-system` is the single source of truth for design, UI, and UX. Project-local files describe only implementation adapter details, migration state, validation commands, and approved exceptions.
+`https://github.com/sovereignsquad/general-design-system` is the single source of truth for design, UI, and UX. Project-local files describe only implementation adapter details, migration state, validation commands, and approved exceptions.
 
 ## GDS Runtime
 
-- consumed GDS package line: `2.6.1`
+- consumed GDS package line: `2.6.3`
 - canonical package names:
-  - `@doneisbetter/gds-theme`
-  - `@doneisbetter/gds-core`
-  - `@doneisbetter/gds-admin`
+  - `@doneisbetter/gds`
   - `@doneisbetter/gds-eslint-config`
   - `@doneisbetter/gds-compliance`
 - current install path:

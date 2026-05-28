@@ -1,14 +1,10 @@
 {
   "schemaVersion": 1,
-  "gdsVersion": "2.6.1",
+  "gdsVersion": "2.6.3",
   "productArchetype": "public",
   "supportedEntryPoints": [
-    "@doneisbetter/gds-theme/client",
-    "@doneisbetter/gds-theme/server",
-    "@doneisbetter/gds-core/client",
-    "@doneisbetter/gds-core/server",
-    "@doneisbetter/gds-admin/client",
-    "@doneisbetter/gds-admin/server"
+    "@doneisbetter/gds/client",
+    "@doneisbetter/gds/server"
   ],
   "requiredContracts": [
     "PublicShell",
@@ -60,5 +56,5 @@
   },
   "migrationStatus": "governed",
   "owner": "lauraorganic",
-  "lastReviewedAt": "2026-05-26"
+  "lastReviewedAt": "2026-05-28"
 }

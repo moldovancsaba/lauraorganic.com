@@ -11,7 +11,8 @@ import {
   PublicNav,
   PublicProductCard,
   PublicShell,
-} from "@doneisbetter/gds-core/client";
+  StateBlock,
+} from "@doneisbetter/gds/client";
 import {
   activeWeeklyAvailability,
   getAvailabilityActionLabel,
@@ -85,43 +86,53 @@ export default function Home() {
       }
       maxContentWidth={1500}
       headerBordered={false}
+      headerVariant="branded-quiet"
+      classNames={{
+        header: "site-header",
+        navigation: "site-navigation",
+        content: "site-content",
+      }}
     >
       <main className="laura-page">
         <section className="hero-section">
-          <div className="hero-editorial">
-            <EditorialHero
-              eyebrow={hero.eyebrow}
-              title={
-                <>
-                  {hero.titleLines.map((line, index) => (
-                    <span key={line}>
-                      {index > 0 ? <br /> : null}
-                      {line}
-                    </span>
-                  ))}
-                </>
-              }
-              description={hero.description}
-              actions={[
-                { label: hero.cta.label, href: hero.cta.href, variant: "primary" },
-              ]}
-              meta={hero.meta}
-              media={
-                <div className="hero-media">
-                  <Image
-                    src={hero.media.src}
-                    alt={hero.media.alt}
-                    fill
-                    sizes="(min-width: 1200px) 60vw, 100vw"
-                    className="hero-photo"
-                    priority
-                  />
-                </div>
-              }
-              mediaAlt={hero.media.alt}
-              mediaFade="background-blend"
-            />
-          </div>
+          <EditorialHero
+            eyebrow={hero.eyebrow}
+            title={
+              <>
+                {hero.titleLines.map((line, index) => (
+                  <span key={line}>
+                    {index > 0 ? <br /> : null}
+                    {line}
+                  </span>
+                ))}
+              </>
+            }
+            description={hero.description}
+            actions={[
+              { label: hero.cta.label, href: hero.cta.href, variant: "primary" },
+            ]}
+            meta={hero.meta}
+            media={
+              <div className="hero-media">
+                <Image
+                  src={hero.media.src}
+                  alt={hero.media.alt}
+                  fill
+                  sizes="(min-width: 1200px) 60vw, 100vw"
+                  className="hero-photo"
+                  priority
+                />
+              </div>
+            }
+            mediaAlt={hero.media.alt}
+            mediaFade="background-blend"
+            surfaceVariant="flat-public"
+            classNames={{
+              root: "hero-surface",
+              content: "hero-content",
+              actions: "hero-actions",
+            }}
+          />
 
           <div className="feature-band-wrap">
             <FeatureBand
@@ -215,12 +226,18 @@ export default function Home() {
             </>
           ) : (
             <div className="weekly-fallback-wrap">
-              <AccentPanel tone="amber" variant="subtle" title={weeklyOfferFallback.title}>
-                <div className="review-note-list">
-                  <p>{weeklyOfferFallback.description}</p>
-                  <p>{weeklyOfferFallback.helperText}</p>
-                </div>
-              </AccentPanel>
+              <StateBlock
+                variant="not-enough-data"
+                title={weeklyOfferFallback.title}
+                description={
+                  <span>
+                    {weeklyOfferFallback.description}
+                    <br />
+                    {weeklyOfferFallback.helperText}
+                  </span>
+                }
+                compact
+              />
             </div>
           )}
         </section>
@@ -250,17 +267,14 @@ export default function Home() {
 
                 return {
                   id: item.id,
-                  title: (
-                    <span>
-                      <span className="process-step-inline">{index + 1}</span>
-                      {item.title}
-                    </span>
-                  ),
+                  title: item.title,
                   description: item.text,
                   icon: <Icon size="1.4rem" />,
+                  stepLabel: String(index + 1),
                 };
               })}
               columns={2}
+              variant="process"
             />
           </div>
         </section>
@@ -285,38 +299,40 @@ export default function Home() {
         </section>
 
         <footer id="kapcsolat" className="footer-section">
-          <div className="footer-shell">
-            <PublicBrandFooter
-              media={
-                <div className="footer-visual">
-                  <Image
-                    src={footer.media.src}
-                    alt={footer.media.alt}
-                    fill
-                    sizes="(min-width: 1200px) 35vw, 100vw"
-                    className="footer-photo"
-                  />
-                </div>
-              }
-              brandTitle={footer.brandTitle}
-              description={footer.description}
-              actions={
-                <a href={footer.action.href} className="footer-link">
-                  {footer.action.label}
-                </a>
-              }
-              secondary={
-                <blockquote className="footer-quote">
-                  {footer.quoteLines.map((line, index) => (
-                    <span key={line}>
-                      {index > 0 ? <br /> : null}
-                      {line}
-                    </span>
-                  ))}
-                </blockquote>
-              }
-            />
-          </div>
+          <PublicBrandFooter
+            media={
+              <div className="footer-visual">
+                <Image
+                  src={footer.media.src}
+                  alt={footer.media.alt}
+                  fill
+                  sizes="(min-width: 1200px) 35vw, 100vw"
+                  className="footer-photo"
+                />
+              </div>
+            }
+            brandTitle={footer.brandTitle}
+            description={footer.description}
+            actions={
+              <a href={footer.action.href} className="footer-link">
+                {footer.action.label}
+              </a>
+            }
+            secondary={
+              <blockquote className="footer-quote">
+                {footer.quoteLines.map((line, index) => (
+                  <span key={line}>
+                    {index > 0 ? <br /> : null}
+                    {line}
+                  </span>
+                ))}
+              </blockquote>
+            }
+            layoutVariant="balanced-quote"
+            classNames={{
+              root: "footer-card",
+            }}
+          />
         </footer>
       </main>
     </PublicShell>
