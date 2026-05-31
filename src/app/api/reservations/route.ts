@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import {
-  buildReservationReceipt,
   type ReservationDraft,
   type ReservationSubmitResponse,
   validateReservationDraft,
 } from "@/lib/reservation";
+import { persistReservationDraft } from "@/lib/reservation-store";
+
+export const runtime = "nodejs";
+const IDEMPOTENCY_HEADER = "x-idempotency-key";
 
 export async function POST(request: Request) {
   let body: ReservationDraft;
@@ -36,13 +39,45 @@ export async function POST(request: Request) {
     );
   }
 
-  const receipt = buildReservationReceipt(validation.data);
+  const idempotencyKey = request.headers.get(IDEMPOTENCY_HEADER);
+  let saved;
+
+  try {
+    saved = await persistReservationDraft(validation.data, idempotencyKey);
+  } catch (error) {
+    if ((error as Error).message === "INVALID_IDEMPOTENCY_KEY") {
+      return NextResponse.json<ReservationSubmitResponse>(
+        {
+          success: false,
+          message: "Hiányzik vagy érvénytelen az idempotency kulcs.",
+          retryable: false,
+          issues: [
+            {
+              field: "request.idempotencyKey",
+              code: "invalid",
+              message: "Küldj érvényes idempotency kulcsot a kéréshez.",
+            },
+          ],
+        },
+        { status: 400 },
+      );
+    }
+
+    return NextResponse.json<ReservationSubmitResponse>(
+      {
+        success: false,
+        message: "A rendelés mentése most nem sikerült. Próbáld meg újra.",
+        retryable: true,
+      },
+      { status: 503 },
+    );
+  }
 
   return NextResponse.json<ReservationSubmitResponse>(
     {
       success: true,
-      receipt,
+      receipt: saved.receipt,
     },
-    { status: 201 },
+    { status: saved.kind === "created" ? 201 : 200 },
   );
 }

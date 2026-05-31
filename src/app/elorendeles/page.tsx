@@ -29,6 +29,14 @@ type CustomerFormState = {
   notes: string;
 };
 
+function nextIdempotencyKey() {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return `lo-${crypto.randomUUID()}`;
+  }
+
+  return `lo-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 function BrandLockup() {
   return (
     <Link href="/" className="brand-lockup" aria-label="Laura Organic">
@@ -60,6 +68,7 @@ export default function ReservationPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [receipt, setReceipt] = useState<ReservationReceipt | null>(null);
+  const [retryIdempotencyKey, setRetryIdempotencyKey] = useState<string | null>(null);
 
   const issueMap = useMemo(
     () =>
@@ -78,6 +87,7 @@ export default function ReservationPage() {
     setCustomer((current) => ({ ...current, [field]: value }));
     setIsValidated(false);
     setSubmitError(null);
+    setRetryIdempotencyKey(null);
   }
 
   async function handleValidationSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -108,6 +118,7 @@ export default function ReservationPage() {
       setIssues(result.issues);
       setIsValidated(false);
       setSubmitError(null);
+      setRetryIdempotencyKey(null);
       trackAnalyticsEvent("reservation_validation_failed", {
         issueCount: result.issues.length,
       });
@@ -123,12 +134,15 @@ export default function ReservationPage() {
     setIsSubmitting(true);
     setIssues([]);
     setSubmitError(null);
+    const idempotencyKey = retryIdempotencyKey ?? nextIdempotencyKey();
+    setRetryIdempotencyKey(idempotencyKey);
 
     try {
       const response = await fetch("/api/reservations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "x-idempotency-key": idempotencyKey,
         },
         body: JSON.stringify(result.data),
       });
@@ -155,6 +169,7 @@ export default function ReservationPage() {
       });
       setIsValidated(true);
       setReceipt(payload.receipt);
+      setRetryIdempotencyKey(null);
       clearReservation();
       trackAnalyticsEvent("reservation_submit_succeeded", {
         reservationId: payload.receipt.reservationId,

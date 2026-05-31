@@ -38,10 +38,27 @@
   ],
   "approvedExceptions": [
     {
-      "contract": "Branding and layout CSS overrides",
-      "path": "src/app/globals.css",
-      "status": "active",
-      "reason": "Laura still relies on product-local presentation rules, including some selectors against Mantine-rendered structure, so the repo is GDS-governed but not yet 100% free of local visual overrides."
+      "surface": "src/app/globals.css",
+      "reason": "Laura still relies on product-local presentation rules, including some selectors against Mantine-rendered structure, so the repo is GDS-governed but not yet 100% free of local visual overrides.",
+      "owner": "lauraorganic",
+      "reviewDate": "2026-05-31",
+      "category": "product-authored-experience",
+      "scope": [
+        "src/app/globals.css"
+      ],
+      "allowedImplementation": [
+        "Brand-specific typography, spacing, color, and media treatment overrides required to preserve Laura public identity while using canonical GDS runtime/component contracts."
+      ],
+      "mustStillUse": [
+        "@doneisbetter/gds/client",
+        "@doneisbetter/gds/server"
+      ],
+      "mustNotDo": [
+        "Introduce parallel local component primitives that replicate existing GDS public/admin contracts.",
+        "Bypass GDS runtime/provider/theme ownership."
+      ],
+      "exitCondition": "Remove Mantine-structure-dependent selectors and migrate remaining presentation concerns to documented GDS className/style/variant hooks.",
+      "status": "temporary"
     }
   ],
   "compliance": {

@@ -530,22 +530,5 @@ export function isProductReservable(productId: ProductId): boolean {
   return getMaxReservableQuantity(productId) > 0;
 }
 
-export function buildReservationReceipt(draft: ReservationDraft): ReservationReceipt {
-  const pickupSlot = getPickupSlot(draft.customer.pickupSlotId);
-  const itemCount = draft.items.reduce((total, item) => total + item.quantity, 0);
-
-  return {
-    reservationId: `LO-${Date.now().toString(36).toUpperCase()}`,
-    submittedAt: new Date().toISOString(),
-    weekKey: draft.weekKey,
-    customerName: draft.customer.fullName,
-    customerEmail: draft.customer.email,
-    pickupLabel: pickupSlot?.label ?? "Átvétel",
-    pickupLocation: pickupSlot?.location ?? "Laura Organic",
-    itemCount,
-    subtotal: calculateReservationSubtotal(draft.items),
-  };
-}
-
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[+\d\s()./-]{7,24}$/;
