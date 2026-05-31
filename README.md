@@ -46,4 +46,31 @@ Next.js App Router implementation for `lauraorganic.com`.
 - `npm run gds:manifest`
 - `npm run gds:compliance`
 
-There are currently no active GDS adoption exceptions in this repo.
+## Scope Boundary
+
+The GitHub project board tracks the remaining production-operational work, not the full retrospective history of already-shipped local UX foundations.
+
+Current implemented baseline in code:
+
+- public landing page
+- local preorder state
+- review/finalization page
+- client-side validation
+- stub reservation submission endpoint
+- lightweight client analytics hooks
+
+Remaining production gaps are intentionally tracked on the board, especially:
+
+- durable reservation persistence
+- governed weekly menu operations
+- server-side inventory enforcement
+- operator console
+- durable confirmation workflow
+
+## Current Exceptions
+
+There are no active package or runtime-source adoption exceptions.
+
+There is still one active implementation-level exception:
+
+- Laura relies on product-local branding and layout CSS in [src/app/globals.css](/Users/Shared/Projects/lauraorganic/src/app/globals.css), including some selectors against Mantine-rendered structure, so the site is GDS-governed but not yet literally `100%` free of local presentation overrides.

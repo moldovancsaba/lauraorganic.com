@@ -36,7 +36,14 @@
       "status": "active"
     }
   ],
-  "approvedExceptions": [],
+  "approvedExceptions": [
+    {
+      "contract": "Branding and layout CSS overrides",
+      "path": "src/app/globals.css",
+      "status": "active",
+      "reason": "Laura still relies on product-local presentation rules, including some selectors against Mantine-rendered structure, so the repo is GDS-governed but not yet 100% free of local visual overrides."
+    }
+  ],
   "compliance": {
     "documentationPaths": [
       "README.md",
@@ -59,5 +66,5 @@
   },
   "migrationStatus": "governed",
   "owner": "lauraorganic",
-  "lastReviewedAt": "2026-05-28"
+  "lastReviewedAt": "2026-05-31"
 }

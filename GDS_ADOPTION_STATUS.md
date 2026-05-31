@@ -72,9 +72,35 @@ These remain product-local by design and are allowed:
 
 ## Current Exceptions
 
-There are no active GDS adoption exceptions at the moment.
+There are no active package-source or runtime-authority exceptions at the moment.
+
+There is still one active implementation-level exception:
+
+- Laura uses product-local branding/layout CSS in [src/app/globals.css](/Users/Shared/Projects/lauraorganic/src/app/globals.css), including some selectors that depend on Mantine-rendered structure. That means the repo is GDS-governed, but not yet literally `100%` free of local presentation overrides.
 
 No legacy split-entry runtime imports should remain in the codebase after this migration.
+
+## Repo State Vs Board State
+
+The Laura GitHub project board currently tracks the remaining production-grade delivery work, not the retrospective history of already-shipped local UX foundations.
+
+Implemented today in code:
+
+- public landing page
+- local preorder/cart state
+- review/finalization route
+- client-side validation
+- stub reservation submission flow
+- lightweight client analytics hooks
+
+Still open on the board because they are not implemented to production depth:
+
+- durable reservation persistence and idempotency
+- governed weekly menu publication
+- server-side inventory enforcement
+- operator console
+- durable confirmation/messaging workflow
+- production telemetry taxonomy and launch hardening
 
 ## Additional Canonical Items Available Now
 
