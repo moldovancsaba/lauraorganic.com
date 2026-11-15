@@ -56,7 +56,7 @@ Current implemented baseline in code:
 - local preorder state
 - review/finalization page
 - client-side validation
-- stub reservation submission endpoint
+- reservation submission endpoint with file-backed persistence and idempotency replay (production durability remains unverified)
 - lightweight client analytics hooks
 
 Remaining production gaps are intentionally tracked on the board, especially:
@@ -74,3 +74,5 @@ There are no active package or runtime-source adoption exceptions.
 There is still one active implementation-level exception:
 
 - Laura relies on product-local branding and layout CSS in [src/app/globals.css](/Users/Shared/Projects/lauraorganic/src/app/globals.css), including some selectors against Mantine-rendered structure, so the site is GDS-governed but not yet literally `100%` free of local presentation overrides.
+
+[Project board review and manual movement journal](docs/PROJECT_BOARD_MOVEMENT_LOG.md).
